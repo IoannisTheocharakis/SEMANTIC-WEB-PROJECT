@@ -1,0 +1,50 @@
+ul li {
+  list-style: none;
+}
+.nav-menu{
+  display: flex;
+  justify-content: flex-end;
+}
+.header-logo {
+  width: 80px;
+  margin-left: 40px;
+}
+
+.header-search-form {
+  width: 250px;
+  margin: auto;
+
+  .header-search-input {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+input::placeholder {
+  color: #c2bdbd;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 68px;
+}
+
+.mat-slide-toggle {
+    font-size: 14px;
+}
+
+.profile-card {
+  text-align: center;
+  padding: 5px;
+  img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    p{ margin: 0 0 0 15px}
+    padding: 0 10px;
+  }
+}

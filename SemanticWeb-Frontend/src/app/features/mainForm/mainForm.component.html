@@ -1,0 +1,91 @@
+<app-info-card [title]="title" [bgColor]="backgroundColor" [color]="color">
+  <div class="before-title">
+    <span class="material-symbols-outlined d-flex align-items-center mr-5">
+      database
+    </span>
+  </div>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>DatasetName</mat-label>
+          <input type="text" placeholder="" matInput formControlName="datasetName" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Url</mat-label>
+          <input type="text" placeholder="" matInput formControlName="url" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Creator</mat-label>
+          <input type="text" placeholder="" matInput formControlName="creator" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Description</mat-label>
+          <input type="text" placeholder="" matInput formControlName="description" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Number Of Triples</mat-label>
+          <input
+            type="number"
+            placeholder=""
+            matInput
+            formControlName="numberOfTriples" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Number Of Entities</mat-label>
+          <input
+            type="number"
+            placeholder=""
+            matInput
+            formControlName="numberOfEntities" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Number Of Distince Subjects</mat-label>
+          <input
+            type="number"
+            placeholder=""
+            matInput
+            formControlName="numberOfDistinceSubjects" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <div *ngIf="(loaderService.isLoading | async) else btns">
+            <app-spinner></app-spinner>
+          </div>
+          <ng-template #btns>
+            <div class="d-flex gap-1">
+              <button
+                type="button"
+                color="accent"
+                class="w-100"
+                (click)="resetForm()"
+                mat-button>
+                <mat-icon class="mr-5">restart_alt</mat-icon>
+                <span>Reset Form</span>
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                class="w-100"
+                type="submit"
+                [disabled]="!this.form.valid">
+                <mat-icon class="mr-5">add_circle_outline</mat-icon>
+                <span>{{ title }}</span>
+              </button>
+            </div>
+          </ng-template>
+          <button type="button" color="accent" (click)="testRequest()" mat-raised-button>
+            <span>Test Form</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-info-card>
