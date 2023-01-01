@@ -1,0 +1,14 @@
+<svg width="500" height="500" viewBox="-250 -250 500 500">
+  <g app-databases [databaseVms]="chordDiagramVm.databaseVms"></g>
+  <g id="chords">
+    <path
+      class="chord-path"
+      *ngFor="let chord of chordDiagramVm.chordVms"
+      [attr.d]="chord?.path"
+      [attr.fill]="chord?.sourceDatabase?.colour"
+      [attr.stroke]="chord?.sourceDatabase?.colour"
+      opacity="0.8">
+      <title>{{ chord?.tooltip }}</title>
+    </path>
+  </g>
+</svg>

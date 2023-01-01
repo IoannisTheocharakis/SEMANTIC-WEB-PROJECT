@@ -1,0 +1,19 @@
+// getRandomColor(randomColor) {
+//     this.color = '#'; // <-----------
+//     for (var i = 0; i < 6; i++) {
+//         this.color += this.letters[Math.floor(Math.random() * 16)];
+//     }
+// }
+
+// {
+//     "/": {
+//       "target": "http://localhost:8080",
+//       "secure": false,
+//       "logLevel": "debug"
+//     },
+//     "/SemanticWeb-Backend/": {
+//       "target": "http://localhost:8080",
+//       "secure": false,
+//       "logLevel": "debug"
+//     }
+//   }

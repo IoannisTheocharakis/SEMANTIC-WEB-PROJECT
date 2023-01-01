@@ -1,12 +1,3 @@
 {
-  "/*": {
-    "target": "http://localhost:8080",
-    "secure": false,
-    "logLevel": "debug"
-  },
-  "/SemanticWeb-Backend/*": {
-    "target": "http://localhost:8080",
-    "secure": false,
-    "logLevel": "debug"
-  }
+
 }
