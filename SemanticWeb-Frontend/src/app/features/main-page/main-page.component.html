@@ -1,28 +1,4 @@
-
-
 <app-info-card title="Semantic Web Databases" [bgColor]="backgroundColor" [color]="color">
-  <div class="row">
-    <div class="table-data col-4">
-      <app-info-card [toolbar]="false">
-        <div class="title mb-10">Databases</div>
-        <mat-divider
-          [ngStyle]="{ background: '#83ce88' }"
-          class="divider mb-10"></mat-divider>
-        <div class="d-flex flex-column database-info-container">
-          <ng-container *ngFor="let database of datasetsInfoStats$ | async">
-            <div class="dataset-info d-flex align-items-center">
-              <span class="database-title mr-5"
-                >{{ database.title }} | {{ database.triples }}</span
-              >
-              <mat-icon [ngStyle]="{ color: database.colour }">lens</mat-icon>
-            </div>
-          </ng-container>
-        </div>
-      </app-info-card>
-    </div>
-    <div class="diagram col-8 d-flex justify-content-center">
-      <app-chord-diagram
-        (eventDatasets)="setDatasetsInfoStats($event)"></app-chord-diagram>
-    </div>
-  </div>
+  <app-tab-menu [tabs]="tab"></app-tab-menu>
+  <router-outlet></router-outlet>
 </app-info-card>

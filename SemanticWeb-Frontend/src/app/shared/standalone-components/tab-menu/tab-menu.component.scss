@@ -1,6 +1,23 @@
 .mat-tab-link {
   opacity: 1;
 }
-.mat-tab-label, .mat-tab-link {
-  color: var(--primary);
+.mat-tab-label,
+.mat-tab-link {
+  color: #83ce88 !important;
+}
+.material-icon {
+  color: #83ce88 !important;
+}
+::ng-deep .mat-tab-list {
+  background-color: #1f1f1f !important;
+  border: unset;
+}
+
+.mat-tab-nav-bar,
+.mat-tab-header {
+  border: unset;
+}
+
+::ng-deep .mat-tab-nav-bar .mat-ink-bar {
+  background: radial-gradient(black, #83ce88) !important;
 }

@@ -11,15 +11,6 @@
     <div class="info-card-content row">
       <ng-content></ng-content>
     </div>
-    <button
-      *ngIf="buttonText"
-      mat-stroked-button
-      color="primary"
-      class="primary outline ms-auto mt-4"
-      [routerLink]="link"
-    >
-      {{ buttonText }}
-    </button>
     <a
       *ngIf="!buttonText && link"
       class="stretched-link"
