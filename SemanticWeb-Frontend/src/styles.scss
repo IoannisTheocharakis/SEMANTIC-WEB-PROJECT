@@ -7,13 +7,34 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #2b2b2b !important;
 }
-
+.form-floating > label {
+  color: black !important;
+  left: unset !important;
+}
+//--------------------Bootstrap--------------------
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #83ce88;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(131, 206, 136, 0.493);
+}
+//--------------------Finish--------------------
+mat-drawer-container.mat-drawer-container.mat-drawer-transition {
+  background-color: #2b2b2b !important;
+}
 .content {
   padding: 20px;
 }
-
+.mat-card {
+  background-color: transparent;
+}
+mat-drawer-content.mat-drawer-content {
+  background-color: #2b2b2b;
+}
 .mat-drawer-inner-container::-webkit-scrollbar {
   background: #ffffff;
   width: 2px;
@@ -47,11 +68,10 @@ body {
   opacity: 1;
 }
 
-.mat-tab-label-active {
-  background-color: #f6fafd; // var(--light-gray) !important;
-  color: var(--accent) !important;
-}
-
+// .mat-tab-label-active {
+//   background-color: #f6fafd; // var(--light-gray) !important;
+//   color: var(--accent) !important;
+// }
 
 .mat-card,
 .mat-expansion-panel-header-title,
@@ -75,14 +95,14 @@ body {
   background: #b3b3b3;
 }
 
-.orange-bg {
-  background: var(--accent);
-  color: #ffffff;
-}
+// .orange-bg {
+//   background: var(--accent);
+//   color: #ffffff;
+// }
 
-.orange {
-  color: var(--accent);
-}
+// .orange {
+//   color: var(--accent);
+// }
 
 .green-bg {
   background: #70ad47;
@@ -130,9 +150,10 @@ body {
 }
 
 .deep-box-shadow {
-  box-shadow: 0 0.46875rem 2.1875rem rgb(0 0 0 / 3%), 0 0.9375rem 1.40625rem rgb(0 0 0 / 3%), 0 0.25rem 0.53125rem rgb(0 0 0 / 5%), 0 0.125rem 0.1875rem rgb(0 0 0 / 3%);
+  box-shadow: 0 0.46875rem 2.1875rem rgb(0 0 0 / 3%),
+    0 0.9375rem 1.40625rem rgb(0 0 0 / 3%), 0 0.25rem 0.53125rem rgb(0 0 0 / 5%),
+    0 0.125rem 0.1875rem rgb(0 0 0 / 3%);
 }
-
 
 :host {
   display: flex;
@@ -140,7 +161,7 @@ body {
   height: 100%;
 }
 
-:host>mat-sidenav-container.mat-sidenav-container {
+:host > mat-sidenav-container.mat-sidenav-container {
   flex: 1;
 }
 
@@ -179,7 +200,7 @@ body {
 /* mat nav list items fix */
 .item {
   flex: 1;
-  text-align: right
+  text-align: right;
 }
 
 .mat-drawer.mat-drawer-opened .item {
@@ -206,7 +227,7 @@ body {
 // }
 
 mat-toolbar h2.title {
-  color: var(--primary)
+  color: var(--primary);
 }
 
 mat-toolbar.title {
@@ -223,7 +244,6 @@ mat-toolbar.title.small {
   height: 30px;
   font-size: 16px;
   margin-bottom: 15px;
-
 }
 
 mat-toolbar.title span {
@@ -272,7 +292,6 @@ table .action-button {
 
 ////////////////// Helper Classes ///////////////////
 
-
 // Positioning and visibility
 
 .vh-100 {
@@ -307,6 +326,9 @@ table .action-button {
   width: 70% !important;
 }
 
+.h-100 {
+  height: 70% !important;
+}
 .d-flex {
   display: flex;
 }
@@ -374,7 +396,6 @@ table .action-button {
 .gap-2 {
   gap: 2rem;
 }
-
 
 .text-center {
   text-align: center !important;
@@ -593,7 +614,6 @@ table .action-button {
   text-transform: capitalize;
 }
 
-
 // Icons
 .icon-xxs {
   transform: scale(0.5);
@@ -633,12 +653,10 @@ table .action-button {
   border-radius: 4px;
 }
 
-
 // Fonts
 .font-light {
   font-weight: 300;
 }
-
 
 // Status Styles //
 
@@ -656,9 +674,9 @@ span.status {
   background: var(--primary);
 }
 
-.status.completed {
-  background: var(--accent);
-}
+// .status.completed {
+//   background: var(--accent);
+// }
 
 .status.cancelled {
   background: #d4002a;
@@ -672,14 +690,13 @@ span.status {
   background: #ffc82f;
 }
 
-
 .status-text.confirmed {
   color: var(--primary);
 }
 
-.status-text.completed {
-  color: var(--accent);
-}
+// .status-text.completed {
+//   color: var(--accent);
+// }
 
 .status-text.cancelled {
   color: #d4002a;
@@ -693,7 +710,6 @@ span.status {
   color: #ffc82f;
 }
 
-
 // Ferry Reservations Status
 .status.status-pc {
   background: #ff6a00;
@@ -706,7 +722,6 @@ span.status {
 .status.status-o {
   background: #ffc82f;
 }
-
 
 // Material Elements
 .mat-tab-header {
@@ -724,7 +739,7 @@ span.status {
 
 mat-panel-title.mat-expansion-panel-header-title {
   font-weight: 600;
-  color: var(--primary-gray);
+  color: var(--green-main);
 }
 
 .mat-list-base .mat-list-item .mat-list-item-content,
@@ -734,13 +749,7 @@ mat-panel-title.mat-expansion-panel-header-title {
 
 mat-list-item.level-1 {
   font-weight: 600;
-  color: var(--primary-gray);
-}
-
-.mat-form-field-should-float,
-.mat-form-field-should-float mat-label,
-.mat-form-field-should-float .mat-select-value {
-  color: var(--accent);
+  color: var(--green-main);
 }
 
 // Mat Tables
@@ -792,18 +801,18 @@ tr.mat-header-row {
 }
 
 td.mat-cell {
-  color: var(--primary-gray)
+  color: var(--green-main);
 }
 
 .expanded-row {
   background-color: var(--primary);
 }
 
-.expanded-row:hover .mat-cell,
-.expanded-row:hover .mat-cell button,
-.expanded-row:hover .mat-cell mat-icon {
-  color: var(--accent) !important;
-}
+// .expanded-row:hover .mat-cell,
+// .expanded-row:hover .mat-cell button,
+// .expanded-row:hover .mat-cell mat-icon {
+//   color: var(--accent) !important;
+// }
 
 tr.expandable-detail-row {
   height: 0px !important;
@@ -836,7 +845,6 @@ th.mat-header-cell:not(:first-of-type) {
 .underline-light {
   border-bottom: 1px solid var(--blue-gray);
 }
-
 
 // ng2-tooltip directive
 tooltip.app-tooltip {

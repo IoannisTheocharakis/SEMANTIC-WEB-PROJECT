@@ -6,17 +6,17 @@ export class DatabaseViewModel implements IDatabase {
   public path: string | null;
 
   public get href(): string {
-    return `#${this.name}`; //name of database
+    return `#${this.title}`; //title of database
   }
 
   public get tooltip(): string {
-    return `${this.name} - ${this.group.value}`; //amount of database
+    return `${this.title} - ${this.group.value}`; //amount of database
   }
 
   constructor(
     private group: ChordGroup,
     radius: number,
-    public name: string,
+    public title: string,
     public colour: string
   ) {
     const arcGenerator = arc();

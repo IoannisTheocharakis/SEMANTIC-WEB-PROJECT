@@ -1,13 +1,15 @@
 ul li {
   list-style: none;
 }
-.nav-menu{
+.title-logo {
+  cursor: pointer;
+}
+.nav-menu {
   display: flex;
   justify-content: flex-end;
 }
 .header-logo {
-  width: 80px;
-  margin-left: 40px;
+  width: 55px;
 }
 
 .header-search-form {
@@ -24,12 +26,13 @@ input::placeholder {
   color: #c2bdbd;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
+.mat-toolbar-row,
+.mat-toolbar-single-row {
   height: 68px;
 }
 
 .mat-slide-toggle {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .profile-card {
@@ -44,7 +47,13 @@ input::placeholder {
   .header {
     display: flex;
     align-items: center;
-    p{ margin: 0 0 0 15px}
+    p {
+      margin: 0 0 0 15px;
+    }
     padding: 0 10px;
   }
+}
+
+mat-toolbar.mat-toolbar.deep-box-shadow.mat-primary.mat-toolbar-multiple-rows {
+  background: #1f1f1f;
 }

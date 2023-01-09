@@ -3,17 +3,17 @@
     <button mat-icon-button (click)="toggleSideBar()">
       <mat-icon>menu</mat-icon>
     </button>
+    <div class="d-flex ml-20 xy-center title-logo" (click)="homePage()">
+      <span>Semantic Web</span>
+      <div class="header-logo xy-center">
+        <img class="w-100" src="{{ headerLogoPath }}" alt="" />
+      </div>
+    </div>
+
     <div class="w-100 nav-menu">
       <ul class="m-0 d-flex align-items-center">
-        <li>
-          <button mat-icon-button>
-            <mat-icon matBadge="0" matBadgeColor="accent">chat_bubble</mat-icon>
-          </button>
-        </li>
-        <li>
-          <button mat-icon-button>
-            <mat-icon matBadge="0" matBadgeColor="accent">notifications</mat-icon>
-          </button>
+        <li class="xy-center">
+          Databases: {{ nubmerOfDatabases }} Triples: {{ nubmerOfTriples }}
         </li>
         <li class="profile-card xy-center">
           <button mat-button [matMenuTriggerFor]="menu">

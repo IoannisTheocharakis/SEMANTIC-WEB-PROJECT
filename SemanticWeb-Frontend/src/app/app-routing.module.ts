@@ -15,6 +15,13 @@ const routes: Routes = [
             (m) => m.MainPageComponent
           ),
       },
+      {
+        path: "database/add",
+        loadComponent: () =>
+          import("./features/mainForm/mainForm.component").then(
+            (m) => m.MainFormComponent
+          ),
+      },
     ],
   },
 ];

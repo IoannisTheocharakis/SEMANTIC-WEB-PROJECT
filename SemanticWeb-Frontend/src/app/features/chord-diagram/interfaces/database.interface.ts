@@ -1,4 +1,6 @@
 export interface IDatabase {
-    name: string,
-    colour: string;
+  title?: string;
+  endpoint?: string;
+  triples?:number;
+  colour: string;
 }

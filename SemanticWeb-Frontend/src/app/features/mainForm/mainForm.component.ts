@@ -25,7 +25,7 @@ export class MainFormComponent implements OnInit, OnDestroy {
   title = "Add Database";
   form: UntypedFormGroup;
   color = AppColors.white;
-  backgroundColor = AppColors.primaryGray;
+  backgroundColor = AppColors.greenMain;
   inputAppearance = "outline";
   inputColor = "accent";
   constructor(

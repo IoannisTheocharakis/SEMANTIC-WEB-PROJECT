@@ -1,6 +1,6 @@
 <div class="col">
-  <mat-card class="mat-elevation-z0 relative">
-    <mat-toolbar class="mb-3" [ngStyle]="{ background: bgColor, color: color }">
+  <mat-card class="mat-elevation-z5 relative">
+    <mat-toolbar *ngIf="toolbar"class="mb-3" [ngStyle]="{ background: bgColor, color: color }">
       <h3 class="mb-0 y-center">
         <ng-content select=".before-title"></ng-content>
         <mat-icon *ngIf="icon !== undefined" class="mr-10">{{ icon }}</mat-icon

@@ -3,13 +3,14 @@ import { MaterialMinModule } from "../../material-min.module";
 import { AppColors } from "src/assets/app-colors";
 
 @Component({
+  standalone: true,
+  imports: [MaterialMinModule],
   selector: "app-info-card",
   templateUrl: "./info-card.component.html",
   styleUrls: ["./info-card.component.scss"],
-  standalone: true,
-  imports: [MaterialMinModule],
 })
 export class InfoCardComponent implements OnInit {
+  @Input() toolbar: boolean = true;
   @Input() title: string;
   @Input() icon: string;
   @Input() buttonText: string;

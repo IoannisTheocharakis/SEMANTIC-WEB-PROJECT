@@ -6,6 +6,7 @@ export enum AppColors {
   seaGreen = "#d1f3f1",
   primary = "#3949ab",
   primaryGray = "#616999",
+  greenMain = "#83CE88",
   lightBlue = "#bde8ff",
   skyBlue = "#bde8ff",
   white = "#ffffff",

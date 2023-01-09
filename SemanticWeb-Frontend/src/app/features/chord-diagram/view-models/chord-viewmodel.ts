@@ -6,9 +6,9 @@ export class ChordViewModel {
   public path: string | null;
 
   public get tooltip(): string {
-    const sourceToTarget = `${this.chord.source.value} ${this.targetDatabase.name} → ${this.sourceDatabase.name}`;
-    const targetToSource = `\n${this.chord.target.value} ${this.sourceDatabase.name} → ${this.targetDatabase.name}`;
-    return this.sourceDatabase.name === this.targetDatabase.name
+    const sourceToTarget = `${this.chord.source.value} ${this.targetDatabase.title} → ${this.sourceDatabase.title}`;
+    const targetToSource = `\n${this.chord.target.value} ${this.sourceDatabase.title} → ${this.targetDatabase.title}`;
+    return this.sourceDatabase.title === this.targetDatabase.title
       ? sourceToTarget
       : sourceToTarget + targetToSource;
   }
