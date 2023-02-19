@@ -12,7 +12,7 @@ const BASE_URL = "http://localhost:8080/";
 export class CoreService {
   private datasetsSubject$: BehaviorSubject<Dataset[]> = new BehaviorSubject([]);
   datasets$ = this.datasetsSubject$.asObservable();
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
     if (localStorage.getItem("Datasets")) {
       let datasetslocalStorage = JSON.parse(localStorage.getItem("Datasets"));
       this.datasetsSubject$.next(datasetslocalStorage);

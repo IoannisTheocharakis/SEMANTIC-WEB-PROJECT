@@ -19,6 +19,7 @@ export class InfoCardComponent implements OnInit {
   @Input() bgColor: string = AppColors.seaGreen;
   @Input() color: string = AppColors.primary;
 
+  @Input() symbol: string ;
   constructor() {}
 
   ngOnInit() {}

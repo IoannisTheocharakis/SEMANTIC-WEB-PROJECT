@@ -1,14 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, AfterContentChecked } from "@angular/core";
-import { MaterialFormModule } from "src/app/shared/material-form.module";
-import { MaterialMinModule } from "src/app/shared/material-min.module";
-import { ChordDiagramComponent } from "../chord-diagram/components/chord-diagram/chord-diagram.component";
 import { InfoCardComponent } from "src/app/shared/standalone-components/info-card/info-card.component";
 import { AppColors } from "src/assets/app-colors";
-import { IDatabase } from "../chord-diagram/interfaces/database.interface";
-import { BehaviorSubject } from "rxjs";
 import { TabMenuComponent } from "src/app/shared/standalone-components/tab-menu/tab-menu.component";
 import { MainPageChartComponent } from "./main-page-chart/main-page-chart.component";
-import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
+import { LoaderService } from "src/app/loader/loader.service";
+import { Subscription, filter, startWith } from "rxjs";
 
 @Component({
   standalone: true,
@@ -18,14 +15,11 @@ import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
   styleUrls: ["./main-page.component.scss"],
 })
 export class MainPageComponent implements OnInit {
+  subscriptions: Subscription = new Subscription();
+
   color = AppColors.white;
   backgroundColor = AppColors.greenMain;
-  currentPath;
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
   tab = [
     {
       label: "Database Chart",
@@ -41,12 +35,24 @@ export class MainPageComponent implements OnInit {
     },
   ];
   ngOnInit() {
-    this.currentPath = this.router.url;
-
-    if (this.currentPath === "/")
-      this.router.navigate(["./databases/chart"], { relativeTo: this.route });
+    this.subscriptions.add(
+      this.router.events
+        .pipe(
+          filter((event) => event instanceof NavigationEnd),
+          startWith(this.router)
+        )
+        .subscribe((event: NavigationEnd) => {
+          if (this.router.url === "/databases" || this.router.url === "/") {
+            this.router.navigate(["/databases/chart"]);
+          }
+        })
+    );
   }
+
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

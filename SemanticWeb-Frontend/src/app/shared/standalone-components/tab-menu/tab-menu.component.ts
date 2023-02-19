@@ -9,6 +9,7 @@ export interface Tab {
   title: string;
   path?: string;
   icon?: string;
+  symbol: string;
 }
 @Component({
   standalone: true,
@@ -19,7 +20,7 @@ export interface Tab {
 })
 export class TabMenuComponent implements OnInit {
   @Input() tabs: Tab[];
-
+  @Input() symbolStyle: string = "outlined"; //rounded|sharp
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}

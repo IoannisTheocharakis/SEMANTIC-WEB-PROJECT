@@ -9,9 +9,21 @@ package classes;
  * @author Theo
  */
 public class Property {
-    String propertyURI; 
-    int triplesThatThisPropertyAppears;
-    int distinctObjectsThatThisPropertyAppears;
-    int distinctSujectsThatThisPropertyAppears;
+
+    public int id;
+    public String prop;
+    public int triples;
+    public String url;
+    public int distinctSubjects;
+    public int distinctObjects;
+
+    public Property() {
+    }
+
+    public Property(int id, String prop, int triples) {
+        this.id = id;
+        this.triples = triples;
+        this.prop = prop;
+    }
 
 }

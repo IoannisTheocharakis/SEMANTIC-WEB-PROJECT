@@ -60,6 +60,7 @@ export class ChordDiagramComponent {
     for (let i = 0; i < datasets.length; i++) {
       let databaseInfo: IDatabase = {} as IDatabase;
       databaseInfo.title = datasets[i].title;
+      databaseInfo.id = datasets[i].id;
       databaseInfo.endpoint = datasets[i].endpoint;
       databaseInfo.triples = +datasets[i].triples;
       databaseInfo.colour = this.getRandomColor();

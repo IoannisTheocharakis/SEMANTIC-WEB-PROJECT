@@ -5,6 +5,7 @@ import { AppColors } from "src/assets/app-colors";
 import { BehaviorSubject } from "rxjs";
 import { ChordDiagramComponent } from "../../chord-diagram/components/chord-diagram/chord-diagram.component";
 import { IDatabase } from "../../chord-diagram/interfaces/database.interface";
+import { Router } from "@angular/router";
 
 @Component({
   standalone: true,
@@ -18,9 +19,12 @@ export class MainPageChartComponent implements OnInit {
   backgroundColor = AppColors.greenMain;
   datasetsInfoStats$: BehaviorSubject<IDatabase[]> = new BehaviorSubject([]);
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() {}
+  seeDatabase(databaseTitle: number) {
+    this.router.navigate([`database-details/${databaseTitle}/properties`]);
+  }
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
   }

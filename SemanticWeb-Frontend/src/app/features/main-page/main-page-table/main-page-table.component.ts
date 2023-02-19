@@ -21,7 +21,7 @@ import { Dataset } from "src/app/core/models/dataset.model";
 export class MainPageTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  myPaginator!: MatPaginator;
+  // myPaginator!: MatPaginator;
   subscriptions: Subscription = new Subscription();
   columnsToDisplay = ["title", "triples", "endpoint"];
   dataSource!: MatTableDataSource<Dataset>;
@@ -45,17 +45,17 @@ export class MainPageTableComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   seeDatabase(databaseTitle: number) {
-    this.router.navigate(["../edit", databaseTitle], {
-      relativeTo: this.route,
-    });
+    this.router.navigate([`database-details/${databaseTitle}/properties`]);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

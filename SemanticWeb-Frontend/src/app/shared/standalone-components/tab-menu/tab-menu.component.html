@@ -1,6 +1,7 @@
 <nav class="mat-elevation-z1" mat-tab-nav-bar color="primary">
   <ng-container class="row">
-    <a class="col"
+    <a
+      class="col"
       *ngFor="let tab of tabs"
       [routerLink]="tab.path"
       #RouterLinkActive="routerLinkActive"
@@ -8,9 +9,15 @@
       [active]="RouterLinkActive.isActive"
       routerLinkActive
       mat-tab-link>
-      <mat-icon [ngStyle]="{ color: '#83ce88' }" class="tab-icon mr-5">{{
-        tab.icon
-      }}</mat-icon>
+      <mat-icon
+        *ngIf="tab.icon !== undefined"
+        [ngStyle]="{ color: '#83ce88' }"
+        class="tab-icon mr-5"
+        >{{ tab.icon }}</mat-icon
+      >
+      <span *ngIf="tab.symbol !== undefined" class="material-symbols-{{ symbolStyle }} mr-5">
+        {{ tab.symbol }}
+      </span>
       {{ tab.title }}
     </a></ng-container
   >

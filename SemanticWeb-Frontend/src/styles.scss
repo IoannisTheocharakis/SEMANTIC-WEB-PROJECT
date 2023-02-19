@@ -791,10 +791,6 @@ tr.expandable-detail-row {
   height: 0 !important;
 }
 
-tr.expandable-panel-row:not(.expanded-row):hover {
-  background: whitesmoke;
-}
-
 // tr.expandable-panel-row:not(.expanded-row):active {
 //   background: #efefef;
 // }
@@ -824,13 +820,6 @@ td.mat-cell {
   color: var(--green-main);
 }
 
-
-// .expanded-row:hover .mat-cell,
-// .expanded-row:hover .mat-cell button,
-// .expanded-row:hover .mat-cell mat-icon {
-//   color: var(--accent) !important;
-// }
-
 tr.expandable-detail-row {
   height: 0px !important;
 }
@@ -844,7 +833,7 @@ tr.expandable-detail-row {
 }
 
 .mat-row:hover .mat-cell {
-  background-color: #f6fafd;
+  background-color: #1f1f1fd8;
 }
 
 td.mat-cell:not(:first-of-type),

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { MaterialFormModule } from "../../material-form.module";
 import { MaterialMinModule } from "../../material-min.module";
 import { HeaderComponent } from "../header/header.component";
@@ -24,9 +24,10 @@ import { CoreService } from "src/app/core/services/core.service";
 export class DefaultComponent implements OnInit {
   sideBarOpen = true;
   subscriptions: Subscription = new Subscription();
-  constructor(private coreService: CoreService) {}
+  constructor(private coreService: CoreService, private router: Router) {}
 
   ngOnInit() {
+    if (this.router.url === "/") this.router.navigateByUrl("/databases/chart");
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data == null || data.length === 0) {

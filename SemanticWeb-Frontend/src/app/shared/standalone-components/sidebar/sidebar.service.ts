@@ -19,7 +19,7 @@ export class SidebarService {
     {
       title: "Databases",
       icon: "home",
-      route: "",
+      route: "databases",
     },
     {
       title: "Add Database",

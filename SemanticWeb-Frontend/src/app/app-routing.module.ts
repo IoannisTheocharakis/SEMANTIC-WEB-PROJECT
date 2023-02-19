@@ -9,25 +9,48 @@ const routes: Routes = [
     component: DefaultComponent,
     children: [
       {
-        path: "",
+        path: "databases",
         loadComponent: () =>
           import("./features/main-page/main-page.component").then(
             (m) => m.MainPageComponent
           ),
         children: [
           {
-            path: "databases/chart",
+            path: "chart",
             loadComponent: () =>
               import(
                 "./features/main-page/main-page-chart/main-page-chart.component"
               ).then((m) => m.MainPageChartComponent),
           },
           {
-            path: "databases/table",
+            path: "table",
             loadComponent: () =>
               import(
                 "./features/main-page/main-page-table/main-page-table.component"
               ).then((m) => m.MainPageTableComponent),
+          },
+        ],
+      },
+      {
+        path: "database-details/:title",
+        loadComponent: () =>
+          import("./features/database-details/database-details.component").then(
+            (m) => m.DatabaseDetailsComponent
+          ),
+        children: [
+          {
+            path: "properties",
+            loadComponent: () =>
+              import(
+                "./features/database-details/database-properties/database-properties.component"
+              ).then((m) => m.DatabasePropertiesComponent),
+          },
+          {
+            path: "classes",
+            loadComponent: () =>
+              import(
+                "./features/database-details/database-classes/database-classes.component"
+              ).then((m) => m.DatabaseClassesComponent),
           },
         ],
       },

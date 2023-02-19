@@ -7,7 +7,9 @@
         class="divider mb-10"></mat-divider>
       <div class="d-flex flex-column database-info-container">
         <ng-container *ngFor="let database of datasetsInfoStats$ | async">
-          <div class="dataset-info d-flex align-items-center">
+          <div
+            class="dataset-info d-flex align-items-center"
+            (click)="seeDatabase(database.id)">
             <span class="database-title mr-5"
               >{{ database.title }} | {{ database.triples }}</span
             >
@@ -18,7 +20,6 @@
     </app-info-card>
   </div>
   <div class="diagram col-8 d-flex justify-content-center">
-    <app-chord-diagram
-      (eventDatasets)="setDatasetsInfoStats($event)"></app-chord-diagram>
+    <app-chord-diagram (eventDatasets)="setDatasetsInfoStats($event)"></app-chord-diagram>
   </div>
 </div>

@@ -5,6 +5,9 @@
 package com.example.SemanticWebBackend;
 
 import classes.Dataset;
+import classes.Property;
+import requestClasses.RequestDatabase;
+import classes.QueriesForWebApp;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,38 +34,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class DatasetController {
+
     static List<Dataset> datasets = new ArrayList<>();
 
     public DatasetController() {
-        if (datasets.isEmpty()) {
-            Dataset dataset0 = new Dataset("FirstDatabase", "http://ldf.fi/ww1lod/sparql", "First Database", "Giannhs Theocharakis", 1000, 1000, 1000);
-            Dataset dataset1 = new Dataset("SecondDatabase", "http", "Second Database", "Giannhs Theocharakis", 1200, 1300, 1400);
-            datasets.add(dataset0);
-            datasets.add(dataset1);
-        }
     }
 
-    @GetMapping("/datasets")
+    @GetMapping("/datasets/map")
     public List<Dataset> getAllDatasets() {
         return datasets;
     }
 
-    @PostMapping("/newDataset")
-    public Dataset addDataset(@RequestBody String newdataset) {
-        System.out.println(newdataset);
-        Gson gson = new Gson();
-        Dataset newDat = gson.fromJson(newdataset, Dataset.class);
-        System.out.println(newDat);
-        for (Dataset dataset : datasets) {
-            if (dataset.getDatasetName().equals(newDat.datasetName)) {
-                System.out.println("Error: Dataset Name Exist");
-                return null;
-            }
-        }
-        datasets.add(newDat);
-        return newDat;
-    }
-
+//    @PostMapping("/newDataset")
+//    public Dataset addDataset(@RequestBody String newdataset) {
+//        System.out.println(newdataset);
+//        Gson gson = new Gson();
+//        Dataset newDat = gson.fromJson(newdataset, Dataset.class);
+//        System.out.println(newDat);
+//        for (Dataset dataset : datasets) {
+//            if (dataset.getDatasetName().equals(newDat.datasetName)) {
+//                System.out.println("Error: Dataset Name Exist");
+//                return null;
+//            }
+//        }
+//        datasets.add(newDat);
+//        return newDat;
+//    }
     @GetMapping("/URLdatasets")
     public String getDatabaseRequest() throws UnsupportedEncodingException, MalformedURLException, IOException {
         String endpoint = "http://ldf.fi/ww1lod/sparql";
@@ -94,4 +91,69 @@ public class DatasetController {
         return inputToString;
     }
 
+    @GetMapping("/datasets")
+    public List<Dataset> getAlldatasets() throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        //get all datasets
+        List<Dataset> datasets = new ArrayList<>();
+        datasets = queries.retrieveAllDatasetsAndTheirTitle();
+        return datasets;
+    }
+
+    @PostMapping("/dataset/properties")
+    public List<Property> getProperties(@RequestBody RequestDatabase req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        //get all datasets
+        List<Property> properties = new ArrayList<>();
+        properties = queries.getAllProperties(req.endpoint, req.onlyCidoc, req.limit, req.page);
+        return properties;
+    }
+
 }
+
+//
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) throws IOException {
+//        //Dataset ww1lod = new Dataset("WW1LOD", "Data about World War 1", "http://ldf.fi/ww1lod/sparql");
+//
+////        ww1lod.runQueries();
+////        ww1lod.datasetToVoID();
+////        ww1lod.storeStatsToFile();
+////        ww1lod.uploadFilesToVirtuoso();
+//
+////        Dataset smith = new Dataset("American Art Museum", "Art", "https://triplydb.com/smithsonian/american-art-museum/sparql/american-art-museum");
+////
+////        smith.runQueries();
+////        smith.datasetToVoID();
+////        smith.storeStatsToFile();
+////        smith.uploadFilesToVirtuoso();
+//
+//        
+//
+//
+//        String dataset = "http://ldf.fi/ww1lod/sparql";
+//
+//        QueriesForWebApp queries = new QueriesForWebApp();
+//        
+//        
+//        //gia vasiki othoni
+//        queries.retrieveAllDatasetsAndTheirTitle();
+//        
+//        queries.getBasicStatistics(dataset);
+//        System.out.println("=========");
+//        boolean onlyCIDOC=true;
+//        queries.getAllProperties(dataset, onlyCIDOC);
+//           System.out.println("=========");
+//        queries.getAllClasses(dataset, onlyCIDOC);
+//
+//        //connectivity me alla dataset
+//        System.out.println("Get Common Properties between two datasets");
+//        String dataset2 = "https://triplydb.com/smithsonian/american-art-museum/sparql/american-art-museum";
+//        queries.getCommonProperties(dataset, dataset2, true);
+//
+//        System.out.println("Get Common Classes between two datasets");
+//
+//        queries.getCommonClasses(dataset, dataset2, true);
+//    }
