@@ -21,17 +21,17 @@ export class DatabaseDetailsComponent implements OnInit {
   subscriptions: Subscription = new Subscription();
   color = AppColors.white;
   backgroundColor = AppColors.greenMain;
-  datasetTitle: string;
+  datasetID: number;
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   constructor(
     private coreService: CoreService,
+    private databaseDetailsService: DatabaseDetailsService,
     private loaderService: LoaderService,
     private router: Router,
-    private route: ActivatedRoute,
-    private databaseDetailsServices: DatabaseDetailsService
+    private route: ActivatedRoute
   ) {
-    this.datasetTitle = this.route.snapshot.params["title"];
+    this.datasetID = +this.route.snapshot.params["id"];
   }
   tab = [
     {
@@ -41,52 +41,41 @@ export class DatabaseDetailsComponent implements OnInit {
       symbol: "open_with",
     },
     {
+      label: "Cidoc Properties",
+      title: "Cidoc Properties",
+      path: "./properties/cidoc",
+      symbol: "group_work",
+    },
+    {
       label: "Classes",
       title: "Classes",
       path: "./classes",
       symbol: "tenancy",
     },
+    {
+      label: "Cidoc Classes",
+      title: "Cidoc Classes",
+      path: "./classes/cidoc",
+      symbol: "group_work",
+    },
   ];
+
   ngOnInit() {
-    // this.getDatasets();
-    // this.setDatasetDetails();
-    let temp = {
-      limit: 10,
-      page: 1,
-      endpoint: "http://ldf.fi/ww1lod/sparql",
-      onlyCidoc: false,
-    };
-    // this.subscriptions.add(
-    //   this.databaseDetailsServices.requestDatasetProperties(temp).subscribe((data) => {
-    //     console.log(1);
-    //   })
-    // );
+    this.getDataset();
+    this.setDatasetDetails();
   }
-  getDatasets() {
-    this.subscriptions.add(
-      this.coreService.datasets$.subscribe((data) => {
-        if (data != null && data.length !== 0) {
-          let found = false;
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].title === this.datasetTitle) {
-              found = true;
-              this.databaseDetails$.next(data[i]);
-              break;
-            }
-          }
-          if (!found) {
-            this.router.navigate(["/databases"]);
-            this.databaseDetails$.next(null);
-          }
-        }
-      })
-    );
+  getDataset() {
+    this.databaseDetailsService.setDataset(this.datasetID);
+    this.databaseDetailsService.databaseDetails$.subscribe((data) => {
+      if (data) {
+        this.databaseDetails$.next(data);
+      }
+    });
   }
   setDatasetDetails() {
     this.subscriptions.add(
       this.databaseDetails$.subscribe((data) => {
         if (data) {
-          this.databaseDetails = data;
         }
       })
     );

@@ -6,8 +6,11 @@ import { MatSort } from "@angular/material/sort";
 import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { LoaderService } from "src/app/loader/loader.service";
-import { PropertiesRequest } from "../models/dataset-details.model";
-import { Router } from "@angular/router";
+import { PropertiesRequest, Property } from "../models/dataset-details.model";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DatabaseDetailsService } from "../services/database-details.service";
+import { CoreService } from "src/app/core/services/core.service";
+import { Dataset } from "src/app/core/models/dataset.model";
 
 @Component({
   standalone: true,
@@ -20,82 +23,132 @@ export class DatabasePropertiesComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   myPaginator!: MatPaginator;
-  propertiesRequest$: Observable<PropertiesRequest>;
+  propertiesRequest$: BehaviorSubject<PropertiesRequest> = new BehaviorSubject(null);
   propertiesRequest: PropertiesRequest;
+  properties$: BehaviorSubject<Property[]> = new BehaviorSubject(null);
+  properties: Property;
   error$: Observable<string | undefined>;
   displayError$: Observable<boolean>;
-  pagging$: BehaviorSubject<any[]> = new BehaviorSubject([]);
   subscriptions: Subscription = new Subscription();
   dataSource!: MatTableDataSource<any>;
   columnsToDisplay = ["id", "property", "triples"];
-  constructor(public loaderService: LoaderService, private router: Router) {
-    
+  onlyCidoc: boolean = false;
+  databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
+  databaseDetails: Dataset;
+  constructor(
+    private coreService: CoreService,
+    public loaderService: LoaderService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private databaseDetailsServices: DatabaseDetailsService
+  ) {
+    console.log(this.router.url);
+    if (this.router.url.includes("cidoc")) {
+      this.onlyCidoc = true;
+    }
   }
 
   ngOnInit() {
-    // this.subscriptions.add(
-    //   this.portsRequest$.subscribe((data) => {
-    //     if (data) {
-    //       this.portsRequest = JSON.parse(JSON.stringify(data));
-    //     } else {
-    //       this.portsRequest = {};
-    //     }
-    //   })
-    // );
-    // this.portsRequest.limit =
-    //   this.portsRequest.limit === undefined ? 10 : this.portsRequest.limit;
-    // this.portsRequest.page =
-    //   this.portsRequest.page === undefined ? 1 : this.portsRequest.page;
-    // this.store.dispatch(
-    //   PortsActions.getPorts({
-    //     portsRequest:this.portsRequest
-    //   })
-    // );
-    // setTimeout(() => {
-    //   this.subscriptions.add(
-    //     this.pagging$.subscribe((pagging) => {
-    //       this.pagging = pagging;
-    //     })
-    //   );
-    // });
+    this.getDatasets();
+    this.setDatasetDetails();
+  }
+  requestProperties() {
+    let propReq = {
+      endpoint: this.databaseDetails.endpoint,
+      onlyCidoc: this.onlyCidoc,
+      limit: 10,
+      page: 0,
+      totalEntries: 0,
+    };
+
+    this.databaseDetailsServices.requestDatasetProperties(propReq).subscribe((data) => {
+      if (data) {
+        this.properties$.next(data);
+        if (propReq.totalEntries === 0) {
+          propReq.totalEntries = data[0].requestSize;
+          this.propertiesRequest$.next(propReq);
+        }
+      }
+    });
+    this.propertiesRequest$.next(propReq);
+    this.subscriptions.add(
+      this.propertiesRequest$.subscribe((data) => {
+        if (data) {
+          this.propertiesRequest = data;
+          console.log(this.propertiesRequest);
+        }
+      })
+    );
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      // this.myPaginator = this.paginator;
-      // this.pagging != undefined ? this.pagging.currentPage - 1 : 0;
-      // this.subscriptions.add(
-      //   this.ports$.subscribe((data) => {
-      //     if (data != null) {
-      //       this.dataSource = new MatTableDataSource(data);
-      //       this.dataSource.sort = this.sort;
-      //     }
-      //   })
-      // );
-      // this.subscriptions.add(
-      //   this.myPaginator.page.subscribe((data) => {
-      //     var pageNumber = data.pageIndex + 1;
-      //     setTimeout(() => {
-      //       //if change page size then go back to first page
-      //       if (
-      //         this.pagging &&
-      //         this.pagging.entriesPerPage != this.myPaginator.pageSize
-      //       ) {
-      //         this.portsRequest.page = 1;
-      //         this.paginator.pageIndex = 0;
-      //       } else {
-      //         this.portsRequest.page = pageNumber;
-      //       }
-      //       this.portsRequest.limit = this.myPaginator.pageSize;
-      //       this.store.dispatch(
-      //         PortsActions.getPorts({
-      //           portsRequest: this.portsRequest,
-      //         })
-      //       );
-      //     });
-      //   })
-      // );
+      this.myPaginator = this.paginator;
+      this.subscriptions.add(
+        this.properties$.subscribe((data) => {
+          if (data != null) {
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.sort = this.sort;
+          }
+        })
+      );
+      this.subscriptions.add(
+        this.myPaginator.page.subscribe((data) => {
+          var pageNumber = data.pageIndex;
+          setTimeout(() => {
+            //if change page size then go back to first page
+            console.log(this.propertiesRequest);
+
+            if (
+              this.propertiesRequest &&
+              this.propertiesRequest.limit != this.myPaginator.pageSize
+            ) {
+              console.log(this.propertiesRequest);
+
+              this.propertiesRequest.page = 0;
+              this.paginator.pageIndex = 0;
+            } else {
+              console.log(this.propertiesRequest);
+              console.log(pageNumber);
+
+              this.propertiesRequest.page = pageNumber;
+            }
+            console.log(this.propertiesRequest);
+
+            this.propertiesRequest.limit = this.myPaginator.pageSize;
+            console.log(this.propertiesRequest);
+            this.databaseDetailsServices
+              .requestDatasetProperties(this.propertiesRequest)
+              .subscribe((data) => {
+                this.properties$.next(data);
+              });
+            this.propertiesRequest$.next(this.propertiesRequest);
+          });
+        })
+      );
     });
   }
+
+  getDatasets() {
+    this.databaseDetailsServices.databaseDetails$.subscribe((data) => {
+      if (data) {
+        this.databaseDetails$.next(data);
+      }
+    });
+  }
+
+  setDatasetDetails() {
+    this.subscriptions.add(
+      this.databaseDetails$.subscribe((data) => {
+        if (data) {
+          this.databaseDetails = data;
+          setTimeout(() => {
+            this.requestProperties();
+          });
+        }
+      })
+    );
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -12,6 +12,7 @@ public class Property {
 
     public int id;
     public String prop;
+    public int requestSize;
     public int triples;
     public String url;
     public int distinctSubjects;
@@ -20,10 +21,11 @@ public class Property {
     public Property() {
     }
 
-    public Property(int id, String prop, int triples) {
+    public Property(int id, String prop, int triples, int requestSize) {
         this.id = id;
-        this.triples = triples;
         this.prop = prop;
+        this.triples = triples;
+        this.requestSize = requestSize;
     }
 
 }

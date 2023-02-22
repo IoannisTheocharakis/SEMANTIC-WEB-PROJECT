@@ -33,8 +33,8 @@ public class QueriesForWebApp {
     //String retrieveProperties = "select ?prop ?triples where {?s void:propertyPartition ?o . ?o void:property ?prop . ?o void:triples ?triples} order by desc (xsd:Integer(?triples)) limit <limit> offset <offset>";
     //String retrieveCRMProperties = "select ?prop ?triples where {?s void:propertyPartition ?o . ?o void:property ?prop . ?o void:triples ?triples .filter(regex(?prop,'crm'))} order by desc (xsd:Integer(?triples)) limit <limit> offset <offset>";
 
-    String retrieveClasses = "select ?class ?triples ?count { { SELECT (COUNT(*) AS ?count) where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples } } ?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples} order by desc (xsd:Integer(?triples))";
-    String retrieveCRMClasses = "select ?class ?triples ?count { { SELECT (COUNT(*) AS ?count) where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))}} ?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))} order by desc (xsd:Integer(?triples))";
+    String retrieveClasses = "select ?class ?triples ?count { { SELECT (COUNT(*) AS ?count) where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples } } ?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples} order by desc (xsd:Integer(?triples)) limit <limit> offset <offset>";
+    String retrieveCRMClasses = "select ?class ?triples ?count { { SELECT (COUNT(*) AS ?count) where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))}} ?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))} order by desc (xsd:Integer(?triples)) limit <limit> offset <offset>";
     //String retrieveClasses = "select ?class ?triples where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples} order by desc (xsd:Integer(?triples))";
     //String retrieveCRMClasses = "select ?class ?triples where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))} order by desc (xsd:Integer(?triples))";
 
@@ -114,8 +114,7 @@ public class QueriesForWebApp {
         } else {
             query = this.retrieveCRMProperties.replace("?s", "<" + dataset + ">");
         }
-        System.out.println(query);
-
+        page = 10 * page;
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
         System.out.println(query);
@@ -133,7 +132,7 @@ public class QueriesForWebApp {
         List<Property> properties = new ArrayList<>();
         int arrCounter = 0;
         int propertiesCounter = 0;
-        String[] arrOfStrings = new String[2];
+        String[] arrOfStrings = new String[3];
         while ((input = in.readLine()) != null) {
             if (propertiesCounter == 0) {
                 propertiesCounter++;
@@ -144,18 +143,19 @@ public class QueriesForWebApp {
             for (arrCounter = 0; arrCounter < 2; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
             }
-            Property prop = new Property(propertiesCounter, arrOfStrings[0], Integer.parseInt(arrOfStrings[1]));
+            System.out.println(arrOfStrings[2]);
+
+            Property prop = new Property(propertiesCounter, arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
             properties.add(prop);
             propertiesCounter++;
         }
-
         in.close();
         isr.close();
         is.close();
         return properties;
     }
 
-    public void getAllClasses(String dataset, boolean onlyCIDOC) throws UnsupportedEncodingException, MalformedURLException, IOException {
+    public List<RDFClass> getAllClasses(String dataset, boolean onlyCIDOC, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
 
         String query = "";
         if (!onlyCIDOC) {
@@ -163,6 +163,12 @@ public class QueriesForWebApp {
         } else {
             query = this.retrieveCRMClasses.replace("?s", "<" + dataset + ">");
         }
+
+        page = 10 * page;
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
+
+        System.out.println(query);
 
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
@@ -175,14 +181,28 @@ public class QueriesForWebApp {
         BufferedReader in = new BufferedReader(isr);
 
         String input;
-        String resultsString = "";
-        int count = 0;
+        List<RDFClass> rdfClasses = new ArrayList<>();
+        int arrCounter = 0;
+        int rdfClassesCounter = 0;
+        String[] arrOfStrings = new String[3];
         while ((input = in.readLine()) != null) {
+            if (rdfClassesCounter == 0) {
+                rdfClassesCounter++;
+                continue;
+            }
             System.out.println(input);
+            arrOfStrings = input.split("\t");
+            for (arrCounter = 0; arrCounter < 2; arrCounter++) {
+                arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
+            }
+            RDFClass rdfClass = new RDFClass(rdfClassesCounter, arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
+            rdfClasses.add(rdfClass);
+            rdfClassesCounter++;
         }
         in.close();
         isr.close();
         is.close();
+        return rdfClasses;
     }
 
     public void getCommonProperties(String dataset1, String dataset2, boolean onlyCIDOC) throws UnsupportedEncodingException, MalformedURLException, IOException {

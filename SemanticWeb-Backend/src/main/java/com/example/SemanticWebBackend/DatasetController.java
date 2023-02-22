@@ -8,6 +8,7 @@ import classes.Dataset;
 import classes.Property;
 import requestClasses.RequestDatabase;
 import classes.QueriesForWebApp;
+import classes.RDFClass;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,21 +46,6 @@ public class DatasetController {
         return datasets;
     }
 
-//    @PostMapping("/newDataset")
-//    public Dataset addDataset(@RequestBody String newdataset) {
-//        System.out.println(newdataset);
-//        Gson gson = new Gson();
-//        Dataset newDat = gson.fromJson(newdataset, Dataset.class);
-//        System.out.println(newDat);
-//        for (Dataset dataset : datasets) {
-//            if (dataset.getDatasetName().equals(newDat.datasetName)) {
-//                System.out.println("Error: Dataset Name Exist");
-//                return null;
-//            }
-//        }
-//        datasets.add(newDat);
-//        return newDat;
-//    }
     @GetMapping("/URLdatasets")
     public String getDatabaseRequest() throws UnsupportedEncodingException, MalformedURLException, IOException {
         String endpoint = "http://ldf.fi/ww1lod/sparql";
@@ -107,6 +93,15 @@ public class DatasetController {
         List<Property> properties = new ArrayList<>();
         properties = queries.getAllProperties(req.endpoint, req.onlyCidoc, req.limit, req.page);
         return properties;
+    }
+
+    @PostMapping("/dataset/rdfClasses")
+    public List<RDFClass> getClasses(@RequestBody RequestDatabase req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        //get all datasets
+        List<RDFClass> rdfClasses = new ArrayList<>();
+        rdfClasses = queries.getAllClasses(req.endpoint, req.onlyCidoc, req.limit, req.page);
+        return rdfClasses;
     }
 
 }

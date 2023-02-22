@@ -32,7 +32,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: "database-details/:title",
+        path: "database-details/:id",
         loadComponent: () =>
           import("./features/database-details/database-details.component").then(
             (m) => m.DatabaseDetailsComponent
@@ -46,7 +46,21 @@ const routes: Routes = [
               ).then((m) => m.DatabasePropertiesComponent),
           },
           {
+            path: "properties/cidoc",
+            loadComponent: () =>
+              import(
+                "./features/database-details/database-properties/database-properties.component"
+              ).then((m) => m.DatabasePropertiesComponent),
+          },
+          {
             path: "classes",
+            loadComponent: () =>
+              import(
+                "./features/database-details/database-classes/database-classes.component"
+              ).then((m) => m.DatabaseClassesComponent),
+          },
+          {
+            path: "classes/cidoc",
             loadComponent: () =>
               import(
                 "./features/database-details/database-classes/database-classes.component"

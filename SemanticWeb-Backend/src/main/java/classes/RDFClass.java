@@ -10,6 +10,19 @@ package classes;
  */
 public class RDFClass {
 
+    public int id;
     public String url;
     public int triples;
+    public int requestSize;
+
+    public RDFClass() {
+
+    }
+
+    public RDFClass(int id, String url, int triples, int requestSize) {
+        this.id = id;
+        this.url = url;
+        this.triples = triples;
+        this.requestSize = requestSize;
+    }
 }

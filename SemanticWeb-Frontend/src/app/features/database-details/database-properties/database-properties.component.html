@@ -35,7 +35,7 @@
       <!-- property Column -->
       <ng-container matColumnDef="property">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>property</th>
-        <td mat-cell *matCellDef="let element">{{ element.property }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.prop }}</td>
       </ng-container>
       <!-- triples Column -->
       <ng-container matColumnDef="triples">
@@ -43,18 +43,18 @@
         <td mat-cell *matCellDef="let element">{{ element.triples }}</td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
     </table>
-    <!-- <mat-card class="mt-10 p-0">
+    <mat-card class="mt-10 p-0">
       <mat-paginator
-        [length]="(pagging$ | async) ? (pagging$ | async).totalEntries : 0"
-        [pageIndex]="(pagging$ | async) ? (pagging$ | async).currentPage - 1 : 0"
-        [pageSize]="(pagging$ | async) ? (pagging$ | async).entriesPerPage : 0"
-        [pageSizeOptions]="[10, 15, 25, 50]"
+        [length]="
+          (propertiesRequest$ | async) ? (propertiesRequest$ | async).totalEntries : 0
+        "
+        [pageIndex]="(propertiesRequest$ | async) ? (propertiesRequest$ | async).page : 0"
+        [pageSize]="(propertiesRequest$ | async) ? (propertiesRequest$ | async).limit : 0"
+        [pageSizeOptions]="[5, 10, 15, 25, 50]"
         showFirstLastButtons>
       </mat-paginator>
-    </mat-card> -->
+    </mat-card>
   </div>
 </div>

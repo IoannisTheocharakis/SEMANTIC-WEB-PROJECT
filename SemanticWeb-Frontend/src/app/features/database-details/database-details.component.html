@@ -1,6 +1,7 @@
-<!-- title="Dataset URL: {{ (databaseDetails$ | async).title }}" -->
 <app-info-card
-  title="Dataset URL: {{ databaseDetails$ | async }}"
+  title="Dataset Title: {{ (databaseDetails$ | async).title }} | URL:  {{
+    (databaseDetails$ | async).endpoint
+  }}"
   [bgColor]="backgroundColor"
   [color]="color">
   <app-tab-menu [tabs]="tab"></app-tab-menu>

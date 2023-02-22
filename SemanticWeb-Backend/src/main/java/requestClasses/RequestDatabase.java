@@ -14,6 +14,7 @@ public class RequestDatabase {
     public boolean onlyCidoc;
     public int limit;
     public int page;
+    public int totalEntries;
 
     public RequestDatabase(String endpoint, boolean onlyCidoc, int limit, int page) {
         this.endpoint = endpoint;
