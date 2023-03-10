@@ -58,13 +58,9 @@ export class MainFormComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  onSubmit() {
-    console.log(this.form.value);
-  }
+  onSubmit() {}
   testRequest() {
-    this.mainFormService.requestDatasets().subscribe((data) => {
-      console.log(data);
-    });
+    this.mainFormService.requestDatasets().subscribe((data) => {});
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

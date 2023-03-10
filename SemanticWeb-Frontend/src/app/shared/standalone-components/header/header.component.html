@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="deep-box-shadow">
   <mat-toolbar-row>
     <button mat-icon-button (click)="toggleSideBar()">
-      <mat-icon>menu</mat-icon>
+      <mat-icon class="header-menu">menu</mat-icon>
     </button>
     <div class="d-flex ml-20 xy-center title-logo" (click)="homePage()">
       <span>Semantic Web</span>
@@ -16,17 +16,20 @@
           Databases: {{ nubmerOfDatabases }} Triples: {{ nubmerOfTriples }}
         </li>
         <li class="profile-card xy-center">
-          <button mat-button [matMenuTriggerFor]="menu">
-            <mat-icon>person</mat-icon>
-            {{ user.name + " " + user.lastName }}
-            <mat-icon>expand_more</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" yPosition="below" xPosition="after">
-            <button mat-menu-item>
-              <mat-icon>exit_to_app</mat-icon>
-              Sign out
-            </button>
-          </mat-menu>
+          <!-- <mat-slide-toggle (change)="toggleTheme()">Theme</mat-slide-toggle> -->
+          <div class="checkbox-container">
+            <input
+              (click)="toggleTheme()"
+              type="checkbox"
+              class="checkbox"
+              id="checkbox"
+              [checked]="localStorage.getItem('theme-color') === 'theme-dark'" />
+            <label for="checkbox" class="label">
+              <mat-icon class="moon">nightlight_round</mat-icon>
+              <mat-icon class="sun">light_mode</mat-icon>
+              <div class="ball"></div>
+            </label>
+          </div>
         </li>
       </ul>
     </div>

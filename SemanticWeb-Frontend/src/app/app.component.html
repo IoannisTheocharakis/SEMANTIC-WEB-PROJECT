@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<div class="content {{ this.themeService.themeColor$ | async }}">
+  <router-outlet
+    class="content {{ this.themeService.themeColor$ | async }}"></router-outlet>
+</div>

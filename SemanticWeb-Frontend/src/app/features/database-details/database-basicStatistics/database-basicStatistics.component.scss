@@ -1,0 +1,19 @@
+.statistics-container div{
+  font-size: 16px;
+}
+.statistics-title{
+    font-size: 20px;
+}
+::ng-deep .theme-light {
+  .statistics-container div,.statistics-title{
+    color: #5a5a5a;
+  }
+  
+}
+
+::ng-deep .theme-dark {
+    .statistics-container div,.statistics-title{
+      color: #83ce88;
+    }
+  }
+  

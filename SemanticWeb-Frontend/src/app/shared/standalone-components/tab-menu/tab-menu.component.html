@@ -11,11 +11,10 @@
       mat-tab-link>
       <mat-icon
         *ngIf="tab.icon !== undefined"
-        [ngStyle]="{ color: '#83ce88' }"
         class="tab-icon mr-5"
         >{{ tab.icon }}</mat-icon
       >
-      <span *ngIf="tab.symbol !== undefined" class="material-symbols-{{ symbolStyle }} mr-5">
+      <span *ngIf="tab.symbol !== undefined" class="mat-symbol material-symbols-{{ symbolStyle }} mr-5">
         {{ tab.symbol }}
       </span>
       {{ tab.title }}

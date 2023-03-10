@@ -54,6 +54,56 @@ input::placeholder {
   }
 }
 
-mat-toolbar.mat-toolbar.deep-box-shadow.mat-primary.mat-toolbar-multiple-rows {
-  background: #1f1f1f;
+////////
+.checkbox-container {
+  margin: 0 10px;
+  width: 36px;
+}
+.checkbox {
+  opacity: 0;
+  position: relative;
+}
+#checkbox {
+  position: absolute;
+}
+.label {
+  width: 35px;
+  height: 18px;
+  background-color: #111;
+  display: flex;
+  border-radius: 18px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  transform: scale(1.5);
+}
+
+.ball {
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+}
+
+/*  target the elemenent after the label*/
+.checkbox:checked + .label .ball {
+  transform: translateX(17px);
+}
+
+.moon {
+  color: pink;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.sun {
+  color: yellow;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
 }

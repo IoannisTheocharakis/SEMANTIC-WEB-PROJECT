@@ -1,3 +1,11 @@
-.caption {
-  fill: white;
+::ng-deep .theme-dark {
+  .caption {
+    fill: white!important;
+  }
+}
+
+::ng-deep .theme-light {
+  .caption {
+    fill: black!important;
+  }
 }

@@ -1,0 +1,41 @@
+<app-info-card [toolbar]="false">
+  <div *ngIf="loaderService.isLoading | async; else statistics">
+    <app-spinner></app-spinner>
+  </div>
+  <ng-template #statistics>
+    <div class="statistics-title mb-10">Basic Statistics</div>
+    <mat-divider class="mb-10" [style]="{ position: 'relative' }"></mat-divider>
+    <div
+      class="row statistics-container"
+      *ngIf="(this.basicStatistics$ | async) !== null">
+      <div class="col-6">Title: {{ (this.basicStatistics$ | async).title }}</div>
+      <div class="col-6">
+        Description: {{ (this.basicStatistics$ | async).description }}
+      </div>
+      <div class="col-6">Triples: {{ (this.basicStatistics$ | async).triples }}</div>
+      <div class="col-6">Entities: {{ (this.basicStatistics$ | async).entities }}</div>
+      <div class="col-6">
+        Properties: {{ (this.basicStatistics$ | async).properties }}
+      </div>
+      <div class="col-6">Classes: {{ (this.basicStatistics$ | async).classes }}</div>
+      <div class="col-6">
+        Triples With CIDOC property:
+        {{ (this.basicStatistics$ | async).triplesWithCIDOCproperty }} ({{
+          (this.basicStatistics$ | async).triplesWithCIDOCpropertyPercentage
+        }}%)
+      </div>
+      <div class="col-6">
+        TriplesWithCIDOCinstance:
+        {{ (this.basicStatistics$ | async).triplesWithCIDOCinstance }} ({{
+          (this.basicStatistics$ | async).triplesWithCIDOCinstancePercentage
+        }}%)
+      </div>
+      <div class="col-6">
+        Properties CIDOC: {{ (this.basicStatistics$ | async).propertiesCIDOC }}
+      </div>
+      <div class="col-6">
+        Classes CIDOC: {{ (this.basicStatistics$ | async).classesCIDOC }}
+      </div>
+    </div>
+  </ng-template>
+</app-info-card>

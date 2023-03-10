@@ -15,10 +15,11 @@ import { Subscription, filter, startWith } from "rxjs";
   styleUrls: ["./main-page.component.scss"],
 })
 export class MainPageComponent implements OnInit {
+  localStorage: Storage = window.localStorage;
   subscriptions: Subscription = new Subscription();
-
   color = AppColors.white;
-  backgroundColor = AppColors.greenMain;
+  backgroundColorDark = AppColors.greenMain;
+  backgroundColorLight = AppColors.greenMainLight;
   constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
   tab = [
     {

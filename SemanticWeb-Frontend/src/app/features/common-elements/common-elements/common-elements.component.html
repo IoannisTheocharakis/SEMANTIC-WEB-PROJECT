@@ -1,11 +1,10 @@
 <app-info-card
-  title="Semantic Web Databases"
+  title="Common Entities Between Databases"
   [bgColor]="
     localStorage.getItem('theme-color') === 'theme-dark'
       ? backgroundColorDark
       : backgroundColorLight
   "
   [color]="color">
-  <app-tab-menu [tabs]="tab"></app-tab-menu>
-  <router-outlet></router-outlet>
+  <app-common-elements-form></app-common-elements-form>
 </app-info-card>

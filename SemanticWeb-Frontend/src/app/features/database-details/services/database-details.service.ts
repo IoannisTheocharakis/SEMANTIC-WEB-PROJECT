@@ -1,6 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { PropertiesRequest, Property, RDFClass } from "../models/dataset-details.model";
+import {
+  BasicStatistics,
+  PropertiesRequest,
+  Property,
+  RDFClass,
+} from "../models/dataset-details.model";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { CoreService } from "src/app/core/services/core.service";
@@ -29,7 +34,11 @@ export class DatabaseDetailsService {
   requestDatasetRDFClasses(req: PropertiesRequest) {
     return this.http.post<RDFClass[]>(`${BASE_URL}dataset/rdfClasses`, req);
   }
-
+  requestBasicStatistics(dataset: string) {
+    return this.http.get<BasicStatistics>(
+      `${BASE_URL}dataset/basicStatistics?dataset=${dataset}`
+    );
+  }
   setDataset(datasetID: number) {
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {

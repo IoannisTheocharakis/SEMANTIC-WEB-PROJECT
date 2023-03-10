@@ -1,4 +1,5 @@
-.divider {
+::ng-deep .theme-dark {
+  .divider {
     position: relative !important;
   }
   .title {
@@ -10,16 +11,43 @@
     // display: flex;
     // align-items: center;
   }
-  
+
   .database-info-container {
     overflow: auto;
     height: 430px;
   }
-  
+
   .dataset-info {
     background: #1f1f1f;
     margin: 7px 0;
     padding: 5px 10px;
     border-radius: 10px;
   }
-  
+}
+
+::ng-deep .theme-light {
+  .divider {
+    position: relative !important;
+  }
+  .title {
+    color: black;
+    font-size: 18px;
+  }
+  .database-title {
+    color: white;
+    // display: flex;
+    // align-items: center;
+  }
+
+  .database-info-container {
+    overflow: auto;
+    height: 430px;
+  }
+
+  .dataset-info {
+    background: #00722f;
+    margin: 7px 0;
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+}

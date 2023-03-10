@@ -69,6 +69,13 @@ const routes: Routes = [
         ],
       },
       {
+        path: "common",
+        loadComponent: () =>
+          import(
+            "./features/common-elements/common-elements/common-elements.component"
+          ).then((m) => m.CommonElementsComponent),
+      },
+      {
         path: "database/add",
         loadComponent: () =>
           import("./features/mainForm/mainForm.component").then(

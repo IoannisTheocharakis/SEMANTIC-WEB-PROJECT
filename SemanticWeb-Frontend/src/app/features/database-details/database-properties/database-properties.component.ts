@@ -42,7 +42,6 @@ export class DatabasePropertiesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private databaseDetailsServices: DatabaseDetailsService
   ) {
-    console.log(this.router.url);
     if (this.router.url.includes("cidoc")) {
       this.onlyCidoc = true;
     }
@@ -75,7 +74,6 @@ export class DatabasePropertiesComponent implements OnInit, OnDestroy {
       this.propertiesRequest$.subscribe((data) => {
         if (data) {
           this.propertiesRequest = data;
-          console.log(this.propertiesRequest);
         }
       })
     );
@@ -96,26 +94,16 @@ export class DatabasePropertiesComponent implements OnInit, OnDestroy {
           var pageNumber = data.pageIndex;
           setTimeout(() => {
             //if change page size then go back to first page
-            console.log(this.propertiesRequest);
-
             if (
               this.propertiesRequest &&
               this.propertiesRequest.limit != this.myPaginator.pageSize
             ) {
-              console.log(this.propertiesRequest);
-
               this.propertiesRequest.page = 0;
               this.paginator.pageIndex = 0;
             } else {
-              console.log(this.propertiesRequest);
-              console.log(pageNumber);
-
               this.propertiesRequest.page = pageNumber;
             }
-            console.log(this.propertiesRequest);
-
             this.propertiesRequest.limit = this.myPaginator.pageSize;
-            console.log(this.propertiesRequest);
             this.databaseDetailsServices
               .requestDatasetProperties(this.propertiesRequest)
               .subscribe((data) => {

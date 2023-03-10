@@ -2,8 +2,15 @@
   title="Dataset Title: {{ (databaseDetails$ | async).title }} | URL:  {{
     (databaseDetails$ | async).endpoint
   }}"
-  [bgColor]="backgroundColor"
+  [bgColor]="
+    localStorage.getItem('theme-color') === 'theme-dark'
+      ? backgroundColorDark
+      : backgroundColorLight
+  "
   [color]="color">
+  <div class="mb-15">
+    <app-database-basicStatistics></app-database-basicStatistics>
+  </div>
   <app-tab-menu [tabs]="tab"></app-tab-menu>
   <router-outlet></router-outlet>
 </app-info-card>

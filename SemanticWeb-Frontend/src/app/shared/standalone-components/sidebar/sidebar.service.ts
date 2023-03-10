@@ -22,10 +22,16 @@ export class SidebarService {
       route: "databases",
     },
     {
+      title: "Common Entities",
+      icon: "compare_arrows",
+      route: "common",
+    },
+    {
       title: "Add Database",
       icon: "add_circle",
       route: "database/add",
     },
+
     {
       title: "About",
       icon: "info",

@@ -2,25 +2,34 @@ import { Component, OnInit, ChangeDetectorRef, AfterContentChecked } from "@angu
 import { InfoCardComponent } from "src/app/shared/standalone-components/info-card/info-card.component";
 import { AppColors } from "src/assets/app-colors";
 import { TabMenuComponent } from "src/app/shared/standalone-components/tab-menu/tab-menu.component";
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { CoreService } from "src/app/core/services/core.service";
 import { LoaderService } from "src/app/loader/loader.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { DatabaseDetailsService } from "./services/database-details.service";
 import { CommonModule } from "@angular/common";
+import { DatabaseBasicStatisticsComponent } from "./database-basicStatistics/database-basicStatistics.component";
 
 @Component({
   standalone: true,
-  imports: [InfoCardComponent, TabMenuComponent, RouterOutlet, CommonModule],
+  imports: [
+    InfoCardComponent,
+    DatabaseBasicStatisticsComponent,
+    TabMenuComponent,
+    RouterOutlet,
+    CommonModule,
+  ],
   selector: "app-database-details",
   templateUrl: "./database-details.component.html",
   styleUrls: ["./database-details.component.scss"],
 })
 export class DatabaseDetailsComponent implements OnInit {
+  localStorage: Storage = window.localStorage;
   subscriptions: Subscription = new Subscription();
   color = AppColors.white;
-  backgroundColor = AppColors.greenMain;
+  backgroundColorDark = AppColors.greenMain;
+  backgroundColorLight = AppColors.greenMainLight;
   datasetID: number;
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;

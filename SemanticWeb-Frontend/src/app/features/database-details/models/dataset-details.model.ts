@@ -26,3 +26,18 @@ export interface RDFClass {
   triples: number;
   requestSize: number;
 }
+//
+export interface BasicStatistics {
+  triples: number;
+  entities: number;
+  description: string;
+  properties: number;
+  classes: number;
+  title: string;
+  triplesWithCIDOCproperty: number;
+  triplesWithCIDOCpropertyPercentage: number;
+  triplesWithCIDOCinstance: number;
+  triplesWithCIDOCinstancePercentage: number;
+  propertiesCIDOC: number;
+  classesCIDOC: number;
+}

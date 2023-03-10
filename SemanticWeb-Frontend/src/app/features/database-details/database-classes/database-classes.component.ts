@@ -42,7 +42,6 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private databaseDetailsServices: DatabaseDetailsService
   ) {
-    console.log(this.router.url);
     if (this.router.url.includes("cidoc")) {
       this.onlyCidoc = true;
     }
@@ -63,7 +62,6 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
 
     this.databaseDetailsServices.requestDatasetRDFClasses(propReq).subscribe((data) => {
       if (data) {
-        console.log(data);
         this.rdfClasses$.next(data);
         if (propReq.totalEntries === 0) {
           propReq.totalEntries = data[0].requestSize;
@@ -76,7 +74,6 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
       this.rdfClassesRequest$.subscribe((data) => {
         if (data) {
           this.rdfClassesRequest = data;
-          console.log(this.rdfClassesRequest);
         }
       })
     );
@@ -97,26 +94,18 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
           var pageNumber = data.pageIndex;
           setTimeout(() => {
             //if change page size then go back to first page
-            console.log(this.rdfClassesRequest);
-
             if (
               this.rdfClassesRequest &&
               this.rdfClassesRequest.limit != this.myPaginator.pageSize
             ) {
-              console.log(this.rdfClassesRequest);
 
               this.rdfClassesRequest.page = 0;
               this.paginator.pageIndex = 0;
             } else {
-              console.log(this.rdfClassesRequest);
-              console.log(pageNumber);
-
               this.rdfClassesRequest.page = pageNumber;
             }
-            console.log(this.rdfClassesRequest);
 
             this.rdfClassesRequest.limit = this.myPaginator.pageSize;
-            console.log(this.rdfClassesRequest);
             this.databaseDetailsServices
               .requestDatasetRDFClasses(this.rdfClassesRequest)
               .subscribe((data) => {

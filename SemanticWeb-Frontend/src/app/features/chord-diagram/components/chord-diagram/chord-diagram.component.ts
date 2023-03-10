@@ -82,8 +82,6 @@ export class ChordDiagramComponent {
     );
   }
   seeDetails(datasetHref: string) {
-    // datasetHref = #DatasetName
-    console.log(datasetHref);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
