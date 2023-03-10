@@ -22,11 +22,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import models.BasicStatistics;
+import models.CommonClass;
+import models.CommonProperty;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import requestClasses.RequestCommon;
 
 /**
  *
@@ -61,9 +66,6 @@ public class DatasetController {
         BufferedReader in = new BufferedReader(isr);
         String inputToString = "";
         String input;
-        String resultsString = "";
-        int count = 0;
-        System.out.println("HERE");
 
         while ((input = in.readLine()) != null) {
             inputToString += input;
@@ -72,8 +74,6 @@ public class DatasetController {
         in.close();
         isr.close();
         is.close();
-        System.out.println("THERE");
-        System.out.println(inputToString);
         return inputToString;
     }
 
@@ -89,7 +89,6 @@ public class DatasetController {
     @PostMapping("/dataset/properties")
     public List<Property> getProperties(@RequestBody RequestDatabase req) throws IOException {
         QueriesForWebApp queries = new QueriesForWebApp();
-        //get all datasets
         List<Property> properties = new ArrayList<>();
         properties = queries.getAllProperties(req.endpoint, req.onlyCidoc, req.limit, req.page);
         return properties;
@@ -98,18 +97,40 @@ public class DatasetController {
     @PostMapping("/dataset/rdfClasses")
     public List<RDFClass> getClasses(@RequestBody RequestDatabase req) throws IOException {
         QueriesForWebApp queries = new QueriesForWebApp();
-        //get all datasets
         List<RDFClass> rdfClasses = new ArrayList<>();
         rdfClasses = queries.getAllClasses(req.endpoint, req.onlyCidoc, req.limit, req.page);
         return rdfClasses;
     }
 
+    @GetMapping("/dataset/basicStatistics")
+    public BasicStatistics getBasicStatistics(@RequestParam("dataset") String dataset) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        //get basic statistics
+        BasicStatistics basicStatistics;
+        basicStatistics = queries.getBasicStatistics(dataset);
+        return basicStatistics;
+    }
+
+    @PostMapping("/dataset/commonProperties")
+    public List<CommonProperty> getCommonProperties(@RequestBody RequestCommon req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        List<CommonProperty> commonProperties = new ArrayList<>();
+        commonProperties = queries.getCommonProperties(req.endpoint1, req.endpoint2, req.onlyCIDOC, req.limit, req.page);
+        return commonProperties;
+    }
+
+    @PostMapping("/dataset/commonClasses")
+    public List<CommonClass> getCommonClasses(@RequestBody RequestCommon req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        //get all datasets
+//        BasicStatistics basicStatistics;
+//        basicStatistics = queries.getBasicStatistics(dataset);
+//        return basicStatistics;
+        return null;
+    }
+
 }
 
-//
-//    /**
-//     * @param args the command line arguments
-//     */
 //    public static void main(String[] args) throws IOException {
 //        //Dataset ww1lod = new Dataset("WW1LOD", "Data about World War 1", "http://ldf.fi/ww1lod/sparql");
 //
@@ -124,31 +145,4 @@ public class DatasetController {
 ////        smith.datasetToVoID();
 ////        smith.storeStatsToFile();
 ////        smith.uploadFilesToVirtuoso();
-//
-//        
-//
-//
-//        String dataset = "http://ldf.fi/ww1lod/sparql";
-//
-//        QueriesForWebApp queries = new QueriesForWebApp();
-//        
-//        
-//        //gia vasiki othoni
-//        queries.retrieveAllDatasetsAndTheirTitle();
-//        
-//        queries.getBasicStatistics(dataset);
-//        System.out.println("=========");
-//        boolean onlyCIDOC=true;
-//        queries.getAllProperties(dataset, onlyCIDOC);
-//           System.out.println("=========");
-//        queries.getAllClasses(dataset, onlyCIDOC);
-//
-//        //connectivity me alla dataset
-//        System.out.println("Get Common Properties between two datasets");
-//        String dataset2 = "https://triplydb.com/smithsonian/american-art-museum/sparql/american-art-museum";
-//        queries.getCommonProperties(dataset, dataset2, true);
-//
-//        System.out.println("Get Common Classes between two datasets");
-//
-//        queries.getCommonClasses(dataset, dataset2, true);
 //    }

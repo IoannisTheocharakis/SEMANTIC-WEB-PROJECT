@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import models.BasicStatistics;
+import models.CommonProperty;
 
 /**
  *
@@ -38,8 +40,10 @@ public class QueriesForWebApp {
     //String retrieveClasses = "select ?class ?triples where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples} order by desc (xsd:Integer(?triples))";
     //String retrieveCRMClasses = "select ?class ?triples where {?s void:classPartition ?o . ?o void:class ?class . ?o void:triples ?triples .filter(regex(?class,'crm'))} order by desc (xsd:Integer(?triples))";
 
-    String retrieveCommonProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop}";
-    String retrieveCommonCRMProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop .filter(regex(?prop,'crm'))}";
+    String retrieveCommonProperties = "select ?prop ?count where {  { SELECT (COUNT(*) AS ?count) WHERE { ?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop } } ?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop } limit <limit> offset <offset>";
+    String retrieveCommonCRMProperties = "select ?prop ?count where { { SELECT (COUNT(*) AS ?count) WHERE { ?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop .filter(regex(?prop,'crm'))} }  ?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop .filter(regex(?prop,'crm'))} limit <limit> offset <offset>";
+    //String retrieveCommonProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop}";
+    //String retrieveCommonCRMProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop .filter(regex(?prop,'crm'))}";
 
     String retrieveCommonClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class}";
     String retrieveCommonCRMClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))}";
@@ -65,7 +69,6 @@ public class QueriesForWebApp {
         int datasetsCounter = 0;
         String[] arrOfStrings = new String[3];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
             arrOfStrings = input.split("\t");
             for (arrCounter = 0; arrCounter < 3; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
@@ -82,7 +85,7 @@ public class QueriesForWebApp {
         return datasets;
     }
 
-    public void getBasicStatistics(String dataset) throws UnsupportedEncodingException, MalformedURLException, IOException {
+    public BasicStatistics getBasicStatistics(String dataset) throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = retrieveBasicStatistics.replace("?s", "<" + dataset + ">");
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
@@ -95,15 +98,33 @@ public class QueriesForWebApp {
         BufferedReader in = new BufferedReader(isr);
 
         String input;
+
         String resultsString = "";
-        int count = 0;
+        BasicStatistics basicStatistics;
+        int arrCounter = 0;
+        int basicStatisticsCounter = 0;
+        String[] arrOfStrings = new String[2];
+        String[] basicStatisticsOnString = new String[12];
         while ((input = in.readLine()) != null) {
             System.out.println(input);
-        }
 
+            if (basicStatisticsCounter <= 1) {
+                basicStatisticsCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            for (arrCounter = 0; arrCounter < 2; arrCounter++) {
+                arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
+            }
+            basicStatisticsOnString[basicStatisticsCounter - 2] = arrOfStrings[1];
+            basicStatisticsCounter++;
+        }
+        BasicStatistics basicStatisticsClass = new BasicStatistics(Integer.parseInt(basicStatisticsOnString[0]), Integer.parseInt(basicStatisticsOnString[1]), basicStatisticsOnString[2], Integer.parseInt(basicStatisticsOnString[3]), Integer.parseInt(basicStatisticsOnString[4]), basicStatisticsOnString[5], Integer.parseInt(basicStatisticsOnString[6]),
+                Double.parseDouble(basicStatisticsOnString[7]), Integer.parseInt(basicStatisticsOnString[8]), Double.parseDouble(basicStatisticsOnString[9]), Integer.parseInt(basicStatisticsOnString[10]), Integer.parseInt(basicStatisticsOnString[11]));
         in.close();
         isr.close();
         is.close();
+        return basicStatisticsClass;
     }
 
     public List<Property> getAllProperties(String dataset, boolean onlyCIDOC, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
@@ -117,7 +138,7 @@ public class QueriesForWebApp {
         page = 10 * page;
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
-        System.out.println(query);
+
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -138,13 +159,10 @@ public class QueriesForWebApp {
                 propertiesCounter++;
                 continue;
             }
-            System.out.println(input);
             arrOfStrings = input.split("\t");
             for (arrCounter = 0; arrCounter < 2; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
             }
-            System.out.println(arrOfStrings[2]);
-
             Property prop = new Property(propertiesCounter, arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
             properties.add(prop);
             propertiesCounter++;
@@ -168,8 +186,6 @@ public class QueriesForWebApp {
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
 
-        System.out.println(query);
-
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -190,7 +206,6 @@ public class QueriesForWebApp {
                 rdfClassesCounter++;
                 continue;
             }
-            System.out.println(input);
             arrOfStrings = input.split("\t");
             for (arrCounter = 0; arrCounter < 2; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
@@ -205,14 +220,16 @@ public class QueriesForWebApp {
         return rdfClasses;
     }
 
-    public void getCommonProperties(String dataset1, String dataset2, boolean onlyCIDOC) throws UnsupportedEncodingException, MalformedURLException, IOException {
+    public List<CommonProperty> getCommonProperties(String dataset1, String dataset2, boolean onlyCIDOC, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = "";
         if (!onlyCIDOC) {
             query = this.retrieveCommonProperties.replace("?s2", "<" + dataset2 + ">").replace("?s", "<" + dataset1 + ">");
         } else {
             query = this.retrieveCommonCRMProperties.replace("?s2", "<" + dataset2 + ">").replace("?s", "<" + dataset1 + ">");
         }
-        //System.out.println(query);
+        page = 10 * page;
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -224,14 +241,31 @@ public class QueriesForWebApp {
         BufferedReader in = new BufferedReader(isr);
 
         String input;
-        String resultsString = "";
-        int count = 0;
+        List<CommonProperty> commonProperties = new ArrayList<>();
+        int arrCounter = 0;
+        int commonPropertiesCounter = 0;
+        String[] arrOfStrings = new String[2];
         while ((input = in.readLine()) != null) {
             System.out.println(input);
+
+            if (commonPropertiesCounter == 0) {
+                commonPropertiesCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[arrCounter].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+
+            CommonProperty commonProperty = new CommonProperty(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]));
+            commonProperties.add(commonProperty);
+            commonPropertiesCounter++;
         }
         in.close();
         isr.close();
         is.close();
+        return commonProperties;
     }
 
     public void getCommonClasses(String dataset1, String dataset2, boolean onlyCIDOC) throws UnsupportedEncodingException, MalformedURLException, IOException {
@@ -241,7 +275,6 @@ public class QueriesForWebApp {
         } else {
             query = this.retrieveCommonCRMClasses.replace("?s2", "<" + dataset2 + ">").replace("?s", "<" + dataset1 + ">");
         }
-        //System.out.println(query);
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
