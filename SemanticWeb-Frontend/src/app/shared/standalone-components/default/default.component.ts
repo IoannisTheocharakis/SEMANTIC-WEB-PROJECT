@@ -27,7 +27,7 @@ export class DefaultComponent implements OnInit {
   constructor(private coreService: CoreService, private router: Router) {}
 
   ngOnInit() {
-    if (this.router.url === "/") this.router.navigateByUrl("/databases/chart");
+    if (this.router.url === "/") this.router.navigateByUrl("/datasets/chart");
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data == null || data.length === 0) {

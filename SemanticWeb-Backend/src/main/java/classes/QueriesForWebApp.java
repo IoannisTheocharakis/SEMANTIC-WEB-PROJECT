@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import models.BasicStatistics;
+import models.CommonClass;
 import models.CommonProperty;
 
 /**
@@ -45,8 +46,10 @@ public class QueriesForWebApp {
     //String retrieveCommonProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop}";
     //String retrieveCommonCRMProperties = "select ?prop where {?s void:propertyPartition ?o . ?o void:property ?prop . ?s2 void:propertyPartition ?o2 . ?o2 void:property ?prop .filter(regex(?prop,'crm'))}";
 
-    String retrieveCommonClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class}";
-    String retrieveCommonCRMClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))}";
+    String retrieveCommonClasses = "select ?class ?count where {  { SELECT (COUNT(*) AS ?count) WHERE { ?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class } } ?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class}  limit <limit> offset <offset>";
+    String retrieveCommonCRMClasses = "select ?class ?count where {  { SELECT (COUNT(*) AS ?count) WHERE { ?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))} } ?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))}  limit <limit> offset <offset>";
+    //String retrieveCommonClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class}";
+    //String retrieveCommonCRMClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))}";
 
     String retrieveDatasetsAndTheirTitle = "select ?s ?title ?triples where {?s a void:Dataset . ?s <http://purl.org/dc/terms/title> ?title . ?s void:triples ?triples}";
     String endpoint = "http://83.212.97.78:8890/sparql";
@@ -230,6 +233,8 @@ public class QueriesForWebApp {
         page = 10 * page;
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
+        System.out.println(query);
+
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -268,13 +273,17 @@ public class QueriesForWebApp {
         return commonProperties;
     }
 
-    public void getCommonClasses(String dataset1, String dataset2, boolean onlyCIDOC) throws UnsupportedEncodingException, MalformedURLException, IOException {
+    public List<CommonClass> getCommonClasses(String dataset1, String dataset2, boolean onlyCIDOC, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = "";
         if (!onlyCIDOC) {
             query = this.retrieveCommonClasses.replace("?s2", "<" + dataset2 + ">").replace("?s", "<" + dataset1 + ">");
         } else {
             query = this.retrieveCommonCRMClasses.replace("?s2", "<" + dataset2 + ">").replace("?s", "<" + dataset1 + ">");
         }
+        page = 10 * page;
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
+        System.out.println(query);
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -286,14 +295,32 @@ public class QueriesForWebApp {
         BufferedReader in = new BufferedReader(isr);
 
         String input;
-        String resultsString = "";
+        List<CommonClass> commonClasses = new ArrayList<>();
+        int arrCounter = 0;
+        int commonClassesCounter = 0;
+        String[] arrOfStrings = new String[2];
         int count = 0;
         while ((input = in.readLine()) != null) {
             System.out.println(input);
+
+            if (commonClassesCounter == 0) {
+                commonClassesCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[arrCounter].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+
+            CommonClass commonClass = new CommonClass(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]));
+            commonClasses.add(commonClass);
+            commonClassesCounter++;
         }
         in.close();
         isr.close();
         is.close();
+        return commonClasses;
     }
 
 }

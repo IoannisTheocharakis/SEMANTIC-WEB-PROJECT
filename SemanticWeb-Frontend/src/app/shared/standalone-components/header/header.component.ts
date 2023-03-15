@@ -65,7 +65,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 300);
   }
   homePage() {
-    console.log(1);
     this.router.navigate(["/"]);
   }
   ngOnDestroy() {

@@ -9,31 +9,31 @@ import { LoaderService } from "src/app/loader/loader.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
-import { CommonElementsRequest, CommonProperties } from "../models/common-elements.model";
+import { CommonElementsRequest, CommonRDFClasses } from "../models/common-elements.model";
 import { CommonElementsService } from "../service/common-elements.service";
 
 @Component({
   standalone: true,
   imports: [MaterialMinModule, MaterialFormModule],
-  selector: "app-common-elements-properties",
-  templateUrl: "./common-elements-properties.component.html",
-  styleUrls: ["./common-elements-properties.component.scss"],
+  selector: "app-common-elements-classes",
+  templateUrl: "./common-elements-classes.component.html",
+  styleUrls: ["./common-elements-classes.component.scss"],
 })
-export class CommonElementsPropertiesComponent implements OnInit, OnDestroy {
+export class CommonElementsClassesComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   myPaginator!: MatPaginator;
-  commonPropertiesRequest$: BehaviorSubject<CommonElementsRequest> = new BehaviorSubject(
+  commonRDFClassesRequest$: BehaviorSubject<CommonElementsRequest> = new BehaviorSubject(
     null
   );
-  commonPropertiesRequest: CommonElementsRequest;
-  commonProperties$: BehaviorSubject<CommonProperties[]> = new BehaviorSubject(null);
-  commonProperties: CommonProperties;
+  commonRDFClassesRequest: CommonElementsRequest;
+  commonRDFClasses$: BehaviorSubject<CommonRDFClasses[]> = new BehaviorSubject(null);
+  commonRDFClasses: CommonRDFClasses;
   error$: Observable<string | undefined>;
   displayError$: Observable<boolean>;
   subscriptions: Subscription = new Subscription();
   dataSource!: MatTableDataSource<any>;
-  columnsToDisplay = ["prop"];
+  columnsToDisplay = ["rdfClass"];
   onlyCidoc: boolean = false;
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
@@ -51,29 +51,30 @@ export class CommonElementsPropertiesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setRequest();
-    this.requestProperties();
+    this.requestRDFClasses();
   }
   setRequest() {
     this.subscriptions.add(
-      this.commonElementsService.commonPropertiesRequest$.subscribe((data) => {
+      this.commonElementsService.commonRDFClassesRequest$.subscribe((data) => {
         if (data) {
-          this.commonPropertiesRequest = data;
-          this.commonPropertiesRequest$.next(this.commonPropertiesRequest);
+          this.commonRDFClassesRequest = data;
+          console.log(data);
+          this.commonRDFClassesRequest$.next(this.commonRDFClassesRequest);
         }
       })
     );
   }
-  requestProperties() {
+  requestRDFClasses() {
     this.subscriptions.add(
-      this.commonPropertiesRequest$.subscribe((data1) => {
+      this.commonRDFClassesRequest$.subscribe((data1) => {
         this.subscriptions.add(
           this.commonElementsService
-            .requestCommonProperties(this.commonPropertiesRequest)
+            .requestCommonRDFClasses(this.commonRDFClassesRequest)
             .subscribe((data) => {
               if (data) {
-                this.commonProperties$.next(data);
-                if (this.commonPropertiesRequest.totalEntries === 0) {
-                  this.commonPropertiesRequest.totalEntries = data[0].requestSize;
+                this.commonRDFClasses$.next(data);
+                if (this.commonRDFClassesRequest.totalEntries === 0) {
+                  this.commonRDFClassesRequest.totalEntries = data[0].requestSize;
                 }
               }
             })
@@ -85,7 +86,7 @@ export class CommonElementsPropertiesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.myPaginator = this.paginator;
       this.subscriptions.add(
-        this.commonProperties$.subscribe((data) => {
+        this.commonRDFClasses$.subscribe((data) => {
           if (data != null) {
             this.dataSource = new MatTableDataSource(data);
             this.dataSource.sort = this.sort;
@@ -98,16 +99,16 @@ export class CommonElementsPropertiesComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             //if change page size then go back to first page
             if (
-              this.commonPropertiesRequest &&
-              this.commonPropertiesRequest.limit != this.myPaginator.pageSize
+              this.commonRDFClassesRequest &&
+              this.commonRDFClassesRequest.limit != this.myPaginator.pageSize
             ) {
-              this.commonPropertiesRequest.page = 0;
+              this.commonRDFClassesRequest.page = 0;
               this.paginator.pageIndex = 0;
             } else {
-              this.commonPropertiesRequest.page = pageNumber;
+              this.commonRDFClassesRequest.page = pageNumber;
             }
-            this.commonPropertiesRequest.limit = this.myPaginator.pageSize;
-            this.commonPropertiesRequest$.next(this.commonPropertiesRequest);
+            this.commonRDFClassesRequest.limit = this.myPaginator.pageSize;
+            this.commonRDFClassesRequest$.next(this.commonRDFClassesRequest);
           });
         })
       );

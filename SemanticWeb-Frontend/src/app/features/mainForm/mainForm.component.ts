@@ -22,7 +22,7 @@ import { MainFormService } from "./service/mainForm.service";
 })
 export class MainFormComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-  title = "Add Database";
+  title = "Add Dataset";
   form: UntypedFormGroup;
   color = AppColors.white;
   backgroundColor = AppColors.greenMain;

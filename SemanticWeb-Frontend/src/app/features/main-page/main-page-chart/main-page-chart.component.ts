@@ -23,7 +23,7 @@ export class MainPageChartComponent implements OnInit {
 
   ngOnInit() {}
   seeDatabase(databaseTitle: number) {
-    this.router.navigate([`database-details/${databaseTitle}/properties`]);
+    this.router.navigate([`dataset-details/${databaseTitle}/properties`]);
   }
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();

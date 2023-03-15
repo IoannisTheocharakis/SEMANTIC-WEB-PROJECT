@@ -23,15 +23,15 @@ export class MainPageComponent implements OnInit {
   constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
   tab = [
     {
-      label: "Database Chart",
-      title: "Database Chart",
-      path: "/databases/chart",
+      label: "Dataset Chart",
+      title: "Dataset Chart",
+      path: "/datasets/chart",
       icon: "incomplete_circle",
     },
     {
-      label: "Database Table",
-      title: "Database Table",
-      path: "/databases/table",
+      label: "Dataset Table",
+      title: "Dataset Table",
+      path: "/datasets/table",
       icon: "table_chart",
     },
   ];
@@ -43,8 +43,8 @@ export class MainPageComponent implements OnInit {
           startWith(this.router)
         )
         .subscribe((event: NavigationEnd) => {
-          if (this.router.url === "/databases" || this.router.url === "/") {
-            this.router.navigate(["/databases/chart"]);
+          if (this.router.url === "/datasets" || this.router.url === "/") {
+            this.router.navigate(["/datasets/chart"]);
           }
         })
     );

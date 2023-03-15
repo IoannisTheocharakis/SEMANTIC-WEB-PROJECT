@@ -1,22 +1,39 @@
 <div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
-      <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
-        <mat-label>First endpoint</mat-label>
-        <input type="text" placeholder="" matInput formControlName="endpoint1" />
-      </mat-form-field>
+      <div class="col">
+        <app-autocomplete
+          [list$]="datasets$"
+          label="First Dataset"
+          placeHolder="Etc. http://ldf.fi/ww1lod/sparql"
+          displayName="endpoint"
+          displayID="id"
+          [initID]="initDatasetAutocomplete$ | async"
+          [resetEvent$]="resetSubject$.asObservable()"
+          [requiredInput]="true"
+          (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint1')">
+        </app-autocomplete>
+      </div>
+
       <div class="col-1">
         <div class="minus-input-height d-flex justify-content-center align-items-center">
-          <mat-icon class="compare-icon"
-            >compare_arrowss</mat-icon
-          >
+          <mat-icon class="compare-icon">compare_arrowss</mat-icon>
         </div>
       </div>
-      <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
-        <mat-label>Second endpoint</mat-label>
-        <input type="text" placeholder="" matInput formControlName="endpoint1" />
-      </mat-form-field>
 
+      <div class="col">
+        <app-autocomplete
+          [list$]="datasets$"
+          label="Second Dataset"
+          placeHolder="Etc. http://ldf.fi/ww1lod/sparql"
+          displayName="endpoint"
+          displayID="id"
+          [initID]="initDatasetAutocomplete$ | async"
+          [resetEvent$]="resetSubject$.asObservable()"
+          [requiredInput]="true"
+          (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint2')">
+        </app-autocomplete>
+      </div>
     </div>
     <div class="row">
       <div class="col-3">
@@ -50,7 +67,11 @@
               <mat-icon class="mr-5">restart_alt</mat-icon>
               <span class="txt-color">Reset Form</span>
             </button>
-            <button mat-raised-button class="w-100 search-btn" type="submit">
+            <button
+              mat-raised-button
+              class="w-100 search-btn"
+              type="submit"
+              [disabled]="!this.form.valid">
               <mat-icon class="mr-5 search-btn-icon">search</mat-icon>
               <span>Search</span>
             </button>
@@ -60,3 +81,5 @@
     </div>
   </form>
 </div>
+
+{{ this.form.value | json }}

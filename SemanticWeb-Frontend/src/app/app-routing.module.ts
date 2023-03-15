@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DefaultComponent,
     children: [
       {
-        path: "databases",
+        path: "datasets",
         loadComponent: () =>
           import("./features/main-page/main-page.component").then(
             (m) => m.MainPageComponent
@@ -32,7 +32,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: "database-details/:id",
+        path: "dataset-details/:id",
         loadComponent: () =>
           import("./features/database-details/database-details.component").then(
             (m) => m.DatabaseDetailsComponent
@@ -76,7 +76,7 @@ const routes: Routes = [
           ).then((m) => m.CommonElementsComponent),
       },
       {
-        path: "database/add",
+        path: "dataset/add",
         loadComponent: () =>
           import("./features/mainForm/mainForm.component").then(
             (m) => m.MainFormComponent

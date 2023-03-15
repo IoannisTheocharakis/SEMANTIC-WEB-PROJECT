@@ -122,11 +122,9 @@ public class DatasetController {
     @PostMapping("/dataset/commonClasses")
     public List<CommonClass> getCommonClasses(@RequestBody RequestCommon req) throws IOException {
         QueriesForWebApp queries = new QueriesForWebApp();
-        //get all datasets
-//        BasicStatistics basicStatistics;
-//        basicStatistics = queries.getBasicStatistics(dataset);
-//        return basicStatistics;
-        return null;
+        List<CommonClass> commonClasses = new ArrayList<>();
+        commonClasses = queries.getCommonClasses(req.endpoint1, req.endpoint2, req.onlyCIDOC, req.limit, req.page);
+        return commonClasses;
     }
 
 }

@@ -15,6 +15,7 @@ public class RequestCommon {
     public boolean onlyCIDOC;
     public int limit;
     public int page;
+    public int totalEntries = 0;
 
     public RequestCommon(String endpoint1, String endpoint2, boolean onlyCIDOC, int limit, int page) {
         this.endpoint1 = endpoint1;

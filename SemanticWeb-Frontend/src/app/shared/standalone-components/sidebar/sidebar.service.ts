@@ -17,9 +17,9 @@ export class SidebarService {
 
   menu: NavItem[] = [
     {
-      title: "Databases",
+      title: "Datasets",
       icon: "home",
-      route: "databases",
+      route: "datasets",
     },
     {
       title: "Common Entities",
@@ -27,9 +27,9 @@ export class SidebarService {
       route: "common",
     },
     {
-      title: "Add Database",
+      title: "Add Datasets",
       icon: "add_circle",
-      route: "database/add",
+      route: "dataset/add",
     },
 
     {
