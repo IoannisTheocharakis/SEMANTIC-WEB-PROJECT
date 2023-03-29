@@ -1,0 +1,28 @@
+<app-info-card
+  title="Global Search in Datasets"
+  [bgColor]="
+    localStorage.getItem('theme-color') === 'theme-dark'
+      ? backgroundColorDark
+      : backgroundColorLight
+  "
+  [color]="color">
+  <app-global-search-form></app-global-search-form>
+  <!-- <app-bar-chart> </app-bar-chart> -->
+
+  <div *ngIf="(globalSearchService.globalSearchRequest$ | async) !== null" class="mt-20">
+    <mat-tab-group>
+      <mat-tab label="Table">
+        <app-global-search-list></app-global-search-list>
+      </mat-tab>
+      <mat-tab label="Charts">
+        <!-- <app-bar-chart> </app-bar-chart> -->
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- <div class="row">
+      <div class="col-12">
+        <app-global-search-list></app-global-search-list>
+      </div>
+    </div> -->
+  </div>
+</app-info-card>

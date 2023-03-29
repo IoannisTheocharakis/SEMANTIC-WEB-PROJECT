@@ -8,7 +8,7 @@ import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { LoaderService } from "src/app/loader/loader.service";
 import { PropertiesRequest, Property } from "../models/dataset-details.model";
 import { ActivatedRoute, Router } from "@angular/router";
-import { DatabaseDetailsService } from "../services/database-details.service";
+import { DatabaseDetailsService } from "../service/database-details.service";
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 

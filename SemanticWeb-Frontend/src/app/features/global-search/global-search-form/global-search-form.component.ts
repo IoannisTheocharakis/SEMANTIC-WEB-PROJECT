@@ -9,26 +9,27 @@ import { BehaviorSubject, Subject, Subscription } from "rxjs";
 import { LoaderService } from "src/app/loader/loader.service";
 import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { InfoCardComponent } from "src/app/shared/standalone-components/info-card/info-card.component";
-import { CommonElementsService } from "../service/common-elements.service";
 import { AutocompleteComponent } from "src/app/shared/standalone-components/autocomplete/autocomplete.component";
 import { CoreService } from "src/app/core/services/core.service";
-import { Dataset } from "src/app/core/models/dataset.model";
 import { ActivatedRoute, Router } from "@angular/router";
+import { GlobalSearchService } from "../service/global-search.service";
+import { AutocompleteClassProperty } from "src/app/core/models/autocomplete.model";
 
 @Component({
   standalone: true,
   imports: [MaterialFormModule, InfoCardComponent, AutocompleteComponent],
-  selector: "app-common-elements-form",
-  templateUrl: "./common-elements-form.component.html",
-  styleUrls: ["./common-elements-form.component.scss"],
+  selector: "app-global-search-form",
+  templateUrl: "./global-search-form.component.html",
+  styleUrls: ["./global-search-form.component.scss"],
 })
-export class CommonElementsFormComponent implements OnInit {
+export class GlobalSearchFormComponent implements OnInit {
   subscriptions: Subscription = new Subscription();
-  datasets$: BehaviorSubject<Dataset[]> = new BehaviorSubject([]);
-  datasets: Dataset[] = [];
-  resetSubject$ = new Subject();
-  initDatasetAutocomplete$: BehaviorSubject<number> = new BehaviorSubject(0);
-  disableEvent$: BehaviorSubject<string> = new BehaviorSubject("enable");
+  autocompleteClassess$: BehaviorSubject<AutocompleteClassProperty[]> =
+    new BehaviorSubject([]);
+  autocompleteProperties$: BehaviorSubject<AutocompleteClassProperty[]> =
+    new BehaviorSubject([]);
+  resetPropertySubject$ = new Subject();
+  resetClassSubject$ = new Subject();
 
   form: UntypedFormGroup;
   inputAppearance = "outline";
@@ -40,7 +41,7 @@ export class CommonElementsFormComponent implements OnInit {
     private coreService: CoreService,
     private fb: UntypedFormBuilder,
     public loaderService: LoaderService,
-    private commonElementsService: CommonElementsService,
+    private globalSearchService: GlobalSearchService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -51,15 +52,15 @@ export class CommonElementsFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setDatasetsAutocomplete();
+    this.setAutocompleteClassProperties();
     this.initForm();
   }
-  setDatasetsAutocomplete() {
+  setAutocompleteClassProperties() {
     this.subscriptions.add(
-      this.coreService.datasets$.subscribe((data) => {
-        if (data != null && data.length !== 0) {
-          this.datasets = data;
-          this.datasets$.next(data);
+      this.coreService.autocompleteClassProperties$.subscribe((data) => {
+        if (data != null) {
+          this.autocompleteClassess$.next(data.autocompleteClass);
+          this.autocompleteProperties$.next(data.autocompleteProperty);
         }
       })
     );
@@ -67,44 +68,42 @@ export class CommonElementsFormComponent implements OnInit {
 
   initForm() {
     this.form = this.fb.group({
-      endpoint1: new UntypedFormControl(null, Validators.required),
-      endpoint2: new UntypedFormControl(null, Validators.required),
-      onlyCIDOC: new UntypedFormControl(false, Validators.required),
+      typeOfSearch: new UntypedFormControl(null),
+      searchValue: new UntypedFormControl(null, Validators.required),
       limit: new UntypedFormControl(10),
       page: new UntypedFormControl(0),
       totalEntries: new UntypedFormControl(0),
     });
-
-    if (this.knownFirstDataset) {
-      this.initDatasetAutocomplete$.next(this.knownFirstDatasetID);
-      this.disableEvent$.next("disable");
-      this.form
-        .get("endpoint1")
-        .setValue(
-          this.datasets.find((data) => data.id === this.knownFirstDatasetID).endpoint
-        );
-    }
   }
   resetForm() {
-    this.resetSubject$.next(true);
+    this.resetClassSubject$.next(true);
+    this.resetPropertySubject$.next(true);
     this.form.reset();
     this.form.get("onlyCIDOC").setValue(false);
     this.form.get("limit").setValue(10);
     this.form.get("page").setValue(0);
     this.form.get("totalEntries").setValue(0);
   }
-  setDatasetAutocomplete($event: Dataset, inputName: string) {
+  setAutocompleteProperty($event: AutocompleteClassProperty) {
     if (!$event) {
-      this.form.get(inputName).setValue(null);
+      this.form.get("searchValue").setValue(null);
     } else {
-      this.form.get(inputName).setValue($event.endpoint);
+      this.form.get("searchValue").setValue($event.autocompleteValue);
     }
-    console.log(this.form.value);
+    this.form.get("typeOfSearch").setValue("property");
+    this.resetClassSubject$.next(true);
+  }
+  setAutocompleteClass($event: AutocompleteClassProperty) {
+    if (!$event) {
+      this.form.get("searchValue").setValue(null);
+    } else {
+      this.form.get("searchValue").setValue($event.autocompleteValue);
+    }
+    this.form.get("typeOfSearch").setValue("class");
+    this.resetPropertySubject$.next(true);
   }
   onSubmit() {
     this.form.get("totalEntries").setValue(0);
-    this.commonElementsService.setRDFClassesRequest(this.form.value);
-    this.form.get("totalEntries").setValue(0);
-    this.commonElementsService.setPropertiesRequest(this.form.value);
+    this.globalSearchService.setGlobalSearchRequest(this.form.value);
   }
 }

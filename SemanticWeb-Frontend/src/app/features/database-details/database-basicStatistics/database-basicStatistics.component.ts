@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CoreService } from "src/app/core/services/core.service";
 import { LoaderService } from "src/app/loader/loader.service";
 import { InfoCardComponent } from "src/app/shared/standalone-components/info-card/info-card.component";
-import { DatabaseDetailsService } from "../services/database-details.service";
+import { DatabaseDetailsService } from "../service/database-details.service";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { BasicStatistics } from "../models/dataset-details.model";
 import { Dataset } from "src/app/core/models/dataset.model";

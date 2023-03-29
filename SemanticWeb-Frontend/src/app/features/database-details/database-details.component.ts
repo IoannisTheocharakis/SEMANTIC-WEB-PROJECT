@@ -7,7 +7,7 @@ import { BehaviorSubject, Subscription } from "rxjs";
 import { CoreService } from "src/app/core/services/core.service";
 import { LoaderService } from "src/app/loader/loader.service";
 import { Dataset } from "src/app/core/models/dataset.model";
-import { DatabaseDetailsService } from "./services/database-details.service";
+import { DatabaseDetailsService } from "./service/database-details.service";
 import { CommonModule } from "@angular/common";
 import { DatabaseBasicStatisticsComponent } from "./database-basicStatistics/database-basicStatistics.component";
 
@@ -66,6 +66,12 @@ export class DatabaseDetailsComponent implements OnInit {
       title: "Cidoc Classes",
       path: "./classes/cidoc",
       symbol: "group_work",
+    },
+    {
+      label: "Common Entities",
+      title: "Common Entities",
+      path: "./common",
+      symbol: "compare_arrows",
     },
   ];
 

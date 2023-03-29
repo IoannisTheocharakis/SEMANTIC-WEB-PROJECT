@@ -32,6 +32,13 @@ const routes: Routes = [
         ],
       },
       {
+        path: "globalSearch",
+        loadComponent: () =>
+          import("./features/global-search/global-search/global-search.component").then(
+            (m) => m.GlobalSearchComponent
+          ),
+      },
+      {
         path: "dataset-details/:id",
         loadComponent: () =>
           import("./features/database-details/database-details.component").then(
@@ -65,6 +72,13 @@ const routes: Routes = [
               import(
                 "./features/database-details/database-classes/database-classes.component"
               ).then((m) => m.DatabaseClassesComponent),
+          },
+          {
+            path: "common",
+            loadComponent: () =>
+              import(
+                "./features/common-elements/common-elements/common-elements.component"
+              ).then((m) => m.CommonElementsComponent),
           },
         ],
       },

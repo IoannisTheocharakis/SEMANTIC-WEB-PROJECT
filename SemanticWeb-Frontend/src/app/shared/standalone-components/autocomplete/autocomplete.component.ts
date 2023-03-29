@@ -24,7 +24,7 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
   @Input() placeHolder: string = "Choose value";
   @Input() displayName: string;
   @Input() displayID: number | string;
-  @Input() initID: number | string;
+  @Input() initID: number | string = null;
   @Input() changeInitIDToString: boolean = false; // if you want change the initID to be string
   @Input() resetEvent$: Observable<void>;
   @Input() disableEvent$: Observable<string>;

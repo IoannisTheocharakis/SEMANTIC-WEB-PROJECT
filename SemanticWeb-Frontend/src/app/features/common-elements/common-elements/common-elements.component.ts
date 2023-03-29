@@ -4,8 +4,6 @@ import { InfoCardComponent } from "src/app/shared/standalone-components/info-car
 import { AppColors } from "src/assets/app-colors";
 import { CommonElementsService } from "../service/common-elements.service";
 import { CommonModule } from "@angular/common";
-import { Subscription } from "rxjs";
-import { CommonElementsRequest } from "../models/common-elements.model";
 import { CommonElementsPropertiesComponent } from "../common-elements-properties/common-elements-properties.component";
 import { CommonElementsClassesComponent } from "../common-elements-classes/common-elements-classes.component";
 
@@ -23,7 +21,6 @@ import { CommonElementsClassesComponent } from "../common-elements-classes/commo
   styleUrls: ["./common-elements.component.scss"],
 })
 export class CommonElementsComponent implements OnInit {
-  subscriptions: Subscription = new Subscription();
   localStorage: Storage = window.localStorage;
   color = AppColors.white;
   backgroundColorDark = AppColors.greenMain;

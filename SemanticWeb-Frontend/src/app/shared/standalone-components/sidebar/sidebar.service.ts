@@ -22,6 +22,11 @@ export class SidebarService {
       route: "datasets",
     },
     {
+      title: "Global Search",
+      icon: "search",
+      route: "globalSearch",
+    },
+    {
       title: "Common Entities",
       icon: "compare_arrows",
       route: "common",

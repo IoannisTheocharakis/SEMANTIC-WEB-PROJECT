@@ -10,6 +10,7 @@
           displayID="id"
           [initID]="initDatasetAutocomplete$ | async"
           [resetEvent$]="resetSubject$.asObservable()"
+          [disableEvent$]="disableEvent$"
           [requiredInput]="true"
           (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint1')">
         </app-autocomplete>
@@ -28,7 +29,6 @@
           placeHolder="Etc. http://ldf.fi/ww1lod/sparql"
           displayName="endpoint"
           displayID="id"
-          [initID]="initDatasetAutocomplete$ | async"
           [resetEvent$]="resetSubject$.asObservable()"
           [requiredInput]="true"
           (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint2')">
@@ -81,5 +81,3 @@
     </div>
   </form>
 </div>
-
-{{ this.form.value | json }}

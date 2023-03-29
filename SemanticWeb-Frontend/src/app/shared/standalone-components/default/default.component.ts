@@ -39,6 +39,19 @@ export class DefaultComponent implements OnInit {
         }
       })
     );
+    this.subscriptions.add(
+      this.coreService.autocompleteClassProperties$.subscribe((data) => {
+        if (data == null) {
+          this.coreService
+            .requestAutocompleteClassProperty()
+            .subscribe((autocomplete) => {
+              if (autocomplete) {
+                this.coreService.setAutocompleteClassProperty(autocomplete);
+              }
+            });
+        }
+      })
+    );
   }
 
   sideBarToggler() {

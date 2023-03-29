@@ -17,4 +17,11 @@ export class ThemeServiceService {
     }
     this.themeColorSubject$.next(localStorage.getItem("theme-color"));
   }
+  checkIfSet() {
+    if (!localStorage.getItem("theme-color")) {
+      localStorage.setItem("theme-color", "theme-light");
+      this.themeColorSubject$.next(localStorage.getItem("theme-color"));
+      return;
+    }
+  }
 }

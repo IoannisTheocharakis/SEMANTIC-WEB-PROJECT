@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.themeService.checkIfSet();
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data != null && data.length !== 0) {

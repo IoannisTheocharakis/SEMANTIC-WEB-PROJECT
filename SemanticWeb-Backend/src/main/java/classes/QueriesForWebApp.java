@@ -19,9 +19,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import models.AutocompleteClassProperty;
 import models.BasicStatistics;
 import models.CommonClass;
 import models.CommonProperty;
+import models.GlobalSearchResponse;
 
 /**
  *
@@ -52,6 +54,28 @@ public class QueriesForWebApp {
     //String retrieveCommonCRMClasses = "select ?class where {?s void:classPartition ?o . ?o void:class ?class . ?s2 void:classPartition ?o2 . ?o2 void:class ?class .filter(regex(?class,'crm'))}";
 
     String retrieveDatasetsAndTheirTitle = "select ?s ?title ?triples where {?s a void:Dataset . ?s <http://purl.org/dc/terms/title> ?title . ?s void:triples ?triples}";
+
+    String retrieveAutocompleteProperties = "select distinct ?s ?l  where {?s a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
+    String retrieveAutocompleteClasses = "select distinct ?s ?l  where {?s a  rdfs:Class . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
+
+    String retrieveGlobalRDFClass = "select distinct ?s ?triples ?count  WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
+            + "?s void:classPartition ?p .\n"
+            + "?p void:class <RDFclassValue> .\n"
+            + "?p void:triples ?triples } }\n"
+            + "?s a void:Dataset .\n"
+            + "?s void:classPartition ?p .\n"
+            + "?p void:class <RDFclassValue> .\n"
+            + "?p void:triples ?triples\n"
+            + "} limit <limit> offset <offset>";
+    String retriveGlobalProperty = "select distinct ?s ?triples ?count WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
+            + "?s void:propertyPartition ?p .\n"
+            + "?p void:property <propertyValue> .\n"
+            + "?p void:triples ?triples } }\n"
+            + "?s a void:Dataset .\n"
+            + "?s void:propertyPartition ?p .\n"
+            + "?p void:property <propertyValue>.\n"
+            + "?p void:triples ?triples\n"
+            + "} limit <limit> offset <offset>";
     String endpoint = "http://83.212.97.78:8890/sparql";
 
     public List<Dataset> retrieveAllDatasetsAndTheirTitle() throws UnsupportedEncodingException, MalformedURLException, IOException {
@@ -247,7 +271,6 @@ public class QueriesForWebApp {
 
         String input;
         List<CommonProperty> commonProperties = new ArrayList<>();
-        int arrCounter = 0;
         int commonPropertiesCounter = 0;
         String[] arrOfStrings = new String[2];
         while ((input = in.readLine()) != null) {
@@ -258,7 +281,7 @@ public class QueriesForWebApp {
                 continue;
             }
             arrOfStrings = input.split("\t");
-            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[arrCounter].length() - 1);
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
 
             System.out.println(arrOfStrings[0]);
             System.out.println(arrOfStrings[1]);
@@ -296,7 +319,6 @@ public class QueriesForWebApp {
 
         String input;
         List<CommonClass> commonClasses = new ArrayList<>();
-        int arrCounter = 0;
         int commonClassesCounter = 0;
         String[] arrOfStrings = new String[2];
         int count = 0;
@@ -308,7 +330,7 @@ public class QueriesForWebApp {
                 continue;
             }
             arrOfStrings = input.split("\t");
-            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[arrCounter].length() - 1);
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
 
             System.out.println(arrOfStrings[0]);
             System.out.println(arrOfStrings[1]);
@@ -321,6 +343,217 @@ public class QueriesForWebApp {
         isr.close();
         is.close();
         return commonClasses;
+    }
+
+    public List<AutocompleteClassProperty> getAutocompleteClasses() throws UnsupportedEncodingException, MalformedURLException, IOException {
+        String query = this.retrieveAutocompleteClasses;
+
+        System.out.println(query);
+        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+        URL url = new URL(sparqlQueryURL);
+        URLConnection con = url.openConnection();
+        String type = "text/tab-separated-values";
+        con.setRequestProperty("ACCEPT", type);
+
+        InputStream is = con.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "utf8");
+        BufferedReader in = new BufferedReader(isr);
+
+        String input;
+        List<AutocompleteClassProperty> autocompleteClasses = new ArrayList<>();
+        int autocompleteClassCounter = 0;
+        String[] arrOfStrings = new String[2];
+        String tmpName = "";
+
+        while ((input = in.readLine()) != null) {
+            System.out.println(input);
+
+            if (autocompleteClassCounter == 0) {
+                autocompleteClassCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
+
+            Pattern pattern = Pattern.compile("(?<=http://www.cidoc-crm.org/cidoc-crm/)[^_]+");
+            Matcher matcher = pattern.matcher(arrOfStrings[0]);
+            if (matcher.find()) {
+                tmpName = matcher.group();
+            }
+
+            arrOfStrings[1] = tmpName + " " + arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+
+            AutocompleteClassProperty autocompleteClassProperty = new AutocompleteClassProperty(arrOfStrings[0], arrOfStrings[1]);
+            autocompleteClasses.add(autocompleteClassProperty);
+            autocompleteClassCounter++;
+        }
+        in.close();
+        isr.close();
+        is.close();
+        return autocompleteClasses;
+    }
+
+    public List<AutocompleteClassProperty> getAutocompleteProperties() throws UnsupportedEncodingException, MalformedURLException, IOException {
+        String query = this.retrieveAutocompleteProperties;
+
+        System.out.println(query);
+        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+        URL url = new URL(sparqlQueryURL);
+        URLConnection con = url.openConnection();
+        String type = "text/tab-separated-values";
+        con.setRequestProperty("ACCEPT", type);
+
+        InputStream is = con.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "utf8");
+        BufferedReader in = new BufferedReader(isr);
+
+        String input;
+        List<AutocompleteClassProperty> autocompleteProperties = new ArrayList<>();
+        int autocompletePropertyCounter = 0;
+        String[] arrOfStrings = new String[2];
+        String tmpName = "";
+        while ((input = in.readLine()) != null) {
+            System.out.println(input);
+
+            if (autocompletePropertyCounter == 0) {
+                autocompletePropertyCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
+
+            Pattern pattern = Pattern.compile("(?<=http://www.cidoc-crm.org/cidoc-crm/)[^_]+");
+            Matcher matcher = pattern.matcher(arrOfStrings[0]);
+            if (matcher.find()) {
+                tmpName = matcher.group();
+            }
+            arrOfStrings[1] = tmpName + " " + arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+
+            AutocompleteClassProperty autocompleteClassProperty = new AutocompleteClassProperty(arrOfStrings[0], arrOfStrings[1]);
+            autocompleteProperties.add(autocompleteClassProperty);
+            autocompletePropertyCounter++;
+        }
+        in.close();
+        isr.close();
+        is.close();
+        return autocompleteProperties;
+    }
+
+    public String getStringBetweenTwoCharacters(String input, String to, String from) {
+        Pattern pattern = Pattern.compile(from + "(.*?)" + to);
+        Matcher matcher = pattern.matcher(input);
+        String result = "";
+        if (matcher.find()) {
+            result = matcher.group(1);
+            System.out.println(result);
+        }
+        return result;
+    }
+
+    public List<GlobalSearchResponse> getPropertyGlobalSearch(String searchValue, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
+        String query = this.retriveGlobalProperty;
+
+        page = 10 * page;
+        query = query.replace("propertyValue", searchValue);
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
+        System.out.println(query);
+
+        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+        URL url = new URL(sparqlQueryURL);
+        URLConnection con = url.openConnection();
+        String type = "text/tab-separated-values";
+        con.setRequestProperty("ACCEPT", type);
+
+        InputStream is = con.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "utf8");
+        BufferedReader in = new BufferedReader(isr);
+
+        String input;
+        List<GlobalSearchResponse> globalSearchResponseList = new ArrayList<>();
+        int globalSearchResponseCounter = 0;
+        String[] arrOfStrings = new String[3];
+        while ((input = in.readLine()) != null) {
+            System.out.println(input);
+
+            if (globalSearchResponseCounter == 0) {
+                globalSearchResponseCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
+            arrOfStrings[1] = arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+            System.out.println(arrOfStrings[2]);
+
+            GlobalSearchResponse globalSearchResponse = new GlobalSearchResponse(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
+            globalSearchResponseList.add(globalSearchResponse);
+            globalSearchResponseCounter++;
+        }
+        in.close();
+        isr.close();
+        is.close();
+        return globalSearchResponseList;
+    }
+    
+        public List<GlobalSearchResponse> getClassGlobalSearch(String searchValue, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
+        String query = this.retrieveGlobalRDFClass;
+
+        page = 10 * page;
+        query = query.replace("RDFclassValue", searchValue);
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
+        System.out.println(query);
+
+        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+        URL url = new URL(sparqlQueryURL);
+        URLConnection con = url.openConnection();
+        String type = "text/tab-separated-values";
+        con.setRequestProperty("ACCEPT", type);
+
+        InputStream is = con.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "utf8");
+        BufferedReader in = new BufferedReader(isr);
+
+        String input;
+        List<GlobalSearchResponse> globalSearchResponseList = new ArrayList<>();
+        int globalSearchResponseCounter = 0;
+        String[] arrOfStrings = new String[3];
+        while ((input = in.readLine()) != null) {
+            System.out.println(input);
+
+            if (globalSearchResponseCounter == 0) {
+                globalSearchResponseCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
+            arrOfStrings[1] = arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
+
+            System.out.println(arrOfStrings[0]);
+            System.out.println(arrOfStrings[1]);
+            System.out.println(arrOfStrings[2]);
+
+            GlobalSearchResponse globalSearchResponse = new GlobalSearchResponse(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
+            globalSearchResponseList.add(globalSearchResponse);
+            globalSearchResponseCounter++;
+        }
+        in.close();
+        isr.close();
+        is.close();
+        return globalSearchResponseList;
+    }
+
+    public static String getStringBetweenTwoCharactersFirstLater(String input, String to, String from) {
+        return input.substring(input.indexOf(to) + 1, input.indexOf(from));
     }
 
 }

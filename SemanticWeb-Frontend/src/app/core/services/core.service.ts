@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Dataset } from "../models/dataset.model";
 import { BehaviorSubject } from "rxjs";
+import { AutocompleteClassPropertyLists } from "../models/autocomplete.model";
 
 const BASE_URL = "http://localhost:8080/";
 
@@ -17,6 +18,16 @@ export class CoreService {
       this.datasetsSubject$.next(datasetslocalStorage);
     } else {
       this.datasetsSubject$.next([]);
+    }
+    if (localStorage.getItem("AutocompleteClassProperty")) {
+      let autocompleteClassPropertylocalStorage = JSON.parse(
+        localStorage.getItem("AutocompleteClassProperty")
+      );
+      this.autocompleteClassPropertiesSubject$.next(
+        autocompleteClassPropertylocalStorage
+      );
+    } else {
+      this.autocompleteClassPropertiesSubject$.next(null);
     }
   }
 
@@ -37,5 +48,34 @@ export class CoreService {
   clearDatasets() {
     localStorage.removeItem("Datasets");
     this.datasetsSubject$.next([]);
+  }
+  //AUTOCOMPLETEPROPERTIES
+  private autocompleteClassPropertiesSubject$: BehaviorSubject<AutocompleteClassPropertyLists> =
+    new BehaviorSubject(null);
+  autocompleteClassProperties$ = this.autocompleteClassPropertiesSubject$.asObservable();
+
+  requestAutocompleteClassProperty() {
+    return this.http.get<AutocompleteClassPropertyLists>(
+      `${BASE_URL}autocomplete/properties/classes`
+    );
+  }
+
+  localStorageAutocompleteClassProperty() {
+    return localStorage.getItem("AutocompleteClassProperty");
+  }
+
+  setAutocompleteClassProperty(
+    autocompleteClassProperty: AutocompleteClassPropertyLists
+  ) {
+    localStorage.setItem(
+      "AutocompleteClassProperty",
+      JSON.stringify(autocompleteClassProperty)
+    );
+    this.autocompleteClassPropertiesSubject$.next(autocompleteClassProperty);
+  }
+
+  clearAutocompleteClassProperty() {
+    localStorage.removeItem("AutocompleteClassProperty");
+    this.autocompleteClassPropertiesSubject$.next(null);
   }
 }

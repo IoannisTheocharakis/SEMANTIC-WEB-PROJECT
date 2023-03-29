@@ -22,9 +22,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import models.AutocompleteClassProperty;
+import models.AutocompleteClassPropertyLists;
 import models.BasicStatistics;
 import models.CommonClass;
 import models.CommonProperty;
+import models.GlobalSearchResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import requestClasses.RequestCommon;
+import requestClasses.RequestGlobal;
 
 /**
  *
@@ -127,6 +131,36 @@ public class DatasetController {
         return commonClasses;
     }
 
+    @GetMapping("/autocomplete/properties/classes")
+    public AutocompleteClassPropertyLists getAutocompleteProperties() throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+
+        List<AutocompleteClassProperty> autocompleteProperty;
+        List<AutocompleteClassProperty> autocompleteClass;
+
+        autocompleteClass = queries.getAutocompleteClasses();
+        autocompleteProperty = queries.getAutocompleteProperties();
+
+        AutocompleteClassPropertyLists autocompleteClassPropertyLists = new AutocompleteClassPropertyLists(autocompleteProperty, autocompleteClass);
+
+        return autocompleteClassPropertyLists;
+    }
+
+    @PostMapping("/property/global/search")
+    public List<GlobalSearchResponse> propertyGlobalSearch(@RequestBody RequestGlobal req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        List<GlobalSearchResponse> propertyGlobalSearchResponse = new ArrayList<>();
+        propertyGlobalSearchResponse = queries.getPropertyGlobalSearch(req.searchValue, req.limit, req.page);
+        return propertyGlobalSearchResponse;
+    }
+
+    @PostMapping("/class/global/search")
+    public List<GlobalSearchResponse> classGlobalSearch(@RequestBody RequestGlobal req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        List<GlobalSearchResponse> classGlobalSearchResponse = new ArrayList<>();
+        classGlobalSearchResponse = queries.getClassGlobalSearch(req.searchValue, req.limit, req.page);
+        return classGlobalSearchResponse;
+    }
 }
 
 //    public static void main(String[] args) throws IOException {
