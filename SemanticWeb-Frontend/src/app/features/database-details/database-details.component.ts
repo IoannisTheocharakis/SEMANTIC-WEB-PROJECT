@@ -34,10 +34,7 @@ export class DatabaseDetailsComponent implements OnInit {
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   constructor(
-    private coreService: CoreService,
     private databaseDetailsService: DatabaseDetailsService,
-    private loaderService: LoaderService,
-    private router: Router,
     private route: ActivatedRoute
   ) {
     this.datasetID = +this.route.snapshot.params["id"];

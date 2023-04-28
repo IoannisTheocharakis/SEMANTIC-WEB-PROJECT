@@ -24,9 +24,4 @@ export class TabMenuComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}
-
-  async checkPath(path) {
-    await console.log(path);
-    console.log(this.router.url);
-  }
 }

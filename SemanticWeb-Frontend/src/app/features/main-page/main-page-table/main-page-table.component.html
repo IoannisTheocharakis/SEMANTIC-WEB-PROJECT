@@ -38,6 +38,52 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Triples</th>
       <td mat-cell *matCellDef="let element">{{ element.triples }}</td>
     </ng-container>
+    <!-- entities Column -->
+    <ng-container matColumnDef="entities">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Entities</th>
+      <td mat-cell *matCellDef="let element">{{ element.entities }}</td>
+    </ng-container>
+    <!-- properties Column -->
+    <ng-container matColumnDef="properties">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Properties</th>
+      <td mat-cell *matCellDef="let element">{{ element.properties }}</td>
+    </ng-container>
+    <!-- classes Column -->
+    <ng-container matColumnDef="classes">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Classes</th>
+      <td mat-cell *matCellDef="let element">{{ element.classes }}</td>
+    </ng-container>
+    <!-- cidocProperties Column -->
+    <ng-container matColumnDef="cidocProperties">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Cidoc Properties</th>
+      <td mat-cell *matCellDef="let element">{{ element.cidocProperties }}</td>
+    </ng-container>
+    <!-- triplesWithCIDOCinstance Column -->
+    <ng-container matColumnDef="triplesWithCIDOCinstance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Triples With CIDOC Instance
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.triplesWithCIDOCinstance }}</td>
+    </ng-container>
+    <!-- triplesWithCIDOCpropertyPercentage Column -->
+    <ng-container matColumnDef="triplesWithCIDOCpropertyPercentage">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Triples With CIDOC Property Percentage
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.triplesWithCIDOCpropertyPercentage }}
+      </td>
+    </ng-container>
+    <!-- triplesWithCIDOCinstancePercentage Column -->
+    <ng-container matColumnDef="triplesWithCIDOCinstancePercentage">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Triples With CIDOC Instance Percentage
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.triplesWithCIDOCinstancePercentage }}
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
     <tr
       mat-row

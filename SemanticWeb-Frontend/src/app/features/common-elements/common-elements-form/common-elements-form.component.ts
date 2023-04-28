@@ -14,6 +14,7 @@ import { AutocompleteComponent } from "src/app/shared/standalone-components/auto
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { ActivatedRoute, Router } from "@angular/router";
+import { DatabaseDetailsService } from "../../database-details/service/database-details.service";
 
 @Component({
   standalone: true,
@@ -42,17 +43,24 @@ export class CommonElementsFormComponent implements OnInit {
     public loaderService: LoaderService,
     private commonElementsService: CommonElementsService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {
-    if (router.url.includes("/dataset-details/")) {
-      this.knownFirstDataset = true;
-      this.knownFirstDatasetID = +this.route.snapshot.params["id"];
-    }
-  }
+    private route: ActivatedRoute,
+    private databaseDetailsServices: DatabaseDetailsService
+  ) {}
 
   ngOnInit() {
+    if (this.router.url.includes("/dataset-details/")) {
+      this.getDataset();
+    }
     this.setDatasetsAutocomplete();
     this.initForm();
+  }
+  getDataset() {
+    this.databaseDetailsServices.databaseDetails$.subscribe((data) => {
+      if (data) {
+        this.knownFirstDataset = true;
+        this.knownFirstDatasetID = data.id;
+      }
+    });
   }
   setDatasetsAutocomplete() {
     this.subscriptions.add(
@@ -99,7 +107,6 @@ export class CommonElementsFormComponent implements OnInit {
     } else {
       this.form.get(inputName).setValue($event.endpoint);
     }
-    console.log(this.form.value);
   }
   onSubmit() {
     this.form.get("totalEntries").setValue(0);

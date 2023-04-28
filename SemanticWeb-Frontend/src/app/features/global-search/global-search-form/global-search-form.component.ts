@@ -59,6 +59,9 @@ export class GlobalSearchFormComponent implements OnInit {
     this.subscriptions.add(
       this.coreService.autocompleteClassProperties$.subscribe((data) => {
         if (data != null) {
+          data.autocompleteClass = data.autocompleteClass.sort(this.compare);
+          data.autocompleteProperty = data.autocompleteProperty.sort(this.compare);
+
           this.autocompleteClassess$.next(data.autocompleteClass);
           this.autocompleteProperties$.next(data.autocompleteProperty);
         }
@@ -79,7 +82,6 @@ export class GlobalSearchFormComponent implements OnInit {
     this.resetClassSubject$.next(true);
     this.resetPropertySubject$.next(true);
     this.form.reset();
-    this.form.get("onlyCIDOC").setValue(false);
     this.form.get("limit").setValue(10);
     this.form.get("page").setValue(0);
     this.form.get("totalEntries").setValue(0);
@@ -105,5 +107,14 @@ export class GlobalSearchFormComponent implements OnInit {
   onSubmit() {
     this.form.get("totalEntries").setValue(0);
     this.globalSearchService.setGlobalSearchRequest(this.form.value);
+  }
+  compare(a, b) {
+    if (a.autocompleteViewValue < b.autocompleteViewValue) {
+      return -1;
+    }
+    if (a.autocompleteViewValue > b.autocompleteViewValue) {
+      return 1;
+    }
+    return 0;
   }
 }

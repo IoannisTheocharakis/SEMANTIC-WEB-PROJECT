@@ -23,7 +23,18 @@ export class MainPageTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   // myPaginator!: MatPaginator;
   subscriptions: Subscription = new Subscription();
-  columnsToDisplay = ["title", "triples", "endpoint"];
+  columnsToDisplay = [
+    "title",
+    "endpoint",
+    "triples",
+    "entities",
+    "properties",
+    "classes",
+    "cidocProperties",
+    "triplesWithCIDOCinstance",
+    "triplesWithCIDOCpropertyPercentage",
+    "triplesWithCIDOCinstancePercentage",
+  ];
   dataSource!: MatTableDataSource<Dataset>;
   constructor(
     private coreService: CoreService,

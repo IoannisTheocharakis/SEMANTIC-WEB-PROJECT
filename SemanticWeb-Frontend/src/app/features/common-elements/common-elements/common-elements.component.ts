@@ -28,4 +28,8 @@ export class CommonElementsComponent implements OnInit {
   constructor(public commonElementsService: CommonElementsService) {}
 
   ngOnInit() {}
+  ngOnDestroy() {
+    this.commonElementsService.setPropertiesRequest(null);
+    this.commonElementsService.setRDFClassesRequest(null);
+  }
 }

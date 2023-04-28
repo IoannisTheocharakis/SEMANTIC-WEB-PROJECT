@@ -29,11 +29,9 @@ export class CommonElementsService {
     return this.http.post<CommonRDFClasses[]>(`${BASE_URL}commonClasses`, req);
   }
   setPropertiesRequest(req: CommonElementsRequest) {
-    console.log(req);
     this.commonPropertiesRequestSubject$.next(req);
   }
   setRDFClassesRequest(req: CommonElementsRequest) {
-    console.log(req);
     this.commonRDFClassesRequestSubject$.next(req);
   }
 }

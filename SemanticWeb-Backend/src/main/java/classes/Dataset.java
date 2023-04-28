@@ -21,9 +21,16 @@ public class Dataset {
 
     public int id;
     public String title;
-    public String triples;
-    String description;
     public String endpoint;
+    public int triples;
+    public int entities;
+    public int properties;
+    public int classes;
+    public int cidocProperties;
+    public int triplesWithCIDOCinstance;
+    public double triplesWithCIDOCpropertyPercentage;
+    public double triplesWithCIDOCinstancePercentage;
+    String description;
     String voidDescription;
     HashSet<Property> allProperties = new HashSet<Property>();
     HashSet<RDFClass> allClasses = new HashSet<RDFClass>();
@@ -39,11 +46,20 @@ public class Dataset {
         endpoint = endp;
     }
 
-    public void setDatasetStandarInfo(int id, String endpoint, String title, String triples) {
+    public Dataset(int id, String endpoint, String title, int triples, int entities, int properties,
+            int classes, int cidocProperties, int triplesWithCIDOCinstance, double triplesWithCIDOCpropertyPercentage, double triplesWithCIDOCinstancePercentage) {
         this.id = id;
         this.title = title;
         this.triples = triples;
         this.endpoint = endpoint;
+        this.entities = entities;
+        this.properties = properties;
+        this.classes = classes;
+        this.cidocProperties = cidocProperties;
+        this.triplesWithCIDOCinstance = triplesWithCIDOCinstance;
+        this.triplesWithCIDOCpropertyPercentage = triplesWithCIDOCpropertyPercentage;
+        this.triplesWithCIDOCinstancePercentage = triplesWithCIDOCinstancePercentage;
+
     }
 
     public void runQueries() throws MalformedURLException, IOException {

@@ -28,7 +28,6 @@ export class GlobalSearchService {
     }
   }
   setGlobalSearchRequest(req: GlobalSearchRequest) {
-    console.log(req);
     this.globalSearchRequestSubject$.next(req);
   }
 }

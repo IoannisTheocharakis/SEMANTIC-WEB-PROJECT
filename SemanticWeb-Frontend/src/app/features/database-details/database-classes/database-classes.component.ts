@@ -36,10 +36,8 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   constructor(
-    private coreService: CoreService,
     public loaderService: LoaderService,
     private router: Router,
-    private route: ActivatedRoute,
     private databaseDetailsServices: DatabaseDetailsService
   ) {
     if (this.router.url.includes("cidoc")) {

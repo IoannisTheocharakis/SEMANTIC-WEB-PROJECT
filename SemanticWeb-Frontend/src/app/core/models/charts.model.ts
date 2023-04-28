@@ -1,5 +1,5 @@
 export interface BarChartModel {
   name: string;
-  value: string;
+  value: number;
   color?: string;
 }

@@ -6,11 +6,11 @@ import { MatSort } from "@angular/material/sort";
 import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { LoaderService } from "src/app/loader/loader.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { GlobalSearchRequest, GlobalSearchResponse } from "../model/global-search.model";
 import { GlobalSearchService } from "../service/global-search.service";
+import { Router } from "@angular/router";
 
 @Component({
   standalone: true,
@@ -36,7 +36,9 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
   columnsToDisplay = ["dataset", "triples"];
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
+  datasets: Dataset[];
   constructor(
+    private router: Router,
     private coreService: CoreService,
     public loaderService: LoaderService,
     private globalSearchService: GlobalSearchService
@@ -44,7 +46,17 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setRequest();
-    this.requestRDFClasses();
+    this.allDatasets();
+    this.requestGlobalSearch();
+  }
+  allDatasets() {
+    this.subscriptions.add(
+      this.coreService.datasets$.subscribe((data) => {
+        if (data != null && data.length !== 0) {
+          this.datasets = data;
+        }
+      })
+    );
   }
   setRequest() {
     this.subscriptions.add(
@@ -56,7 +68,7 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
       })
     );
   }
-  requestRDFClasses() {
+  requestGlobalSearch() {
     this.subscriptions.add(
       this.globalSearchRequest$.subscribe((data1) => {
         this.subscriptions.add(
@@ -65,7 +77,7 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
               if (data) {
                 this.globalSearchResponse$.next(data);
-                if (this.globalSearchRequest.totalEntries === 0) {
+                if (this.globalSearchRequest.totalEntries === 0 && data.length !== 0) {
                   this.globalSearchRequest.totalEntries = data[0].requestSize;
                 }
               }
@@ -106,7 +118,11 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
       );
     });
   }
-
+  navigateToDataset(globalDataset: GlobalSearchResponse) {
+    let dataset = this.datasets.find((data) => data.endpoint === globalDataset.dataset);
+    console.log(dataset)
+    this.router.navigate([`dataset-details/${dataset.id}/properties`]);
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

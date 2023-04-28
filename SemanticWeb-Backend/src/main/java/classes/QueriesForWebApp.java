@@ -55,6 +55,18 @@ public class QueriesForWebApp {
 
     String retrieveDatasetsAndTheirTitle = "select ?s ?title ?triples where {?s a void:Dataset . ?s <http://purl.org/dc/terms/title> ?title . ?s void:triples ?triples}";
 
+    String retrieveDatasetsWithAllStatistics = "select ?dataset ?title ?triples ?entities ?properties ?classes ?cidocProperties ?triplesWithCIDOCinstance ?triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCinstancePercentage where { \n"
+            + "?dataset a void:Dataset . \n"
+            + "?dataset <http://purl.org/dc/terms/title> ?title . \n"
+            + "?dataset void:triples ?triples .\n"
+            + "?dataset void:entities ?entities .\n"
+            + "?dataset void:properties ?properties .\n"
+            + "?dataset void:classes ?classes .\n"
+            + "?dataset void:triplesWithCIDOCproperty ?cidocProperties .\n"
+            + "?dataset void:triplesWithCIDOCinstance ?triplesWithCIDOCinstance .\n"
+            + "?dataset void:triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCpropertyPercentage .\n"
+            + "?dataset void:triplesWithCIDOCinstancePercentage ?triplesWithCIDOCinstancePercentage} order by desc(xsd:integer(?triples ))";
+
     String retrieveAutocompleteProperties = "select distinct ?s ?l  where {?s a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
     String retrieveAutocompleteClasses = "select distinct ?s ?l  where {?s a  rdfs:Class . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
 
@@ -79,7 +91,7 @@ public class QueriesForWebApp {
     String endpoint = "http://83.212.97.78:8890/sparql";
 
     public List<Dataset> retrieveAllDatasetsAndTheirTitle() throws UnsupportedEncodingException, MalformedURLException, IOException {
-        String query = retrieveDatasetsAndTheirTitle;
+        String query = retrieveDatasetsWithAllStatistics;
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -94,14 +106,20 @@ public class QueriesForWebApp {
         List<Dataset> datasets = new ArrayList<>();
         int arrCounter = 0;
         int datasetsCounter = 0;
-        String[] arrOfStrings = new String[3];
+        String[] arrOfStrings = new String[10];
         while ((input = in.readLine()) != null) {
+            System.out.println(input);
+            if (datasetsCounter <= 1) {
+                datasetsCounter++;
+                continue;
+            }
             arrOfStrings = input.split("\t");
-            for (arrCounter = 0; arrCounter < 3; arrCounter++) {
+            for (arrCounter = 0; arrCounter < 10; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
             }
-            Dataset dat = new Dataset();
-            dat.setDatasetStandarInfo(datasetsCounter, arrOfStrings[0], arrOfStrings[1], arrOfStrings[2]);
+            Dataset dat = new Dataset(datasetsCounter, arrOfStrings[0], arrOfStrings[1], Integer.parseInt(arrOfStrings[2]), Integer.parseInt(arrOfStrings[3]), Integer.parseInt(arrOfStrings[4]),
+                    Integer.parseInt(arrOfStrings[5]), Integer.parseInt(arrOfStrings[6]), Integer.parseInt(arrOfStrings[7]), Double.parseDouble(arrOfStrings[8]), Double.parseDouble(arrOfStrings[9])
+            );
             datasets.add(dat);
             //my ID;
             datasetsCounter++;
@@ -133,8 +151,6 @@ public class QueriesForWebApp {
         String[] arrOfStrings = new String[2];
         String[] basicStatisticsOnString = new String[12];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
-
             if (basicStatisticsCounter <= 1) {
                 basicStatisticsCounter++;
                 continue;
@@ -257,7 +273,6 @@ public class QueriesForWebApp {
         page = 10 * page;
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
-        System.out.println(query);
 
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
@@ -274,7 +289,6 @@ public class QueriesForWebApp {
         int commonPropertiesCounter = 0;
         String[] arrOfStrings = new String[2];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
 
             if (commonPropertiesCounter == 0) {
                 commonPropertiesCounter++;
@@ -282,9 +296,6 @@ public class QueriesForWebApp {
             }
             arrOfStrings = input.split("\t");
             arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
-
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
 
             CommonProperty commonProperty = new CommonProperty(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]));
             commonProperties.add(commonProperty);
@@ -306,7 +317,6 @@ public class QueriesForWebApp {
         page = 10 * page;
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
-        System.out.println(query);
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -323,7 +333,6 @@ public class QueriesForWebApp {
         String[] arrOfStrings = new String[2];
         int count = 0;
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
 
             if (commonClassesCounter == 0) {
                 commonClassesCounter++;
@@ -331,9 +340,6 @@ public class QueriesForWebApp {
             }
             arrOfStrings = input.split("\t");
             arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
-
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
 
             CommonClass commonClass = new CommonClass(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]));
             commonClasses.add(commonClass);
@@ -348,7 +354,6 @@ public class QueriesForWebApp {
     public List<AutocompleteClassProperty> getAutocompleteClasses() throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = this.retrieveAutocompleteClasses;
 
-        System.out.println(query);
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -366,7 +371,6 @@ public class QueriesForWebApp {
         String tmpName = "";
 
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
 
             if (autocompleteClassCounter == 0) {
                 autocompleteClassCounter++;
@@ -383,9 +387,6 @@ public class QueriesForWebApp {
 
             arrOfStrings[1] = tmpName + " " + arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
 
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
-
             AutocompleteClassProperty autocompleteClassProperty = new AutocompleteClassProperty(arrOfStrings[0], arrOfStrings[1]);
             autocompleteClasses.add(autocompleteClassProperty);
             autocompleteClassCounter++;
@@ -399,7 +400,6 @@ public class QueriesForWebApp {
     public List<AutocompleteClassProperty> getAutocompleteProperties() throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = this.retrieveAutocompleteProperties;
 
-        System.out.println(query);
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
         URLConnection con = url.openConnection();
@@ -416,7 +416,6 @@ public class QueriesForWebApp {
         String[] arrOfStrings = new String[2];
         String tmpName = "";
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
 
             if (autocompletePropertyCounter == 0) {
                 autocompletePropertyCounter++;
@@ -431,9 +430,6 @@ public class QueriesForWebApp {
                 tmpName = matcher.group();
             }
             arrOfStrings[1] = tmpName + " " + arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
-
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
 
             AutocompleteClassProperty autocompleteClassProperty = new AutocompleteClassProperty(arrOfStrings[0], arrOfStrings[1]);
             autocompleteProperties.add(autocompleteClassProperty);
@@ -451,7 +447,6 @@ public class QueriesForWebApp {
         String result = "";
         if (matcher.find()) {
             result = matcher.group(1);
-            System.out.println(result);
         }
         return result;
     }
@@ -463,7 +458,6 @@ public class QueriesForWebApp {
         query = query.replace("propertyValue", searchValue);
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
-        System.out.println(query);
 
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
@@ -480,7 +474,6 @@ public class QueriesForWebApp {
         int globalSearchResponseCounter = 0;
         String[] arrOfStrings = new String[3];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
 
             if (globalSearchResponseCounter == 0) {
                 globalSearchResponseCounter++;
@@ -489,10 +482,6 @@ public class QueriesForWebApp {
             arrOfStrings = input.split("\t");
             arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
             arrOfStrings[1] = arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
-
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
-            System.out.println(arrOfStrings[2]);
 
             GlobalSearchResponse globalSearchResponse = new GlobalSearchResponse(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
             globalSearchResponseList.add(globalSearchResponse);
@@ -503,15 +492,14 @@ public class QueriesForWebApp {
         is.close();
         return globalSearchResponseList;
     }
-    
-        public List<GlobalSearchResponse> getClassGlobalSearch(String searchValue, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
+
+    public List<GlobalSearchResponse> getClassGlobalSearch(String searchValue, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
         String query = this.retrieveGlobalRDFClass;
 
         page = 10 * page;
         query = query.replace("RDFclassValue", searchValue);
         query = query.replace("<limit>", Integer.toString(limit));
         query = query.replace("<offset>", Integer.toString(page));
-        System.out.println(query);
 
         String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
         URL url = new URL(sparqlQueryURL);
@@ -528,8 +516,6 @@ public class QueriesForWebApp {
         int globalSearchResponseCounter = 0;
         String[] arrOfStrings = new String[3];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
-
             if (globalSearchResponseCounter == 0) {
                 globalSearchResponseCounter++;
                 continue;
@@ -537,10 +523,6 @@ public class QueriesForWebApp {
             arrOfStrings = input.split("\t");
             arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
             arrOfStrings[1] = arrOfStrings[1].substring(1, arrOfStrings[1].length() - 1);
-
-            System.out.println(arrOfStrings[0]);
-            System.out.println(arrOfStrings[1]);
-            System.out.println(arrOfStrings[2]);
 
             GlobalSearchResponse globalSearchResponse = new GlobalSearchResponse(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
             globalSearchResponseList.add(globalSearchResponse);

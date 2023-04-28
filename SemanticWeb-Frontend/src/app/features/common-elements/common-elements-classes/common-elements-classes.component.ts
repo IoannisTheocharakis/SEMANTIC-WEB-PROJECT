@@ -58,7 +58,6 @@ export class CommonElementsClassesComponent implements OnInit, OnDestroy {
       this.commonElementsService.commonRDFClassesRequest$.subscribe((data) => {
         if (data) {
           this.commonRDFClassesRequest = data;
-          console.log(data);
           this.commonRDFClassesRequest$.next(this.commonRDFClassesRequest);
         }
       })

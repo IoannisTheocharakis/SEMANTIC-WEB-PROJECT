@@ -40,7 +40,6 @@ export class CoreService {
   }
 
   setDatasets(datasets: Dataset[]) {
-    datasets.shift();
     localStorage.setItem("Datasets", JSON.stringify(datasets));
     this.datasetsSubject$.next(datasets);
   }

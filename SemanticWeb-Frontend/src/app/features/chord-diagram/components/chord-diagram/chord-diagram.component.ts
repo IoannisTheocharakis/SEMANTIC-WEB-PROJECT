@@ -29,26 +29,26 @@ export class ChordDiagramComponent {
   datasetsStats: number[][] = [];
   datasetsInfoStats: IDatabase[] = [];
   letters = "0123456789ABCDEF";
+  datasets: Dataset[];
   constructor(private coreService: CoreService, public loaderService: LoaderService) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data != null && data.length !== 0) {
-          this.createCircleData(data);
-          this.createTitleOfCircle(data);
-          this.generateCircle(this.datasetsStats, this.datasetsInfoStats);
+          this.datasets = data;
+          this.createCircle("triples");
           this.eventDatasets.emit(this.datasetsInfoStats);
         }
       })
     );
   }
-  createCircleData(datasets: Dataset[]) {
+  createCircleData(datasets: Dataset[], title: string) {
     for (let i = 0; i < datasets.length; i++) {
       let arrayOfDatabase: number[] = [];
       for (let j = 0; j < datasets.length; j++) {
         if (i === j) {
-          arrayOfDatabase.push(+datasets[j].triples);
+          arrayOfDatabase.push(+datasets[j][title]);
         } else {
           arrayOfDatabase.push(0);
         }
@@ -59,20 +59,12 @@ export class ChordDiagramComponent {
   createTitleOfCircle(datasets: Dataset[]) {
     for (let i = 0; i < datasets.length; i++) {
       let databaseInfo: IDatabase = {} as IDatabase;
-      databaseInfo.title = datasets[i].title;
-      databaseInfo.id = datasets[i].id;
-      databaseInfo.endpoint = datasets[i].endpoint;
-      databaseInfo.triples = +datasets[i].triples;
+      for (const [key, value] of Object.entries(datasets[i])) {
+        databaseInfo[key] = value;
+      }
       databaseInfo.colour = this.getRandomColor();
       this.datasetsInfoStats.push(databaseInfo);
     }
-  }
-  getRandomColor(): string {
-    let color = "#"; // <-----------
-    for (var i = 0; i < 6; i++) {
-      color += this.letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
   generateCircle(matrix: number[][], groups: IDatabase[]) {
     this.chordDiagramVm = new ChordDiagramViewModel(
@@ -81,7 +73,23 @@ export class ChordDiagramComponent {
       groups // kathgories pou uparxoun(onomata database)
     );
   }
-  seeDetails(datasetHref: string) {
+  getRandomColor(): string {
+    let color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += this.letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  seeDetails(datasetHref: string) {}
+  createCircle(title: string) {
+    this.datasetsStats = [];
+    this.datasetsInfoStats = [];
+    this.createCircleData(this.datasets, title);
+    this.createTitleOfCircle(this.datasets);
+    this.generateCircle(this.datasetsStats, this.datasetsInfoStats);
+  }
+  changeToggleValue(value: string) {
+    this.createCircle(value);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

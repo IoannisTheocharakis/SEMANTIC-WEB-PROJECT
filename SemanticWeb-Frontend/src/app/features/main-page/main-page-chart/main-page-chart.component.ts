@@ -29,6 +29,7 @@ export class MainPageChartComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
   setDatasetsInfoStats(event: IDatabase[]) {
+    console.log(event);
     this.datasetsInfoStats$.next(event);
   }
 }
