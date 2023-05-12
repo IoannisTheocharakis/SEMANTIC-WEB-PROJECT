@@ -109,12 +109,8 @@ export class GlobalSearchFormComponent implements OnInit {
     this.globalSearchService.setGlobalSearchRequest(this.form.value);
   }
   compare(a, b) {
-    if (a.autocompleteViewValue < b.autocompleteViewValue) {
-      return -1;
-    }
-    if (a.autocompleteViewValue > b.autocompleteViewValue) {
-      return 1;
-    }
-    return 0;
+    const aNum = Number(a.autocompleteViewValue.substring(1).split(" ")[0]);
+    const bNum = Number(b.autocompleteViewValue.substring(1).split(" ")[0]);
+    return aNum - bNum;
   }
 }

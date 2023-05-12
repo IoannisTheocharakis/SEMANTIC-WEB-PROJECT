@@ -1,27 +1,5 @@
 <div class="row">
-  <div class="col-12 d-flex justify-content-center">
-    <div *ngIf="loaderService.isLoading | async; else diagram">
-      <app-spinner></app-spinner>
-    </div>
-    <ng-template #diagram>
-      <svg width="500" height="500" viewBox="-250 -250 500 500">
-        <g app-databases [databaseVms]="chordDiagramVm.databaseVms"></g>
-        <g id="chords">
-          <path
-            class="chord-path"
-            *ngFor="let chord of chordDiagramVm.chordVms"
-            [attr.d]="chord?.path"
-            [attr.fill]="chord?.sourceDatabase?.colour"
-            [attr.stroke]="chord?.sourceDatabase?.colour"
-            opacity="0.8"
-            (click)="seeDetails(chord?.sourceDatabase.href)">
-            <title>{{ chord?.tooltip }}</title>
-          </path>
-        </g>
-      </svg>
-    </ng-template>
-  </div>
-  <div class="col-12 mt-20">
+  <div class="col-12">
     <mat-button-toggle-group
       #group="matButtonToggleGroup"
       value="triples"
@@ -42,14 +20,67 @@
         <span>Cidoc Properties</span>
       </mat-button-toggle>
       <mat-button-toggle value="triplesWithCIDOCinstance">
-        <span>Triples With CIDOC instance</span>
+        <span>Triples CIDOC Instance</span>
       </mat-button-toggle>
       <mat-button-toggle value="triplesWithCIDOCpropertyPercentage">
-        <span>Triples With CIDOC Property Percentage</span>
+        <span>Triples CIDOC Property (%)</span>
       </mat-button-toggle>
       <mat-button-toggle value="triplesWithCIDOCinstancePercentage">
-        <span>Triples With CIDOC Instance Percentage</span>
+        <span> Triples CIDOC Instance (%)</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
+  </div>
+  <div class="col-12 mt-20">
+    <div class="row">
+      <div class="col-1">
+        <mat-button-toggle-group
+          #groupChart="matButtonToggleGroup"
+          value="default"
+          (change)="changeToggleValueChart($event.value)"
+          class="d-flex flex-column">
+          <mat-button-toggle value="default" class="d-flex">
+            <mat-icon class="tab-icon">incomplete_circle</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="bar">
+            <mat-icon class="tab-icon">bar_chart</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="rose">
+            <mat-icon class="tab-icon">pie_chart</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <div class="col">
+        <div *ngIf="loaderService.isLoading | async; else diagram">
+          <app-spinner></app-spinner>
+        </div>
+        <ng-template #diagram>
+          <div [ngSwitch]="chartSelector">
+            <div *ngSwitchDefault class="d-flex justify-content-center">
+              <svg width="430" height="430" viewBox="-250 -250 500 500">
+                <g app-databases [databaseVms]="chordDiagramVm.databaseVms"></g>
+                <g id="chords">
+                  <path
+                    class="chord-path"
+                    *ngFor="let chord of chordDiagramVm.chordVms"
+                    [attr.d]="chord?.path"
+                    [attr.fill]="chord?.sourceDatabase?.colour"
+                    [attr.stroke]="chord?.sourceDatabase?.colour"
+                    opacity="0.8"
+                    (click)="seeDetails(chord?.sourceDatabase.href)">
+                    <title>{{ chord?.tooltip }}</title>
+                  </path>
+                </g>
+              </svg>
+            </div>
+            <div *ngSwitchCase="'bar'">
+              <app-bar-chart [data$]="barChartModel$"> </app-bar-chart>
+            </div>
+            <div *ngSwitchCase="'rose'">
+              <app-rose-diagram [data$]="roseChartModel$"> </app-rose-diagram>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </div>

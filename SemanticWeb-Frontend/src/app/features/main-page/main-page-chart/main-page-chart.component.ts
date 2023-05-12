@@ -18,7 +18,7 @@ export class MainPageChartComponent implements OnInit {
   color = AppColors.white;
   backgroundColor = AppColors.greenMain;
   datasetsInfoStats$: BehaviorSubject<IDatabase[]> = new BehaviorSubject([]);
-
+  showValue = "triples";
   constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() {}
@@ -29,7 +29,9 @@ export class MainPageChartComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
   setDatasetsInfoStats(event: IDatabase[]) {
-    console.log(event);
     this.datasetsInfoStats$.next(event);
+  }
+  showValueHandler(event: string) {
+    this.showValue = event;
   }
 }

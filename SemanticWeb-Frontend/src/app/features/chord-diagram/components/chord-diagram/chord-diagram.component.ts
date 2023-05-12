@@ -1,22 +1,25 @@
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Output } from "@angular/core";
 import { ChordDiagramViewModel } from "../../view-models/chord-diagram.viewmodel";
 import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { DatabasesComponent } from "../databases/databases.component";
-import { Subscription } from "rxjs";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { IDatabase } from "../../interfaces/database.interface";
 import { SpinnerComponent } from "src/app/shared/standalone-components/spinner/spinner.component";
 import { LoaderService } from "src/app/loader/loader.service";
+import { BarChartModel } from "src/app/core/models/charts.model";
+import { BarChartComponent } from "src/app/shared/standalone-components/bar-chart/bar-chart.component";
+import { RoseDiagramComponent } from "src/app/shared/standalone-components/rose-diagram/rose-diagram.component";
 @Component({
   standalone: true,
-  imports: [MaterialMinModule, DatabasesComponent, SpinnerComponent],
+  imports: [
+    MaterialMinModule,
+    DatabasesComponent,
+    SpinnerComponent,
+    RoseDiagramComponent,
+    BarChartComponent,
+  ],
   selector: "app-chord-diagram",
   templateUrl: "./chord-diagram.component.html",
   styleUrls: ["./chord-diagram.component.scss"],
@@ -24,12 +27,22 @@ import { LoaderService } from "src/app/loader/loader.service";
 })
 export class ChordDiagramComponent {
   @Output() eventDatasets = new EventEmitter<IDatabase[]>();
+  @Output() showValue = new EventEmitter<string>();
+
   public chordDiagramVm: ChordDiagramViewModel;
   subscriptions: Subscription = new Subscription();
   datasetsStats: number[][] = [];
   datasetsInfoStats: IDatabase[] = [];
   letters = "0123456789ABCDEF";
   datasets: Dataset[];
+  chartSelector: string = "default";
+  currectSelectTitle: string = "triples";
+  //BarChart
+  barChartModel$: BehaviorSubject<BarChartModel[]> = new BehaviorSubject([]);
+  barChartModel: BarChartModel;
+  //RoseChart
+  roseChartModel$: BehaviorSubject<BarChartModel[]> = new BehaviorSubject([]);
+  roseChartModel: BarChartModel;
   constructor(private coreService: CoreService, public loaderService: LoaderService) {}
 
   ngOnInit(): void {
@@ -81,6 +94,7 @@ export class ChordDiagramComponent {
     return color;
   }
   seeDetails(datasetHref: string) {}
+
   createCircle(title: string) {
     this.datasetsStats = [];
     this.datasetsInfoStats = [];
@@ -89,9 +103,42 @@ export class ChordDiagramComponent {
     this.generateCircle(this.datasetsStats, this.datasetsInfoStats);
   }
   changeToggleValue(value: string) {
-    this.createCircle(value);
+    this.currectSelectTitle = value;
+    this.showValue.emit(value);
+    if (this.chartSelector === "default") {
+      this.createCircle(value);
+    } else if (this.chartSelector === "bar") {
+      this.barChartModel$.next(this.fixChartData(this.currectSelectTitle));
+    } else {
+      this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
+    }
+  }
+  changeToggleValueChart(value: string) {
+    if (value === "bar") {
+      this.barChartModel$.next(this.fixChartData(this.currectSelectTitle));
+    } else if (value === "rose") {
+      this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
+    }
+    this.chartSelector = value;
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
+
+  //Chart
+  fixChartData(title: string): BarChartModel[] {
+    let dataChartModel: BarChartModel[] = [];
+    this.datasets.forEach((data) => {
+      let tmp: BarChartModel = {
+        name: "",
+        value: 0,
+      };
+      tmp.name = data.title;
+      tmp.value = data[title];
+      dataChartModel.push(tmp);
+    });
+    console.log(dataChartModel);
+    return dataChartModel;
+  }
+  //Rose
 }
