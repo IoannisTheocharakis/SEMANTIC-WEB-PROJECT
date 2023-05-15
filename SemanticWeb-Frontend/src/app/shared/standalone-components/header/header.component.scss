@@ -9,9 +9,13 @@ ul li {
   justify-content: flex-end;
 }
 .header-logo {
-  width: 55px;
+  width: 255px;
+  border-radius: 50px;
 }
-
+.header-logo img {
+  border-radius: 15px;
+  border: 0.2px solid black;
+}
 .header-search-form {
   width: 250px;
   margin: auto;
@@ -106,4 +110,27 @@ input::placeholder {
   font-size: 14px !important;
   display: flex !important;
   align-items: center !important;
+}
+
+:host ::ng-deep .reset-btn span.mat-button-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+::ng-deep .theme-dark {
+  .reset-btn {
+    background-color: #83ce88;
+  }
+  .reset-icon {
+    color: white;
+  }
+}
+
+::ng-deep .theme-light {
+  .reset-btn {
+    background-color: white;
+  }
+  .reset-icon {
+    color: #00722f;
+  }
 }

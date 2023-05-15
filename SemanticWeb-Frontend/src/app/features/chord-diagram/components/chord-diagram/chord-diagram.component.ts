@@ -11,6 +11,7 @@ import { LoaderService } from "src/app/loader/loader.service";
 import { BarChartModel } from "src/app/core/models/charts.model";
 import { BarChartComponent } from "src/app/shared/standalone-components/bar-chart/bar-chart.component";
 import { RoseDiagramComponent } from "src/app/shared/standalone-components/rose-diagram/rose-diagram.component";
+import { MatTabsModule } from "@angular/material/tabs";
 @Component({
   standalone: true,
   imports: [
@@ -19,6 +20,7 @@ import { RoseDiagramComponent } from "src/app/shared/standalone-components/rose-
     SpinnerComponent,
     RoseDiagramComponent,
     BarChartComponent,
+    MatTabsModule,
   ],
   selector: "app-chord-diagram",
   templateUrl: "./chord-diagram.component.html",
@@ -28,8 +30,25 @@ import { RoseDiagramComponent } from "src/app/shared/standalone-components/rose-
 export class ChordDiagramComponent {
   @Output() eventDatasets = new EventEmitter<IDatabase[]>();
   @Output() showValue = new EventEmitter<string>();
-
   public chordDiagramVm: ChordDiagramViewModel;
+  tabsInfo = [
+    { value: "triples", viewValue: "Triples" },
+    { value: "entities", viewValue: "Entities" },
+    { value: "properties", viewValue: "Properties" },
+    { value: "classes", viewValue: "Classes" },
+    { value: "cidocProperties", viewValue: "CIDOC-CRM Properties" },
+    { value: "cidocClasses", viewValue: "CIDOC-CRM Classes" },
+    { value: "triplesWithCIDOCinstance", viewValue: "Triples With CIDOC-CRM instance" },
+    {
+      value: "triplesWithCIDOCpropertyPercentage",
+      viewValue: "Triples With CIDOC-CRM Property Percentage",
+    },
+    {
+      value: "triplesWithCIDOCinstancePercentage",
+      viewValue: "Triples With CIDOC-CRM Instance Percentage",
+    },
+  ];
+
   subscriptions: Subscription = new Subscription();
   datasetsStats: number[][] = [];
   datasetsInfoStats: IDatabase[] = [];
@@ -45,16 +64,18 @@ export class ChordDiagramComponent {
   roseChartModel: BarChartModel;
   constructor(private coreService: CoreService, public loaderService: LoaderService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data != null && data.length !== 0) {
           this.datasets = data;
           this.createCircle("triples");
+          this.changeToggleValueChart("default");
           this.eventDatasets.emit(this.datasetsInfoStats);
         }
       })
     );
+    //init rose diagram for default
   }
   createCircleData(datasets: Dataset[], title: string) {
     for (let i = 0; i < datasets.length; i++) {
@@ -103,20 +124,22 @@ export class ChordDiagramComponent {
     this.generateCircle(this.datasetsStats, this.datasetsInfoStats);
   }
   changeToggleValue(value: string) {
+    value = this.tabsInfo.find((data) => value === data.viewValue).value;
+
     this.currectSelectTitle = value;
     this.showValue.emit(value);
     if (this.chartSelector === "default") {
-      this.createCircle(value);
+      this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
     } else if (this.chartSelector === "bar") {
       this.barChartModel$.next(this.fixChartData(this.currectSelectTitle));
     } else {
-      this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
+      this.createCircle(value);
     }
   }
   changeToggleValueChart(value: string) {
     if (value === "bar") {
       this.barChartModel$.next(this.fixChartData(this.currectSelectTitle));
-    } else if (value === "rose") {
+    } else if (value === "default") {
       this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
     }
     this.chartSelector = value;
@@ -140,5 +163,4 @@ export class ChordDiagramComponent {
     console.log(dataChartModel);
     return dataChartModel;
   }
-  //Rose
 }

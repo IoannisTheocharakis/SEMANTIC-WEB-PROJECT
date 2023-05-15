@@ -9,6 +9,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { BarChartComponent } from "src/app/shared/standalone-components/bar-chart/bar-chart.component";
 import { GlobalSearchChartComponent } from "../global-search-chart/global-search-chart.component";
 import { GlobalSearchRoseChartComponent } from "../global-search-rose-chart/global-search-rose-chart.component";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   standalone: true,
@@ -21,6 +22,7 @@ import { GlobalSearchRoseChartComponent } from "../global-search-rose-chart/glob
     BarChartComponent,
     GlobalSearchChartComponent,
     GlobalSearchRoseChartComponent,
+    MatIconModule,
   ],
   selector: "app-global-search",
   templateUrl: "./global-search.component.html",

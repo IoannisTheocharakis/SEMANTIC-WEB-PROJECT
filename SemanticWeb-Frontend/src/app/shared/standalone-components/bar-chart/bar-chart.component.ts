@@ -65,7 +65,11 @@ export class BarChartComponent implements OnInit {
           show: false,
         },
       },
-      yAxis: {},
+      // yAxis: {},
+      yAxis: {
+        boundaryGap: false,
+        // type: "log", // set y-axis type as logarithmic
+      },
       series: seriesData,
       animationEasing: "elasticOut",
       animationDelayUpdate: (idx) => idx * 5,
@@ -76,7 +80,6 @@ export class BarChartComponent implements OnInit {
         this.options.legend = { ...this.options.legend, textStyle: { color: "" } };
         this.options.legend.textStyle.color = "white";
       } else {
-
         this.options.legend = { ...this.options.legend, textStyle: { color: "" } };
         this.options.legend.textStyle.color = "black";
       }

@@ -65,8 +65,8 @@ export class DatabaseDetailsComponent implements OnInit {
       symbol: "group_work",
     },
     {
-      label: "Common Entities",
-      title: "Common Entities",
+      label: "Commonalities",
+      title: "Commonalities",
       path: "./common",
       symbol: "compare_arrows",
     },

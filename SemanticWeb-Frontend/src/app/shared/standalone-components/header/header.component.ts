@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   color = AppColors.greenMain;
   status!: string;
   componentDestroyed$: Subject<boolean> = new Subject();
-  headerLogoPath: string = "/assets/logo.png";
+  headerLogoPath: string = "/assets/cidoc2.png";
   subscriptions: Subscription = new Subscription();
   nubmerOfTriples: number = 0;
   nubmerOfDatabases: number = 0;
@@ -67,6 +67,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   homePage() {
     this.router.navigate(["/"]);
+  }
+  reset() {
+    localStorage.removeItem("Datasets");
+    window.location.reload();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

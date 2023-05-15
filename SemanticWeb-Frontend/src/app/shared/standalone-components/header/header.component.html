@@ -4,15 +4,18 @@
       <mat-icon class="header-menu">menu</mat-icon>
     </button>
     <div class="d-flex ml-20 xy-center title-logo" (click)="homePage()">
-      <span>Semantic Web</span>
-      <div class="header-logo xy-center">
-        <img class="w-100" src="{{ headerLogoPath }}" alt="" />
+      <div class="header-logo xy-center mr-10">
+        <img class="img-header-logo w-100 h-85" src="{{ headerLogoPath }}" alt="" />
       </div>
+      <span>CIDOC-CRM Datasets Portal</span>
     </div>
 
     <div class="w-100 nav-menu">
       <ul class="m-0 d-flex align-items-center">
         <li class="xy-center">
+          <button type="button" class="reset-btn mr-5" (click)="reset()" mat-icon-button>
+            <mat-icon class="reset-icon">restart_alt</mat-icon>
+          </button>
           Datasets: {{ nubmerOfDatabases }} Triples: {{ nubmerOfTriples }}
         </li>
         <li class="profile-card xy-center">

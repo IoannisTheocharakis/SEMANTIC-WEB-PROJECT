@@ -27,6 +27,7 @@ public class Dataset {
     public int properties;
     public int classes;
     public int cidocProperties;
+    public int cidocClasses;
     public int triplesWithCIDOCinstance;
     public double triplesWithCIDOCpropertyPercentage;
     public double triplesWithCIDOCinstancePercentage;
@@ -47,7 +48,7 @@ public class Dataset {
     }
 
     public Dataset(int id, String endpoint, String title, int triples, int entities, int properties,
-            int classes, int cidocProperties, int triplesWithCIDOCinstance, double triplesWithCIDOCpropertyPercentage, double triplesWithCIDOCinstancePercentage) {
+            int classes, int cidocProperties, int cidocClasses, int triplesWithCIDOCinstance, double triplesWithCIDOCpropertyPercentage, double triplesWithCIDOCinstancePercentage) {
         this.id = id;
         this.title = title;
         this.triples = triples;
@@ -56,6 +57,7 @@ public class Dataset {
         this.properties = properties;
         this.classes = classes;
         this.cidocProperties = cidocProperties;
+        this.cidocClasses = cidocClasses;
         this.triplesWithCIDOCinstance = triplesWithCIDOCinstance;
         this.triplesWithCIDOCpropertyPercentage = triplesWithCIDOCpropertyPercentage;
         this.triplesWithCIDOCinstancePercentage = triplesWithCIDOCinstancePercentage;

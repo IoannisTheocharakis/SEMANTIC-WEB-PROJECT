@@ -1,35 +1,12 @@
 <div class="row">
   <div class="col-12">
-    <mat-button-toggle-group
-      #group="matButtonToggleGroup"
-      value="triples"
-      (change)="changeToggleValue($event.value)">
-      <mat-button-toggle value="triples">
-        <span>Triples</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="entities">
-        <span>Entities</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="properties">
-        <span>Properties</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="classes">
-        <span>Classes</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="cidocProperties">
-        <span>Cidoc Properties</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="triplesWithCIDOCinstance">
-        <span>Triples CIDOC Instance</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="triplesWithCIDOCpropertyPercentage">
-        <span>Triples CIDOC Property (%)</span>
-      </mat-button-toggle>
-      <mat-button-toggle value="triplesWithCIDOCinstancePercentage">
-        <span> Triples CIDOC Instance (%)</span>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+    <mat-tab-group
+      animationDuration="0ms"
+      (selectedTabChange)="changeToggleValue($event.tab.textLabel)">
+      <mat-tab *ngFor="let tabInfo of tabsInfo" [label]="tabInfo.viewValue"> </mat-tab>
+    </mat-tab-group>
   </div>
+
   <div class="col-12 mt-20">
     <div class="row">
       <div class="col-1">
@@ -38,14 +15,14 @@
           value="default"
           (change)="changeToggleValueChart($event.value)"
           class="d-flex flex-column">
-          <mat-button-toggle value="default" class="d-flex">
-            <mat-icon class="tab-icon">incomplete_circle</mat-icon>
+          <mat-button-toggle value="default">
+            <mat-icon class="tab-icon">pie_chart</mat-icon>
           </mat-button-toggle>
           <mat-button-toggle value="bar">
             <mat-icon class="tab-icon">bar_chart</mat-icon>
           </mat-button-toggle>
-          <mat-button-toggle value="rose">
-            <mat-icon class="tab-icon">pie_chart</mat-icon>
+          <mat-button-toggle value="chord" class="d-flex">
+            <mat-icon class="tab-icon">incomplete_circle</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
@@ -55,7 +32,13 @@
         </div>
         <ng-template #diagram>
           <div [ngSwitch]="chartSelector">
-            <div *ngSwitchDefault class="d-flex justify-content-center">
+            <div *ngSwitchDefault>
+              <app-rose-diagram [data$]="roseChartModel$"> </app-rose-diagram>
+            </div>
+            <div *ngSwitchCase="'bar'">
+              <app-bar-chart [data$]="barChartModel$"> </app-bar-chart>
+            </div>
+            <div *ngSwitchCase="'chord'" class="d-flex justify-content-center">
               <svg width="430" height="430" viewBox="-250 -250 500 500">
                 <g app-databases [databaseVms]="chordDiagramVm.databaseVms"></g>
                 <g id="chords">
@@ -71,12 +54,6 @@
                   </path>
                 </g>
               </svg>
-            </div>
-            <div *ngSwitchCase="'bar'">
-              <app-bar-chart [data$]="barChartModel$"> </app-bar-chart>
-            </div>
-            <div *ngSwitchCase="'rose'">
-              <app-rose-diagram [data$]="roseChartModel$"> </app-rose-diagram>
             </div>
           </div>
         </ng-template>

@@ -27,12 +27,12 @@ export class SidebarService {
       route: "globalSearch",
     },
     {
-      title: "Common Entities",
+      title: "Commonalities",
       icon: "compare_arrows",
       route: "common",
     },
     {
-      title: "Add Datasets",
+      title: "Add Dataset",
       icon: "add_circle",
       route: "dataset/add",
     },
