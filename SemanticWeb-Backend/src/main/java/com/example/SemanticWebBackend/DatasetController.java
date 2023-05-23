@@ -55,31 +55,31 @@ public class DatasetController {
         return datasets;
     }
 
-    @GetMapping("/URLdatasets")
-    public String getDatabaseRequest() throws UnsupportedEncodingException, MalformedURLException, IOException {
-        String endpoint = "http://ldf.fi/ww1lod/sparql";
-        //https://code.google.com/archive/p/void-impl/wikis/SPARQLQueriesForStatistics.wiki
-        String query = "SELECT ?class (COUNT(?s) AS ?count) { ?s a ?class } GROUP BY ?class ORDER BY ?count";
-        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
-        URL url = new URL(sparqlQueryURL);
-        URLConnection con = url.openConnection();
-        String type = "text/tab-separated-values";
-        con.setRequestProperty("ACCEPT", type);
-        InputStream is = con.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is, "utf8");
-        BufferedReader in = new BufferedReader(isr);
-        String inputToString = "";
-        String input;
-
-        while ((input = in.readLine()) != null) {
-            inputToString += input;
-            inputToString += "\n";
-        }
-        in.close();
-        isr.close();
-        is.close();
-        return inputToString;
-    }
+//    @GetMapping("/URLdatasets")
+//    public String getDatabaseRequest() throws UnsupportedEncodingException, MalformedURLException, IOException {
+//        String endpoint = "http://ldf.fi/ww1lod/sparql";
+//        //https://code.google.com/archive/p/void-impl/wikis/SPARQLQueriesForStatistics.wiki
+//        String query = "SELECT ?class (COUNT(?s) AS ?count) { ?s a ?class } GROUP BY ?class ORDER BY ?count";
+//        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+//        URL url = new URL(sparqlQueryURL);
+//        URLConnection con = url.openConnection();
+//        String type = "text/tab-separated-values";
+//        con.setRequestProperty("ACCEPT", type);
+//        InputStream is = con.getInputStream();
+//        InputStreamReader isr = new InputStreamReader(is, "utf8");
+//        BufferedReader in = new BufferedReader(isr);
+//        String inputToString = "";
+//        String input;
+//
+//        while ((input = in.readLine()) != null) {
+//            inputToString += input;
+//            inputToString += "\n";
+//        }
+//        in.close();
+//        isr.close();
+//        is.close();
+//        return inputToString;
+//    }
 
     @GetMapping("/datasets")
     public List<Dataset> getAlldatasets() throws IOException {

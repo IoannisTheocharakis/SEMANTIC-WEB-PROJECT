@@ -62,7 +62,7 @@ public class QueriesForWebApp {
             + "?dataset void:entities ?entities .\n"
             + "?dataset void:properties ?properties .\n"
             + "?dataset void:classes ?classes .\n"
-            + "?dataset void:triplesWithCIDOCproperty ?cidocProperties .\n"
+            + "?dataset void:propertiesCIDOC ?cidocProperties .\n"
             + "?dataset void:classesCIDOC ?cidocClasses .\n"
             + "?dataset void:triplesWithCIDOCinstance ?triplesWithCIDOCinstance .\n"
             + "?dataset void:triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCpropertyPercentage .\n"
@@ -156,7 +156,7 @@ public class QueriesForWebApp {
         String[] arrOfStrings = new String[2];
         String[] basicStatisticsOnString = new String[12];
         while ((input = in.readLine()) != null) {
-            if (basicStatisticsCounter < 1) {
+            if (basicStatisticsCounter <= 1) {
                 basicStatisticsCounter++;
                 continue;
             }

@@ -18,7 +18,6 @@ import java.util.HashSet;
  */
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "FieldHandler"})
 public class Dataset {
-
     public int id;
     public String title;
     public String endpoint;
