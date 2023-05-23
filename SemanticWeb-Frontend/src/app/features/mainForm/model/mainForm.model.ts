@@ -5,5 +5,6 @@ export interface DatasetForm {
   creator: string;
   numberOfTriples: number;
   numberOfEntities: number;
-  numberOfDistinceSubjects: number;
+  numberOfProperties: number;
+  numberOfClasses: number;
 }

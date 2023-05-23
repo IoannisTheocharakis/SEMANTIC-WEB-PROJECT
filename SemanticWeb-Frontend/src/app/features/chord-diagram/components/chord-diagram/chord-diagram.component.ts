@@ -30,6 +30,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 export class ChordDiagramComponent {
   @Output() eventDatasets = new EventEmitter<IDatabase[]>();
   @Output() showValue = new EventEmitter<string>();
+  @Output() chartsTitle = new EventEmitter<string>();
+
   public chordDiagramVm: ChordDiagramViewModel;
   tabsInfo = [
     { value: "triples", viewValue: "Triples" },
@@ -143,6 +145,7 @@ export class ChordDiagramComponent {
       this.roseChartModel$.next(this.fixChartData(this.currectSelectTitle));
     }
     this.chartSelector = value;
+    this.chartsTitle.emit(value);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

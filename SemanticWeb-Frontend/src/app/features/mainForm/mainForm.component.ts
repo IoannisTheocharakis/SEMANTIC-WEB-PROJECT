@@ -25,9 +25,11 @@ export class MainFormComponent implements OnInit, OnDestroy {
   title = "Add Dataset";
   form: UntypedFormGroup;
   color = AppColors.white;
-  backgroundColor = AppColors.greenMain;
   inputAppearance = "outline";
   inputColor = "accent";
+  localStorage: Storage = window.localStorage;
+  backgroundColorDark = AppColors.greenMain;
+  backgroundColorLight = AppColors.greenMainLight;
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
@@ -44,24 +46,25 @@ export class MainFormComponent implements OnInit, OnDestroy {
       datasetName: new UntypedFormControl(null, Validators.required),
       url: new UntypedFormControl(null, Validators.required),
       creator: new UntypedFormControl(null, Validators.required),
-      description: new UntypedFormControl(null),
+      description: new UntypedFormControl(null, Validators.required),
+      email: new UntypedFormControl(null, Validators.required),
       numberOfTriples: new UntypedFormControl(null),
       numberOfEntities: new UntypedFormControl(null),
-      numberOfDistinceSubjects: new UntypedFormControl(null),
+      numberOfProperties: new UntypedFormControl(null),
+      numberOfClasses: new UntypedFormControl(null),
     });
   }
 
   backToList() {
     this.router.navigate([""]);
   }
+
   resetForm() {
     this.form.reset();
   }
 
   onSubmit() {}
-  testRequest() {
-    this.mainFormService.requestDatasets().subscribe((data) => {});
-  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

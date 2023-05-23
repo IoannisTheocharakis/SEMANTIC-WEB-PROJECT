@@ -13,14 +13,20 @@
             <span class="database-title mr-5"
               >{{ database.title }} | {{ database[showValue] }}</span
             >
-            <mat-icon [ngStyle]="{ color: database.colour }">lens</mat-icon>
+            <mat-icon
+              *ngIf="chartTitle === 'chord'"
+              [ngStyle]="{ color: database.colour }"
+              >lens</mat-icon
+            >
           </div>
         </ng-container>
       </div>
     </app-info-card>
   </div>
   <div class="diagram col-8 d-flex justify-content-center">
-    <app-chord-diagram class="w-100"
+    <app-chord-diagram
+      class="w-100"
+      (chartsTitle)="takeChartTitle($event)"
       (showValue)="showValueHandler($event)"
       (eventDatasets)="setDatasetsInfoStats($event)"></app-chord-diagram>
   </div>

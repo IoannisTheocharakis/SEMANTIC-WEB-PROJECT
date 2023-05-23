@@ -1,4 +1,11 @@
-<app-info-card [title]="title" [bgColor]="backgroundColor" [color]="color">
+<app-info-card
+  [title]="title"
+  [bgColor]="
+    localStorage.getItem('theme-color') === 'theme-dark'
+      ? backgroundColorDark
+      : backgroundColorLight
+  "
+  [color]="color">
   <div class="before-title">
     <span class="material-symbols-outlined d-flex align-items-center mr-5">
       database
@@ -6,63 +13,54 @@
   </div>
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <p class="section-title">Required Fields</p>
       <div class="row">
-        <div class="form-floating mb-3 col">
-          <input
-            type="text"
-            class="form-control"
-            placeholder=" "
-            formControlName="datasetName" />
-          <label>DatasetName</label>
-        </div>
-        <div class="form-floating mb-3 col">
-          <input type="text" class="form-control" placeholder=" " formControlName="url" />
-          <label>Url</label>
-        </div>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Dataset Name</mat-label>
+          <input matInput type="text" formControlName="datasetName" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Url</mat-label>
+          <input matInput type="text" formControlName="url" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Creator</mat-label>
+          <input matInput type="text" formControlName="creator" />
+        </mat-form-field>
       </div>
       <div class="row">
-        <div class="form-floating mb-3 col">
-          <input
-            type="text"
-            class="form-control"
-            placeholder=" "
-            formControlName="creator" />
-          <label>Creator</label>
-        </div>
-        <div class="form-floating mb-3 col">
-          <input
-            type="text"
-            class="form-control"
-            placeholder=" "
-            formControlName="description" />
-          <label>Description</label>
-        </div>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Contact Email</mat-label>
+          <input matInput type="text" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Description</mat-label>
+          <input matInput type="text" formControlName="description" />
+        </mat-form-field>
+        <div class="col"></div>
+      </div>
+      <p class="section-title">Optional Fields</p>
+      <div class="row">
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Triples</mat-label>
+          <input matInput type="number" formControlName="numberOfTriples" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Entities</mat-label>
+          <input matInput type="number" formControlName="numberOfEntities" />
+        </mat-form-field>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Properties</mat-label>
+          <input matInput type="number" formControlName="numberOfProperties" />
+        </mat-form-field>
       </div>
       <div class="row">
-        <div class="form-floating mb-3 col">
-          <input
-            type="number"
-            class="form-control"
-            placeholder=" "
-            formControlName="numberOfTriples" />
-          <label>Number Of Triples</label>
-        </div>
-        <div class="form-floating mb-3 col">
-          <input
-            type="number"
-            class="form-control"
-            placeholder=" "
-            formControlName="numberOfEntities" />
-          <label>Number Of Entities</label>
-        </div>
-        <div class="form-floating mb-3 col">
-          <input
-            type="number"
-            class="form-control"
-            placeholder=" "
-            formControlName="numberOfDistinceSubjects" />
-          <label>Number Of Distince Subjects</label>
-        </div>
+        <mat-form-field [appearance]="inputAppearance" [color]="inputColor" class="col">
+          <mat-label>Classes</mat-label>
+          <input matInput type="number" formControlName="numberOfClasses" />
+        </mat-form-field>
+        <div class="col"></div>
+        <div class="col"></div>
       </div>
       <div class="row">
         <div class="col"></div>
@@ -79,21 +77,18 @@
                 (click)="resetForm()"
                 mat-button>
                 <mat-icon class="mr-5">restart_alt</mat-icon>
-                <span>Reset Form</span>
+                <span class="txt-color">Reset Form</span>
               </button>
               <button
                 mat-raised-button
-                class="w-100"
+                class="w-100 submit-btn"
                 type="submit"
-                >
-                <mat-icon class="mr-5">add_circle_outline</mat-icon>
+                [disabled]="!this.form.valid">
+                <mat-icon class="mr-5 submit-btn-icon">add_circle_outline</mat-icon>
                 <span>{{ title }}</span>
               </button>
             </div>
           </ng-template>
-          <!-- <button type="button" color="accent" (click)="testRequest()" mat-raised-button>
-            <span>Test Form</span>
-          </button> -->
         </div>
       </div>
     </form>

@@ -96,6 +96,13 @@ const routes: Routes = [
             (m) => m.MainFormComponent
           ),
       },
+      {
+        path: "about",
+        loadComponent: () =>
+          import("./features/about-page/about-page.component").then(
+            (m) => m.AboutPageComponent
+          ),
+      },
     ],
   },
 ];

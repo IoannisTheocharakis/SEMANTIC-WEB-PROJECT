@@ -24,7 +24,9 @@
     border-radius: 10px;
   }
 }
-
+.dataset-info {
+  cursor: pointer;
+}
 ::ng-deep .theme-light {
   .divider {
     position: relative !important;

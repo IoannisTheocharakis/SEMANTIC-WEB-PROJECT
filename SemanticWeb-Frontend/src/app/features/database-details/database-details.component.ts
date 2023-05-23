@@ -4,8 +4,6 @@ import { AppColors } from "src/assets/app-colors";
 import { TabMenuComponent } from "src/app/shared/standalone-components/tab-menu/tab-menu.component";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { BehaviorSubject, Subscription } from "rxjs";
-import { CoreService } from "src/app/core/services/core.service";
-import { LoaderService } from "src/app/loader/loader.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { DatabaseDetailsService } from "./service/database-details.service";
 import { CommonModule } from "@angular/common";

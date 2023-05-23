@@ -3,18 +3,38 @@
   justify-content: center;
   align-items: center;
 }
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+::ng-deep .theme-dark {
+  .section-title {
+    color: #83ce88;
+  }
+  .reset-btn {
+    background-color: transparent;
+  }
+  .submit-btn {
+    background-color: #83ce88;
+    color: white;
+  }
+  .submit-btn-icon {
+    color: white;
+  }
+}
 
-.mat-raised-button.mat-primary.mat-button-disabled {
-  background-color: rgb(149 203 139 / 44%);
-  color: rgb(255 255 255 / 75%);
-}
-.mat-raised-button {
-  background-color: rgb(149, 203, 139);
-  color: white;
-}
-.reset-btn {
-  color: white!important;
-}
-.reset-btn:hover {
-  background-color: rgba(255, 255, 255, 0.068)!important;
+::ng-deep .theme-light {
+  .section-title {
+    color: default;
+  }
+  .submit-btn {
+    background-color: #83ce88;
+    color: white;
+  }
+  .submit-btn-icon {
+    color: white;
+  }
+  .txt-color {
+    color: #00722f;
+  }
 }

@@ -19,6 +19,7 @@ export class MainPageChartComponent implements OnInit {
   backgroundColor = AppColors.greenMain;
   datasetsInfoStats$: BehaviorSubject<IDatabase[]> = new BehaviorSubject([]);
   showValue = "triples";
+  chartTitle: string = "rose";
   constructor(private changeDetector: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() {}
@@ -33,5 +34,8 @@ export class MainPageChartComponent implements OnInit {
   }
   showValueHandler(event: string) {
     this.showValue = event;
+  }
+  takeChartTitle(event: string) {
+    this.chartTitle = event;
   }
 }

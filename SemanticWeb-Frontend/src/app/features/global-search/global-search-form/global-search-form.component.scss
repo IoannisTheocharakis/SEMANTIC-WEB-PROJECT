@@ -10,6 +10,9 @@
   height: 40px !important;
 }
 ::ng-deep .theme-dark {
+  .reset-btn {
+    background-color: transparent;
+  }
   .search-btn {
     background-color: #83ce88;
     color: white;

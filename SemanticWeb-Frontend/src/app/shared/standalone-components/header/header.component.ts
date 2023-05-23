@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 300);
   }
   homePage() {
-    this.router.navigate(["/"]);
+    this.router.navigate(["/datasets/chart"]);
   }
   reset() {
     localStorage.removeItem("Datasets");
