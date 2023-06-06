@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { DatasetForm } from "../model/mainForm.model";
+import { DatasetForm, RequestEmail } from "../model/mainForm.model";
 
 const BASE_URL = "http://localhost:8080/";
 
@@ -11,13 +11,7 @@ const BASE_URL = "http://localhost:8080/";
 export class MainFormService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  requestDatasets() {
-    return this.http.get<DatasetForm[]>(`${BASE_URL}datasets`);
-  }
-  addDataset() {
-    return this.http.get<DatasetForm[]>(`${BASE_URL}newDataset`);
-  }
-  sparqlMainRequest() {
-    return this.http.get<DatasetForm[]>(`${BASE_URL}url`);
+  addDataset(request: RequestEmail) {
+    return this.http.post(`${BASE_URL}add/dataset`, request);
   }
 }

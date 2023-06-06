@@ -63,7 +63,11 @@
         <div class="col"></div>
       </div>
       <div class="row">
-        <div class="col"></div>
+        <div class="col">
+          <p *ngIf="successMessage">
+            Request sent successfully, admin will aprove your request soon
+          </p>
+        </div>
         <div class="col"></div>
         <div class="col">
           <div *ngIf="loaderService.isLoading | async; else btns" class="loader">

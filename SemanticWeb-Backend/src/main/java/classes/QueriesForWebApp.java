@@ -6,6 +6,8 @@
 package classes;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +16,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -109,7 +114,6 @@ public class QueriesForWebApp {
         int datasetsCounter = 0;
         String[] arrOfStrings = new String[11];
         while ((input = in.readLine()) != null) {
-            System.out.println(input);
             if (datasetsCounter < 1) {
                 datasetsCounter++;
                 continue;
@@ -543,22 +547,27 @@ public class QueriesForWebApp {
         return input.substring(input.indexOf(to) + 1, input.indexOf(from));
     }
 
-}
-/*
-SELECT ?prop ?triples ?count
-WHERE {
-  {
-    SELECT (COUNT(*) AS ?count)
-    WHERE {
-      <http://ldf.fi/ww1lod/sparql> void:propertyPartition ?o .
-        ?o void:property ?prop .
-        ?o void:triples ?triples
-    }
-  }
-  <http://ldf.fi/ww1lod/sparql> void:propertyPartition ?o .
-  ?o void:property ?prop .
-  ?o void:triples ?triples
-}
-ORDER BY DESC(xsd:integer(?triples))
+    public boolean addDatasetToFile(String text) {
+        try {
+            Path path = Paths.get("./datasetToAdd");
+            boolean fileExists = Files.exists(path);
 
- */
+            if (!fileExists) {
+                System.out.println("Completed...");
+
+                Files.createFile(path);
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("./datasetToAdd", true));
+            writer.append(text);
+            writer.newLine();
+            writer.close();
+            System.out.println("Here  U R...");
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+}

@@ -13,6 +13,7 @@ import { InfoCardComponent } from "src/app/shared/standalone-components/info-car
 import { SpinnerComponent } from "src/app/shared/standalone-components/spinner/spinner.component";
 import { AppColors } from "src/assets/app-colors";
 import { MainFormService } from "./service/mainForm.service";
+import { RequestEmail } from "./model/mainForm.model";
 @Component({
   standalone: true,
   imports: [MaterialFormModule, InfoCardComponent, SpinnerComponent],
@@ -30,6 +31,7 @@ export class MainFormComponent implements OnInit, OnDestroy {
   localStorage: Storage = window.localStorage;
   backgroundColorDark = AppColors.greenMain;
   backgroundColorLight = AppColors.greenMainLight;
+  successMessage: boolean;
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
@@ -63,7 +65,21 @@ export class MainFormComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.successMessage = false;
+    let requestEmail: RequestEmail = {
+      sendTo: "johnaki78@gmail.com",
+      subject: "Add New Dataset",
+      text: JSON.stringify(this.form.value),
+    };
+    this.subscriptions.add(
+      this.mainFormService.addDataset(requestEmail).subscribe((data) => {
+        if (data) {
+          this.successMessage = true;
+        }
+      })
+    );
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

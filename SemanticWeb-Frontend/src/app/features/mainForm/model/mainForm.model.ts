@@ -1,3 +1,8 @@
+export interface RequestEmail {
+  sendTo: string;
+  subject: string;
+  text: string;
+}
 export interface DatasetForm {
   datasetName: string;
   url: string;

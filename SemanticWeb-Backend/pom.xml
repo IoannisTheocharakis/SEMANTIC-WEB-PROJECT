@@ -33,6 +33,10 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
             <groupId>openrdf-sesame-2.7.0-onejar</groupId>
             <artifactId>openrdf-sesame-2.7.0-onejar</artifactId>
             <scope>system</scope>
@@ -67,6 +71,7 @@
             <version>1.0</version>
             <systemPath>${basedir}/libs/virtjdbc4.jar</systemPath>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

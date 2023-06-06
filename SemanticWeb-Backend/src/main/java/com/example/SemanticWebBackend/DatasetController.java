@@ -9,18 +9,8 @@ import classes.Property;
 import requestClasses.RequestDatabase;
 import classes.QueriesForWebApp;
 import classes.RDFClass;
-import com.google.gson.Gson;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import models.AutocompleteClassProperty;
 import models.AutocompleteClassPropertyLists;
@@ -28,6 +18,9 @@ import models.BasicStatistics;
 import models.CommonClass;
 import models.CommonProperty;
 import models.GlobalSearchResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import requestClasses.RequestCommon;
+import requestClasses.RequestEmail;
 import requestClasses.RequestGlobal;
 
 /**
@@ -54,32 +48,6 @@ public class DatasetController {
     public List<Dataset> getAllDatasets() {
         return datasets;
     }
-
-//    @GetMapping("/URLdatasets")
-//    public String getDatabaseRequest() throws UnsupportedEncodingException, MalformedURLException, IOException {
-//        String endpoint = "http://ldf.fi/ww1lod/sparql";
-//        //https://code.google.com/archive/p/void-impl/wikis/SPARQLQueriesForStatistics.wiki
-//        String query = "SELECT ?class (COUNT(?s) AS ?count) { ?s a ?class } GROUP BY ?class ORDER BY ?count";
-//        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
-//        URL url = new URL(sparqlQueryURL);
-//        URLConnection con = url.openConnection();
-//        String type = "text/tab-separated-values";
-//        con.setRequestProperty("ACCEPT", type);
-//        InputStream is = con.getInputStream();
-//        InputStreamReader isr = new InputStreamReader(is, "utf8");
-//        BufferedReader in = new BufferedReader(isr);
-//        String inputToString = "";
-//        String input;
-//
-//        while ((input = in.readLine()) != null) {
-//            inputToString += input;
-//            inputToString += "\n";
-//        }
-//        in.close();
-//        isr.close();
-//        is.close();
-//        return inputToString;
-//    }
 
     @GetMapping("/datasets")
     public List<Dataset> getAlldatasets() throws IOException {
@@ -161,20 +129,22 @@ public class DatasetController {
         classGlobalSearchResponse = queries.getClassGlobalSearch(req.searchValue, req.limit, req.page);
         return classGlobalSearchResponse;
     }
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @PostMapping("/add/dataset")
+    public boolean sendEmail(@RequestBody RequestEmail emailRequest) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(emailRequest.sendTo);
+        message.setSubject(emailRequest.subject);
+        message.setText(emailRequest.text);
+        javaMailSender.send(message);
+        System.out.println("Email Sent Successfully...");
+
+        QueriesForWebApp queries = new QueriesForWebApp();
+        boolean jsonAddedToFile = queries.addDatasetToFile(emailRequest.text);
+        return jsonAddedToFile;
+    }
 }
 
-//    public static void main(String[] args) throws IOException {
-//        //Dataset ww1lod = new Dataset("WW1LOD", "Data about World War 1", "http://ldf.fi/ww1lod/sparql");
-//
-////        ww1lod.runQueries();
-////        ww1lod.datasetToVoID();
-////        ww1lod.storeStatsToFile();
-////        ww1lod.uploadFilesToVirtuoso();
-//
-////        Dataset smith = new Dataset("American Art Museum", "Art", "https://triplydb.com/smithsonian/american-art-museum/sparql/american-art-museum");
-////
-////        smith.runQueries();
-////        smith.datasetToVoID();
-////        smith.storeStatsToFile();
-////        smith.uploadFilesToVirtuoso();
-//    }
+//"http://ldf.fi/ww1lod/sparql" "https://triplydb.com/smithsonian/american-art-museum/sparql/american-art-museum"
