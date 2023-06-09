@@ -10,8 +10,9 @@ import { Dataset } from "src/app/core/models/dataset.model";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { CoreService } from "src/app/core/services/core.service";
 import { Router } from "@angular/router";
+import { url } from "src/app/core/services/backend-url";
 
-const BASE_URL = "http://localhost:8080/";
+const BASE_URL = url;
 
 @Injectable({
   providedIn: "root",

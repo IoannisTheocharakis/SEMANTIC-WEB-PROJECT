@@ -15,6 +15,7 @@
 <div class="table-container my-15 mat-elevation-z4">
   <mat-progress-bar
     *ngIf="loaderService.isLoading | async"
+    color="accent"
     mode="query"></mat-progress-bar>
   <table
     [hidden]="loaderService.isLoading | async"

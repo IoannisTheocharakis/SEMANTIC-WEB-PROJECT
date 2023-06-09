@@ -49,13 +49,17 @@
       <div class="col-6">
         <span class="font-title">Triples With CIDOC-CRM property:</span>
         {{ (this.basicStatistics$ | async).triplesWithCIDOCproperty }} ({{
-          (this.basicStatistics$ | async).triplesWithCIDOCpropertyPercentage
+          displayFirstThreeDigits(
+            (this.basicStatistics$ | async).triplesWithCIDOCpropertyPercentage
+          )
         }}%)
       </div>
       <div class="col-6">
         <span class="font-title">Triples With CIDOC-CRM Instance:</span>
         {{ (this.basicStatistics$ | async).triplesWithCIDOCinstance }} ({{
-          (this.basicStatistics$ | async).triplesWithCIDOCinstancePercentage
+          displayFirstThreeDigits(
+            (this.basicStatistics$ | async).triplesWithCIDOCinstancePercentage
+          )
         }}%)
       </div>
     </div>

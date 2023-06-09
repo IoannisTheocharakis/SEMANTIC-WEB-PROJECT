@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { Dataset } from "../models/dataset.model";
 import { BehaviorSubject } from "rxjs";
 import { AutocompleteClassPropertyLists } from "../models/autocomplete.model";
-
-const BASE_URL = "http://localhost:8080/";
+import { url } from "src/app/core/services/backend-url";
+const BASE_URL = url;
 
 @Injectable({
   providedIn: "root",

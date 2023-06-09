@@ -6,8 +6,9 @@ import {
   CommonProperties,
   CommonRDFClasses,
 } from "../models/common-elements.model";
+import { url } from "src/app/core/services/backend-url";
 
-const BASE_URL = "http://localhost:8080/dataset/";
+const BASE_URL = `${url}dataset/`;
 
 @Injectable({
   providedIn: "root",

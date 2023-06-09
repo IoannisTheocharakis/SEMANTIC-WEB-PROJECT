@@ -2,8 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { GlobalSearchRequest, GlobalSearchResponse } from "../model/global-search.model";
+import { url } from "src/app/core/services/backend-url";
 
-const BASE_URL = "http://localhost:8080/";
+const BASE_URL = url;
 
 @Injectable({
   providedIn: "root",
