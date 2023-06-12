@@ -476,7 +476,6 @@ public class QueriesForWebApp {
         InputStream is = con.getInputStream();
         InputStreamReader isr = new InputStreamReader(is, "utf8");
         BufferedReader in = new BufferedReader(isr);
-        System.out.println(query);
         String input;
         List<GlobalSearchResponse> globalSearchResponseList = new ArrayList<>();
         int globalSearchResponseCounter = 0;
