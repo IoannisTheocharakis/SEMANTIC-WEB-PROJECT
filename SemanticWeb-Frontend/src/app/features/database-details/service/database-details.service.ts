@@ -59,4 +59,7 @@ export class DatabaseDetailsService {
       })
     );
   }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

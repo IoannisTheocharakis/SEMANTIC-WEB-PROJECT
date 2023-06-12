@@ -423,6 +423,7 @@ public class QueriesForWebApp {
         int autocompletePropertyCounter = 0;
         String[] arrOfStrings = new String[2];
         String tmpName = "";
+
         while ((input = in.readLine()) != null) {
 
             if (autocompletePropertyCounter == 0) {
@@ -565,4 +566,5 @@ public class QueriesForWebApp {
             return false;
         }
     }
+
 }

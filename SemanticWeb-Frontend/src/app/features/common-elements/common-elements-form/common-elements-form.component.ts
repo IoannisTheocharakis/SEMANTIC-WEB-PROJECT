@@ -114,4 +114,7 @@ export class CommonElementsFormComponent implements OnInit {
     this.form.get("totalEntries").setValue(0);
     this.commonElementsService.setPropertiesRequest(this.form.value);
   }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

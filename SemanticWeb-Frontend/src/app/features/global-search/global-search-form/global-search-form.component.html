@@ -4,14 +4,14 @@
       <div class="col">
         <app-autocomplete
           [list$]="autocompleteClassess$"
-          label="RDF Classes"
           initID=""
+          label="RDF Classes"
           placeHolder="Etc. E1"
           displayName="autocompleteViewValue"
           displayID="autocompleteValue"
           [emitStringValue]="true"
-          [resetEvent$]="resetClassSubject$.asObservable()"
           [changeInitIDToString]="true"
+          [resetEvent$]="resetClassSubject$.asObservable()"
           (autocompleteValue)="setAutocompleteClass($event)">
         </app-autocomplete>
       </div>

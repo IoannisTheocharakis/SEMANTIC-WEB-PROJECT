@@ -81,4 +81,7 @@ export class RoseDiagramComponent implements OnInit {
       this.options = { ...this.options };
     });
   }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

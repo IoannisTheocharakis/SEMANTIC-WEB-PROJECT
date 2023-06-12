@@ -61,7 +61,7 @@ export class GlobalSearchFormComponent implements OnInit {
         if (data != null) {
           data.autocompleteClass = data.autocompleteClass.sort(this.compare);
           data.autocompleteProperty = data.autocompleteProperty.sort(this.compare);
-
+          console.log(data.autocompleteProperty);
           this.autocompleteClassess$.next(data.autocompleteClass);
           this.autocompleteProperties$.next(data.autocompleteProperty);
         }
@@ -109,8 +109,8 @@ export class GlobalSearchFormComponent implements OnInit {
     this.globalSearchService.setGlobalSearchRequest(this.form.value);
   }
   compare(a, b) {
-    const aNum = Number(a.autocompleteViewValue.substring(1).split(" ")[0]);
-    const bNum = Number(b.autocompleteViewValue.substring(1).split(" ")[0]);
+    const aNum = Number(a.autocompleteViewValue.substring(1).split(" ")[0].match(/\d+/));
+    const bNum = Number(b.autocompleteViewValue.substring(1).split(" ")[0].match(/\d+/));
     return aNum - bNum;
   }
   ngOnDestroy(): void {
