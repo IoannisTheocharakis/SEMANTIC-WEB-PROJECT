@@ -68,7 +68,7 @@ export class MainFormComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.successMessage = false;
     let requestEmail: RequestEmail = {
-      sendTo: "johnaki78@gmail.com",
+      sendTo: "cidoc.crm@gmail.com",
       subject: "Add New Dataset",
       text: JSON.stringify(this.form.value),
     };

@@ -37,6 +37,8 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
   @Input() list$: Observable<any[]>;
   @Input() inputClass = "";
   @Input() autocompleteWithDisplayName: boolean = false;
+  @Input() emitStringValue: boolean = false;
+
   @Output() autocompleteValue = new EventEmitter<any | null>();
   list: any[];
   eventsSubscription: Subscription = new Subscription();
@@ -161,7 +163,11 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
     this.autocompleteFormControl.reset();
   }
   removeAutocompleteValue() {
-    this.autocompleteValue.emit(null);
+    if (this.emitStringValue) {
+      this.autocompleteValue.emit(this.autocompleteFormControl.value);
+    } else {
+      this.autocompleteValue.emit(null);
+    }
   }
   displayWithName(value: any) {
     if (value) {

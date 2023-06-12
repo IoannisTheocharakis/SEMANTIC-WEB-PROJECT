@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -477,7 +476,7 @@ public class QueriesForWebApp {
         InputStream is = con.getInputStream();
         InputStreamReader isr = new InputStreamReader(is, "utf8");
         BufferedReader in = new BufferedReader(isr);
-
+        System.out.println(query);
         String input;
         List<GlobalSearchResponse> globalSearchResponseList = new ArrayList<>();
         int globalSearchResponseCounter = 0;
@@ -553,8 +552,6 @@ public class QueriesForWebApp {
             boolean fileExists = Files.exists(path);
 
             if (!fileExists) {
-                System.out.println("Completed...");
-
                 Files.createFile(path);
             }
 
@@ -562,7 +559,6 @@ public class QueriesForWebApp {
             writer.append(text);
             writer.newLine();
             writer.close();
-            System.out.println("Here  U R...");
 
             return true;
         } catch (IOException e) {

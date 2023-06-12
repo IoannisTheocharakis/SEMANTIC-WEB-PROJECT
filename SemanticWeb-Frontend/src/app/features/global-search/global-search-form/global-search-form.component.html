@@ -4,11 +4,12 @@
       <div class="col">
         <app-autocomplete
           [list$]="autocompleteClassess$"
-          label="Classes"
+          label="RDF Classes"
           initID=""
           placeHolder="Etc. E1"
           displayName="autocompleteViewValue"
           displayID="autocompleteValue"
+          [emitStringValue]="true"
           [resetEvent$]="resetClassSubject$.asObservable()"
           [changeInitIDToString]="true"
           (autocompleteValue)="setAutocompleteClass($event)">
@@ -26,6 +27,7 @@
           placeHolder="Etc. P1"
           displayName="autocompleteViewValue"
           displayID="autocompleteValue"
+          [emitStringValue]="true"
           [changeInitIDToString]="true"
           [resetEvent$]="resetPropertySubject$.asObservable()"
           (autocompleteValue)="setAutocompleteProperty($event)">

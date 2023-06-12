@@ -86,9 +86,9 @@ export class GlobalSearchFormComponent implements OnInit {
     this.form.get("page").setValue(0);
     this.form.get("totalEntries").setValue(0);
   }
-  setAutocompleteProperty($event: AutocompleteClassProperty) {
-    if (!$event) {
-      this.form.get("searchValue").setValue(null);
+  setAutocompleteProperty($event: AutocompleteClassProperty | string) {
+    if (typeof $event === "string") {
+      this.form.get("searchValue").setValue($event);
     } else {
       this.form.get("searchValue").setValue($event.autocompleteValue);
     }
@@ -96,8 +96,8 @@ export class GlobalSearchFormComponent implements OnInit {
     this.resetClassSubject$.next(true);
   }
   setAutocompleteClass($event: AutocompleteClassProperty) {
-    if (!$event) {
-      this.form.get("searchValue").setValue(null);
+    if (typeof $event === "string") {
+      this.form.get("searchValue").setValue($event);
     } else {
       this.form.get("searchValue").setValue($event.autocompleteValue);
     }
@@ -112,5 +112,8 @@ export class GlobalSearchFormComponent implements OnInit {
     const aNum = Number(a.autocompleteViewValue.substring(1).split(" ")[0]);
     const bNum = Number(b.autocompleteViewValue.substring(1).split(" ")[0]);
     return aNum - bNum;
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

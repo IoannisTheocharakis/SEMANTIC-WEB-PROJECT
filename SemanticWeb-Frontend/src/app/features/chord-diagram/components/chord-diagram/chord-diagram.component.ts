@@ -163,7 +163,6 @@ export class ChordDiagramComponent {
       tmp.value = data[title];
       dataChartModel.push(tmp);
     });
-    console.log(dataChartModel);
     return dataChartModel;
   }
 }

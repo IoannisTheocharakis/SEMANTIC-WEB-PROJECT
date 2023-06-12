@@ -70,7 +70,7 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
   }
   requestGlobalSearch() {
     this.subscriptions.add(
-      this.globalSearchRequest$.subscribe((data1) => {
+      this.globalSearchRequest$.subscribe(() => {
         this.subscriptions.add(
           this.globalSearchService
             .globalSearchRequest(this.globalSearchRequest)
@@ -120,7 +120,6 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
   }
   navigateToDataset(globalDataset: GlobalSearchResponse) {
     let dataset = this.datasets.find((data) => data.endpoint === globalDataset.dataset);
-    console.log(dataset)
     this.router.navigate([`dataset-details/${dataset.id}/properties`]);
   }
   applyFilter(event: Event) {
