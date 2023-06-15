@@ -33,6 +33,7 @@ export class MainPageTableComponent implements OnInit, OnDestroy {
     "cidocProperties",
     "cidocClasses",
     "triplesWithCIDOCinstance",
+    "triplesWithCIDOCproperty",
     "triplesWithCIDOCpropertyPercentage",
     "triplesWithCIDOCinstancePercentage",
   ];

@@ -3,9 +3,6 @@ export interface Property {
   prop: string;
   triples: number;
   requestSize: number;
-  url: string;
-  distinctSubjects: number;
-  distinctObjects: number;
 }
 export interface PropertiesRequest {
   endpoint: string;

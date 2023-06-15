@@ -10,6 +10,7 @@ export interface IDatabase {
   cidocProperties?: number;
   cidocClasses?: number;
   triplesWithCIDOCinstance?: number;
+  triplesWithCIDOCproperty?: number;
   triplesWithCIDOCpropertyPercentage?: number;
   triplesWithCIDOCinstancePercentage?: number;
 }

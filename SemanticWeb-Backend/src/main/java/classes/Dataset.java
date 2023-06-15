@@ -18,6 +18,7 @@ import java.util.HashSet;
  */
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "FieldHandler"})
 public class Dataset {
+
     public int id;
     public String title;
     public String endpoint;
@@ -28,6 +29,7 @@ public class Dataset {
     public int cidocProperties;
     public int cidocClasses;
     public int triplesWithCIDOCinstance;
+    public int triplesWithCIDOCproperty;
     public double triplesWithCIDOCpropertyPercentage;
     public double triplesWithCIDOCinstancePercentage;
     String description;
@@ -47,7 +49,7 @@ public class Dataset {
     }
 
     public Dataset(int id, String endpoint, String title, int triples, int entities, int properties,
-            int classes, int cidocProperties, int cidocClasses, int triplesWithCIDOCinstance, double triplesWithCIDOCpropertyPercentage, double triplesWithCIDOCinstancePercentage) {
+            int classes, int cidocProperties, int cidocClasses, int triplesWithCIDOCinstance, int triplesWithCIDOCproperty, double triplesWithCIDOCpropertyPercentage, double triplesWithCIDOCinstancePercentage) {
         this.id = id;
         this.title = title;
         this.triples = triples;
@@ -58,6 +60,7 @@ public class Dataset {
         this.cidocProperties = cidocProperties;
         this.cidocClasses = cidocClasses;
         this.triplesWithCIDOCinstance = triplesWithCIDOCinstance;
+        this.triplesWithCIDOCproperty = triplesWithCIDOCproperty;
         this.triplesWithCIDOCpropertyPercentage = triplesWithCIDOCpropertyPercentage;
         this.triplesWithCIDOCinstancePercentage = triplesWithCIDOCinstancePercentage;
 

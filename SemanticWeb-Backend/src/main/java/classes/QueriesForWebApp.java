@@ -59,7 +59,7 @@ public class QueriesForWebApp {
 
     String retrieveDatasetsAndTheirTitle = "select ?s ?title ?triples where {?s a void:Dataset . ?s <http://purl.org/dc/terms/title> ?title . ?s void:triples ?triples}";
 
-    String retrieveDatasetsWithAllStatistics = "select ?dataset ?title ?triples ?entities ?properties ?classes ?cidocProperties ?cidocClasses ?triplesWithCIDOCinstance ?triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCinstancePercentage where { \n"
+    String retrieveDatasetsWithAllStatistics = "select ?dataset ?title ?triples ?entities ?properties ?classes ?cidocProperties ?cidocClasses ?triplesWithCIDOCinstance ?triplesWithCIDOCproperty ?triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCinstancePercentage where { \n"
             + "?dataset a void:Dataset . \n"
             + "?dataset <http://purl.org/dc/terms/title> ?title . \n"
             + "?dataset void:triples ?triples .\n"
@@ -69,6 +69,7 @@ public class QueriesForWebApp {
             + "?dataset void:propertiesCIDOC ?cidocProperties .\n"
             + "?dataset void:classesCIDOC ?cidocClasses .\n"
             + "?dataset void:triplesWithCIDOCinstance ?triplesWithCIDOCinstance .\n"
+            + "?dataset void:triplesWithCIDOCproperty ?triplesWithCIDOCproperty .\n"
             + "?dataset void:triplesWithCIDOCpropertyPercentage ?triplesWithCIDOCpropertyPercentage .\n"
             + "?dataset void:triplesWithCIDOCinstancePercentage ?triplesWithCIDOCinstancePercentage} order by desc(xsd:integer(?triples ))";
 
@@ -111,22 +112,23 @@ public class QueriesForWebApp {
         List<Dataset> datasets = new ArrayList<>();
         int arrCounter = 0;
         int datasetsCounter = 0;
-        String[] arrOfStrings = new String[11];
+        String[] arrOfStrings = new String[12];
         while ((input = in.readLine()) != null) {
             if (datasetsCounter < 1) {
                 datasetsCounter++;
                 continue;
             }
             arrOfStrings = input.split("\t");
-            for (arrCounter = 0; arrCounter < 11; arrCounter++) {
+            for (arrCounter = 0; arrCounter < 12; arrCounter++) {
                 arrOfStrings[arrCounter] = arrOfStrings[arrCounter].substring(1, arrOfStrings[arrCounter].length() - 1);
             }
             Dataset dat = new Dataset(datasetsCounter, arrOfStrings[0], arrOfStrings[1], Integer.parseInt(arrOfStrings[2]), Integer.parseInt(arrOfStrings[3]), Integer.parseInt(arrOfStrings[4]),
                     Integer.parseInt(arrOfStrings[5]), Integer.parseInt(arrOfStrings[6]),
                     Integer.parseInt(arrOfStrings[7]),
                     Integer.parseInt(arrOfStrings[8]),
-                    Double.parseDouble(arrOfStrings[9]),
-                    Double.parseDouble(arrOfStrings[10])
+                    Integer.parseInt(arrOfStrings[9]),
+                    Double.parseDouble(arrOfStrings[10]),
+                    Double.parseDouble(arrOfStrings[11])
             );
             datasets.add(dat);
             //my ID;

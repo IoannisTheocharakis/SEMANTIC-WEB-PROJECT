@@ -61,7 +61,6 @@ export class GlobalSearchFormComponent implements OnInit {
         if (data != null) {
           data.autocompleteClass = data.autocompleteClass.sort(this.compare);
           data.autocompleteProperty = data.autocompleteProperty.sort(this.compare);
-          console.log(data.autocompleteProperty);
           this.autocompleteClassess$.next(data.autocompleteClass);
           this.autocompleteProperties$.next(data.autocompleteProperty);
         }
