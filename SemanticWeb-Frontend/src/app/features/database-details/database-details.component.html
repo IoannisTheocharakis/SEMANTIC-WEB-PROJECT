@@ -1,13 +1,16 @@
 <app-info-card
-  title="Dataset Title: {{ (databaseDetails$ | async).title }} | URL:  {{
-    (databaseDetails$ | async).endpoint
-  }}"
   [bgColor]="
     localStorage.getItem('theme-color') === 'theme-dark'
       ? backgroundColorDark
       : backgroundColorLight
   "
   [color]="color">
+  <div header>
+    "Dataset Title: {{ (databaseDetails$ | async).title }} | URL:
+    <a [href]="(databaseDetails$ | async).endpoint">
+      "{{ (databaseDetails$ | async).endpoint }}"</a
+    >
+  </div>
   <div class="mb-15">
     <app-database-basicStatistics></app-database-basicStatistics>
   </div>
