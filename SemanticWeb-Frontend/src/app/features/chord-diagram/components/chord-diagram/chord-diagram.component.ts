@@ -40,7 +40,6 @@ export class ChordDiagramComponent {
     { value: "classes", viewValue: "Classes" },
     { value: "cidocProperties", viewValue: "CIDOC-CRM Properties" },
     { value: "cidocClasses", viewValue: "CIDOC-CRM Classes" },
-    { value: "triplesWithCIDOCinstance", viewValue: "Triples With CIDOC-CRM instance" },
     {
       value: "triplesWithCIDOCproperty",
       viewValue: "Triples With CIDOC-CRM Property",
@@ -49,6 +48,7 @@ export class ChordDiagramComponent {
       value: "triplesWithCIDOCpropertyPercentage",
       viewValue: "Triples With CIDOC-CRM Property Percentage",
     },
+    { value: "triplesWithCIDOCinstance", viewValue: "Triples With CIDOC-CRM instance" },
     {
       value: "triplesWithCIDOCinstancePercentage",
       viewValue: "Triples With CIDOC-CRM Instance Percentage",

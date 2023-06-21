@@ -6,3 +6,4 @@ text
 text
 {"datasetName":"1","url":"1","creator":"1","description":"1","email":"1","numberOfTriples":null,"numberOfEntities":null,"numberOfProperties":null,"numberOfClasses":null}
 {"datasetName":"test","url":"test","creator":"test","description":"test","email":"test","numberOfTriples":null,"numberOfEntities":null,"numberOfProperties":null,"numberOfClasses":null}
+{"datasetName":"Test New Dataset","url":"www.test-new-dataset.com","creator":"User User","description":"Test email system","email":"test@csd.uoc.gr","numberOfTriples":2,"numberOfEntities":1,"numberOfProperties":4,"numberOfClasses":null}
