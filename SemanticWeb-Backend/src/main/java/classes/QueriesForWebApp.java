@@ -76,7 +76,7 @@ public class QueriesForWebApp {
     String retrieveAutocompleteProperties = "select distinct ?s ?l  where {?s a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
     String retrieveAutocompleteClasses = "select distinct ?s ?l  where {?s a  rdfs:Class . ?s rdfs:label ?l . filter(lang(?l)=\"en\")}";
 
-    String retrieveGlobalRDFClass = "select distinct ?s ?triples ?count  WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
+    String retrieveGlobalRDFClass = "select distinct ?s ?triples ?count FROM <http://www.ics.forth.gr/isl/CIDOC_VoID> WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
             + "?s void:classPartition ?p .\n"
             + "?p void:class <RDFclassValue> .\n"
             + "?p void:triples ?triples } }\n"
@@ -85,7 +85,7 @@ public class QueriesForWebApp {
             + "?p void:class <RDFclassValue> .\n"
             + "?p void:triples ?triples\n"
             + "} limit <limit> offset <offset>";
-    String retriveGlobalProperty = "select distinct ?s ?triples ?count WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
+    String retriveGlobalProperty = "select distinct ?s ?triples ?count FROM <http://www.ics.forth.gr/isl/CIDOC_VoID> WHERE { { SELECT (COUNT(*) AS ?count) WHERE { ?s a void:Dataset .\n"
             + "?s void:propertyPartition ?p .\n"
             + "?p void:property <propertyValue> .\n"
             + "?p void:triples ?triples } }\n"
