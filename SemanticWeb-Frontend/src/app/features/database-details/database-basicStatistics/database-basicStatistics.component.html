@@ -22,11 +22,11 @@
       *ngIf="(this.basicStatistics$ | async) !== null">
       <div class="col-6">
         <span class="font-title">Triples:</span>
-        {{ (this.basicStatistics$ | async).triples }}
+        {{ (this.basicStatistics$ | async).triples | number }}
       </div>
       <div class="col-6">
         <span class="font-title">Entities:</span>
-        {{ (this.basicStatistics$ | async).entities }}
+        {{ (this.basicStatistics$ | async).entities | number }}
       </div>
     </div>
 
@@ -35,11 +35,11 @@
       *ngIf="(this.basicStatistics$ | async) !== null">
       <div class="col-6">
         <span class="font-title">Properties:</span>
-        {{ (this.basicStatistics$ | async).properties }}
+        {{ (this.basicStatistics$ | async).properties | number }}
       </div>
       <div class="col-6">
         <span class="font-title">Classes: </span>
-        {{ (this.basicStatistics$ | async).classes }}
+        {{ (this.basicStatistics$ | async).classes | number }}
       </div>
     </div>
 
@@ -48,18 +48,16 @@
       *ngIf="(this.basicStatistics$ | async) !== null">
       <div class="col-6">
         <span class="font-title">Triples With CIDOC-CRM property:</span>
-        {{ (this.basicStatistics$ | async).triplesWithCIDOCproperty }} ({{
-          displayFirstThreeDigits(
-            (this.basicStatistics$ | async).triplesWithCIDOCpropertyPercentage
-          )
+        {{ (this.basicStatistics$ | async).triplesWithCIDOCproperty | number }} ({{
+          (this.basicStatistics$ | async).triplesWithCIDOCpropertyPercentage
+            | number : "1.2-2"
         }}%)
       </div>
       <div class="col-6">
         <span class="font-title">Triples With CIDOC-CRM Instance:</span>
-        {{ (this.basicStatistics$ | async).triplesWithCIDOCinstance }} ({{
-          displayFirstThreeDigits(
-            (this.basicStatistics$ | async).triplesWithCIDOCinstancePercentage
-          )
+        {{ (this.basicStatistics$ | async).triplesWithCIDOCinstance | number }} ({{
+          (this.basicStatistics$ | async).triplesWithCIDOCinstancePercentage
+            | number : "1.2-2"
         }}%)
       </div>
     </div>
@@ -69,11 +67,11 @@
       *ngIf="(this.basicStatistics$ | async) !== null">
       <div class="col-6">
         <span class="font-title"> Properties CIDOC-CRM:</span>
-        {{ (this.basicStatistics$ | async).propertiesCIDOC }}
+        {{ (this.basicStatistics$ | async).propertiesCIDOC | number }}
       </div>
       <div class="col-6">
         <span class="font-title">Classes CIDOC-CRM:</span>
-        {{ (this.basicStatistics$ | async).classesCIDOC }}
+        {{ (this.basicStatistics$ | async).classesCIDOC | number }}
       </div>
     </div>
   </ng-template>

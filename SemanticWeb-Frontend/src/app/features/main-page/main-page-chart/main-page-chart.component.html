@@ -11,7 +11,7 @@
             class="dataset-info d-flex align-items-center"
             (click)="seeDatabase(database.id)">
             <span class="database-title mr-5"
-              >{{ database.title }} | {{ database[showValue] }}</span
+              >{{ database.title }} | {{ database[showValue] | number }}</span
             >
             <mat-icon
               *ngIf="chartTitle === 'chord'"

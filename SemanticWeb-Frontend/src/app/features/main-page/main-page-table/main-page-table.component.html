@@ -37,32 +37,32 @@
     <!-- triples Column -->
     <ng-container matColumnDef="triples">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Triples</th>
-      <td mat-cell *matCellDef="let element">{{ element.triples }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.triples | number }}</td>
     </ng-container>
     <!-- entities Column -->
     <ng-container matColumnDef="entities">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Entities</th>
-      <td mat-cell *matCellDef="let element">{{ element.entities }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.entities | number }}</td>
     </ng-container>
     <!-- properties Column -->
     <ng-container matColumnDef="properties">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Properties</th>
-      <td mat-cell *matCellDef="let element">{{ element.properties }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.properties | number }}</td>
     </ng-container>
     <!-- classes Column -->
     <ng-container matColumnDef="classes">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Classes</th>
-      <td mat-cell *matCellDef="let element">{{ element.classes }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.classes | number }}</td>
     </ng-container>
     <!-- cidocProperties Column -->
     <ng-container matColumnDef="cidocProperties">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>CIDOC-CRM Properties</th>
-      <td mat-cell *matCellDef="let element">{{ element.cidocProperties }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.cidocProperties | number }}</td>
     </ng-container>
     <!-- cidocClasses Column -->
     <ng-container matColumnDef="cidocClasses">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>CIDOC-CRM Classes</th>
-      <td mat-cell *matCellDef="let element">{{ element.cidocClasses }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.cidocClasses | number }}</td>
     </ng-container>
     <!-- triplesWithCIDOCproperty Column -->
     <ng-container matColumnDef="triplesWithCIDOCproperty">
@@ -70,7 +70,7 @@
         Triples With CIDOC-CRM Property
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.triplesWithCIDOCproperty }}
+        {{ element.triplesWithCIDOCproperty | number }}
       </td>
     </ng-container>
     <!-- triplesWithCIDOCpropertyPercentage Column -->
@@ -79,7 +79,7 @@
         Triples With CIDOC-CRM Property Percentage
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ displayFirstThreeDigits(element.triplesWithCIDOCpropertyPercentage) }}%
+        {{ element.triplesWithCIDOCpropertyPercentage | number : "1.2-2" }}%
       </td>
     </ng-container>
     <!-- triplesWithCIDOCinstance Column -->
@@ -87,7 +87,9 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Triples With CIDOC-CRM Instance
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.triplesWithCIDOCinstance }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.triplesWithCIDOCinstance | number }}
+      </td>
     </ng-container>
     <!-- triplesWithCIDOCinstancePercentage Column -->
     <ng-container matColumnDef="triplesWithCIDOCinstancePercentage">
@@ -95,7 +97,7 @@
         Triples With CIDOC-CRM Instance Percentage
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ displayFirstThreeDigits(element.triplesWithCIDOCinstancePercentage) }}%
+        {{ element.triplesWithCIDOCinstancePercentage | number : "1.2-2" }}%
       </td>
     </ng-container>
 

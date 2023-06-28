@@ -51,22 +51,6 @@ export class DatabaseBasicStatisticsComponent implements OnInit {
       })
     );
   }
-  displayFirstThreeDigits(number) {
-    if (!number) {
-      return number;
-    }
-    // Convert the number to a string
-    const numberString = number.toString();
-
-    // Check if the number has more than three digits
-    if (numberString.length > 4) {
-      // Extract the first three characters
-      const firstThreeDigits = numberString.substring(0, 4);
-      return firstThreeDigits;
-    }
-    // Return the original number if it has three or fewer digits
-    return number;
-  }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

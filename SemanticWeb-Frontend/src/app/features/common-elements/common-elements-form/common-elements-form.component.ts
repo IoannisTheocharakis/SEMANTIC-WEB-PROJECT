@@ -27,10 +27,10 @@ export class CommonElementsFormComponent implements OnInit {
   subscriptions: Subscription = new Subscription();
   datasets$: BehaviorSubject<Dataset[]> = new BehaviorSubject([]);
   datasets: Dataset[] = [];
-  resetSubject$ = new Subject();
+  resetFirstFieldSubject$ = new Subject();
+  resetSecondFieldSubject$ = new Subject();
   initDatasetAutocomplete$: BehaviorSubject<number> = new BehaviorSubject(0);
   disableEvent$: BehaviorSubject<string> = new BehaviorSubject("enable");
-
   form: UntypedFormGroup;
   inputAppearance = "outline";
   inputColor = "accent";
@@ -94,8 +94,12 @@ export class CommonElementsFormComponent implements OnInit {
     }
   }
   resetForm() {
-    this.resetSubject$.next(true);
-    this.form.reset();
+    if (!this.knownFirstDataset) {
+      this.resetFirstFieldSubject$.next(true);
+      this.form.get("endpoint1").setValue(null);
+    }
+    this.resetSecondFieldSubject$.next(true);
+    this.form.get("endpoint2").setValue(null);
     this.form.get("onlyCIDOC").setValue(false);
     this.form.get("limit").setValue(10);
     this.form.get("page").setValue(0);

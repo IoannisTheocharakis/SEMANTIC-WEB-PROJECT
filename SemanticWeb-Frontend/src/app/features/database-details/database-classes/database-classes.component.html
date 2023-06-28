@@ -1,4 +1,4 @@
-<div >
+<div>
   <mat-card *ngIf="!(loaderService.isLoading | async)" class="p-0 px-20">
     <div class="row justify-content-between">
       <ng-template #filterBar>
@@ -40,7 +40,7 @@
       <!-- triples Column -->
       <ng-container matColumnDef="triples">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Triples</th>
-        <td mat-cell *matCellDef="let element">{{ element.triples }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.triples | number }}</td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>

@@ -9,7 +9,7 @@
           displayName="title"
           displayID="id"
           [initID]="initDatasetAutocomplete$ | async"
-          [resetEvent$]="resetSubject$.asObservable()"
+          [resetEvent$]="resetFirstFieldSubject$.asObservable()"
           [disableEvent$]="disableEvent$"
           [requiredInput]="true"
           (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint1')">
@@ -29,7 +29,7 @@
           placeHolder="Etc. http://ldf.fi/ww1lod/sparql"
           displayName="title"
           displayID="id"
-          [resetEvent$]="resetSubject$.asObservable()"
+          [resetEvent$]="resetSecondFieldSubject$.asObservable()"
           [requiredInput]="true"
           (autocompleteValue)="setDatasetAutocomplete($event, 'endpoint2')">
         </app-autocomplete>
