@@ -53,7 +53,7 @@ const routes: Routes = [
               ).then((m) => m.DatabasePropertiesComponent),
           },
           {
-            path: "properties/cidoc",
+            path: "properties/cidoc-crm",
             loadComponent: () =>
               import(
                 "./features/database-details/database-properties/database-properties.component"
@@ -67,7 +67,7 @@ const routes: Routes = [
               ).then((m) => m.DatabaseClassesComponent),
           },
           {
-            path: "classes/cidoc",
+            path: "classes/cidoc-crm",
             loadComponent: () =>
               import(
                 "./features/database-details/database-classes/database-classes.component"

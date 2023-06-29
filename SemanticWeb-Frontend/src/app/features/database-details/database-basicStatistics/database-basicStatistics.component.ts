@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { CoreService } from "src/app/core/services/core.service";
 import { LoaderService } from "src/app/loader/loader.service";
 import { InfoCardComponent } from "src/app/shared/standalone-components/info-card/info-card.component";
 import { DatabaseDetailsService } from "../service/database-details.service";

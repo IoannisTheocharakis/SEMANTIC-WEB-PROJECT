@@ -7,7 +7,6 @@ import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { LoaderService } from "src/app/loader/loader.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 import { CommonElementsRequest, CommonRDFClasses } from "../models/common-elements.model";
 import { CommonElementsService } from "../service/common-elements.service";
@@ -38,7 +37,6 @@ export class CommonElementsClassesComponent implements OnInit, OnDestroy {
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   constructor(
-    private coreService: CoreService,
     public loaderService: LoaderService,
     private router: Router,
     private route: ActivatedRoute,

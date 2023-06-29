@@ -16,7 +16,8 @@
           <button type="button" class="reset-btn mr-5" (click)="reset()" mat-icon-button>
             <mat-icon class="reset-icon">restart_alt</mat-icon>
           </button>
-          Datasets: {{ nubmerOfDatabases }} Triples: {{ nubmerOfTriples }}
+          Datasets: {{ nubmerOfDatabases | number }} Triples:
+          {{ nubmerOfTriples | number }}
         </li>
         <li class="profile-card xy-center">
           <!-- <mat-slide-toggle (change)="toggleTheme()">Theme</mat-slide-toggle> -->

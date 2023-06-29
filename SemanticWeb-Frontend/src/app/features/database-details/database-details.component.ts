@@ -45,9 +45,9 @@ export class DatabaseDetailsComponent implements OnInit {
       symbol: "open_with",
     },
     {
-      label: "Cidoc Properties",
-      title: "Cidoc Properties",
-      path: "./properties/cidoc",
+      label: "CIDOC-CRM Properties",
+      title: "CIDOC-CRM Properties",
+      path: "./properties/cidoc-crm",
       symbol: "group_work",
     },
     {
@@ -57,9 +57,9 @@ export class DatabaseDetailsComponent implements OnInit {
       symbol: "tenancy",
     },
     {
-      label: "Cidoc Classes",
-      title: "Cidoc Classes",
-      path: "./classes/cidoc",
+      label: "CIDOC-CRM Classes",
+      title: "CIDOC-CRM Classes",
+      path: "./classes/cidoc-crm",
       symbol: "group_work",
     },
     {

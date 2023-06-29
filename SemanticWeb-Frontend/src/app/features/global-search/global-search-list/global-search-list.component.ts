@@ -33,7 +33,7 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
   displayError$: Observable<boolean>;
   subscriptions: Subscription = new Subscription();
   dataSource!: MatTableDataSource<any>;
-  columnsToDisplay = ["dataset", "triples"];
+  columnsToDisplay = ["title", "url", "triples"];
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   datasets: Dataset[];
@@ -86,13 +86,32 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
       })
     );
   }
+  showTitleOfDataset(url: string) {
+    for (let i = 0; i < this.datasets.length; i++) {
+      if (this.datasets[i].endpoint === url) {
+        return this.datasets[i].title;
+      }
+    }
+    return url;
+  }
+  transformDataWithTitle(arrayData: any[]) {
+    for (let i = 0; i < arrayData.length; i++) {
+      for (let j = 0; j < this.datasets.length; j++) {
+        if (this.datasets[j].endpoint === arrayData[i].dataset) {
+          arrayData[i] = { ...arrayData[i], title: this.datasets[j].title };
+        }
+      }
+    }
+    return arrayData;
+  }
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.myPaginator = this.paginator;
       this.subscriptions.add(
         this.globalSearchResponse$.subscribe((data) => {
           if (data != null) {
-            this.dataSource = new MatTableDataSource(data);
+            let dataWithTitle = this.transformDataWithTitle(data);
+            this.dataSource = new MatTableDataSource(dataWithTitle);
             this.dataSource.sort = this.sort;
           }
         })

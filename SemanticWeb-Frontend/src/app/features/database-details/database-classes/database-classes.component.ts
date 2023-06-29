@@ -7,9 +7,8 @@ import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { LoaderService } from "src/app/loader/loader.service";
 import { RequestRDFClasses, RDFClass } from "../models/dataset-details.model";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { DatabaseDetailsService } from "../service/database-details.service";
-import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
 
 @Component({
@@ -96,7 +95,6 @@ export class DatabaseClassesComponent implements OnInit, OnDestroy {
               this.rdfClassesRequest &&
               this.rdfClassesRequest.limit != this.myPaginator.pageSize
             ) {
-
               this.rdfClassesRequest.page = 0;
               this.paginator.pageIndex = 0;
             } else {

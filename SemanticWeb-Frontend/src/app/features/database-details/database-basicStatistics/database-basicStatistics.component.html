@@ -66,11 +66,11 @@
       class="row statistics-container"
       *ngIf="(this.basicStatistics$ | async) !== null">
       <div class="col-6">
-        <span class="font-title"> Properties CIDOC-CRM:</span>
+        <span class="font-title"> CIDOC-CRM Properties:</span>
         {{ (this.basicStatistics$ | async).propertiesCIDOC | number }}
       </div>
       <div class="col-6">
-        <span class="font-title">Classes CIDOC-CRM:</span>
+        <span class="font-title">CIDOC-CRM Classes:</span>
         {{ (this.basicStatistics$ | async).classesCIDOC | number }}
       </div>
     </div>

@@ -25,9 +25,14 @@
       multiTemplateDataRows
       class="w-100 mat-elevation-z2"
       matSort>
-      <!-- dataset Column -->
-      <ng-container matColumnDef="dataset">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dataset</th>
+      <!-- title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+      <!-- url Column -->
+      <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Url</th>
         <td mat-cell *matCellDef="let element">{{ element.dataset }}</td>
       </ng-container>
       <!-- triples Column -->

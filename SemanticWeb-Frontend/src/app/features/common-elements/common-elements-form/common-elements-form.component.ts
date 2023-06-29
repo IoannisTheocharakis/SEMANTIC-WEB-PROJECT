@@ -13,7 +13,7 @@ import { CommonElementsService } from "../service/common-elements.service";
 import { AutocompleteComponent } from "src/app/shared/standalone-components/autocomplete/autocomplete.component";
 import { CoreService } from "src/app/core/services/core.service";
 import { Dataset } from "src/app/core/models/dataset.model";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { DatabaseDetailsService } from "../../database-details/service/database-details.service";
 
 @Component({
@@ -43,7 +43,6 @@ export class CommonElementsFormComponent implements OnInit {
     public loaderService: LoaderService,
     private commonElementsService: CommonElementsService,
     private router: Router,
-    private route: ActivatedRoute,
     private databaseDetailsServices: DatabaseDetailsService
   ) {}
 

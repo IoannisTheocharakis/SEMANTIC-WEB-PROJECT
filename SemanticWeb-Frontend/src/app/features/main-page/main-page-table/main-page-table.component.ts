@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
@@ -8,7 +8,6 @@ import { MaterialMinModule } from "src/app/shared/material-min.module";
 import { MaterialFormModule } from "src/app/shared/material-form.module";
 import { LoaderService } from "src/app/loader/loader.service";
 import { CoreService } from "src/app/core/services/core.service";
-import { IDatabase } from "../../chord-diagram/interfaces/database.interface";
 import { Dataset } from "src/app/core/models/dataset.model";
 
 @Component({
@@ -41,8 +40,7 @@ export class MainPageTableComponent implements OnInit, OnDestroy {
   constructor(
     private coreService: CoreService,
     public loaderService: LoaderService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   ngOnInit() {
