@@ -48,7 +48,7 @@ export class RoseDiagramComponent implements OnInit {
       },
       legend: {
         align: "auto",
-        bottom: 10,
+        bottom: 0,
         data: dataNames,
         textStyle: {
           color: "black",

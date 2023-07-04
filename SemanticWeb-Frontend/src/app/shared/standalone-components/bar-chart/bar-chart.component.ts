@@ -45,14 +45,16 @@ export class BarChartComponent implements OnInit {
         name: myData[i].name,
         type: "bar",
         data: [data[i]],
+
         animationDelay: (idx) => idx * 10 + i * 100,
       };
       seriesData.push(tmpSeriesData);
     }
     this.options = {
       legend: {
-        data: dataNames,
+        bottom: -1,
         align: "left",
+        data: dataNames,
         textStyle: {
           color: "black",
         },
@@ -87,6 +89,6 @@ export class BarChartComponent implements OnInit {
     });
   }
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe()
+    this.subscriptions.unsubscribe();
   }
 }
