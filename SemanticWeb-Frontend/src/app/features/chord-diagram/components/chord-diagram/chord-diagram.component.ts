@@ -68,6 +68,7 @@ export class ChordDiagramComponent {
   //RoseChart
   roseChartModel$: BehaviorSubject<BarChartModel[]> = new BehaviorSubject([]);
   roseChartModel: BarChartModel;
+  titleOfGraphs: string;
   constructor(private coreService: CoreService, public loaderService: LoaderService) {}
 
   ngOnInit() {
@@ -75,6 +76,7 @@ export class ChordDiagramComponent {
       this.coreService.datasets$.subscribe((data) => {
         if (data != null && data.length !== 0) {
           this.datasets = data;
+          this.titleOfGraphs = "Triples";
           this.createCircle("triples");
           this.changeToggleValueChart("default");
           this.eventDatasets.emit(this.datasetsInfoStats);
@@ -130,8 +132,8 @@ export class ChordDiagramComponent {
     this.generateCircle(this.datasetsStats, this.datasetsInfoStats);
   }
   changeToggleValue(value: string) {
+    this.titleOfGraphs = value;
     value = this.tabsInfo.find((data) => value === data.viewValue).value;
-
     this.currectSelectTitle = value;
     this.showValue.emit(value);
     if (this.chartSelector === "default") {

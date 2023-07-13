@@ -13,7 +13,6 @@ export class GlobalSearchService {
   private globalSearchRequestSubject$: BehaviorSubject<GlobalSearchRequest> =
     new BehaviorSubject(null);
   globalSearchRequest$ = this.globalSearchRequestSubject$.asObservable();
-
   constructor(private http: HttpClient) {}
   globalSearchRequest(req: GlobalSearchRequest) {
     if (req.typeOfSearch === "class") {

@@ -32,11 +32,13 @@
         </div>
         <ng-template #diagram>
           <div [ngSwitch]="chartSelector">
-            <div *ngSwitchDefault>
-              <app-rose-diagram [data$]="roseChartModel$"> </app-rose-diagram>
+            <div *ngSwitchDefault class="h-100">
+              <app-rose-diagram [data$]="roseChartModel$" [title]="titleOfGraphs">
+              </app-rose-diagram>
             </div>
-            <div *ngSwitchCase="'bar'">
-              <app-bar-chart [data$]="barChartModel$"> </app-bar-chart>
+            <div *ngSwitchCase="'bar'" class="h-100">
+              <app-bar-chart [data$]="barChartModel$" [title]="titleOfGraphs">
+              </app-bar-chart>
             </div>
             <div *ngSwitchCase="'chord'" class="d-flex justify-content-center">
               <svg width="430" height="430" viewBox="-250 -250 500 500">
