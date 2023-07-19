@@ -28,6 +28,7 @@ import models.BasicStatistics;
 import models.CommonClass;
 import models.CommonProperty;
 import models.GlobalSearchResponse;
+import models.MostFrequentResponse;
 
 /**
  *
@@ -94,6 +95,35 @@ public class QueriesForWebApp {
             + "?p void:property <propertyValue>.\n"
             + "?p void:triples ?triples\n"
             + "} limit <limit> offset <offset>";
+
+    String mostFrequentProperties = "select ?prop count(?dat) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE { ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop} } ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop } order by desc (count(?dat)) limit <limit> offset <offset>";
+    // select ?prop count(?dat) where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop } order by desc (count(?dat))
+    String mostFrequentCIDOCCRMProperties = "select ?prop count(?dat) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE { ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop . ?prop a rdf:Property . filter(regex(?prop,\"http://www.cidoc-crm.org/cidoc-crm/\"))} }\n"
+            + "?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop . ?prop a rdf:Property . filter(regex(?prop,\"http://www.cidoc-crm.org/cidoc-crm/\")) } order by desc (count(?dat)) limit <limit> offset <offset>";
+    //select ?prop count(?dat) where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop . ?prop a rdf:Property . filter(regex(?prop,"http://www.cidoc-crm.org/cidoc-crm/")) } order by desc (count(?dat)) 
+
+    String mostFrequentPropertiesInstances = "select ?prop sum(xsd:integer(?triples))?count where  {  { SELECT (COUNT(*) AS ?count) WHERE { ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples} }\n"
+            + "?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples } order by desc (sum(xsd:integer(?triples))) limit <limit> offset <offset>";
+    //select ?prop sum(xsd:integer(?triples)) where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples } order by desc (sum(xsd:integer(?triples))) 
+
+    String mostFrequentCIDOCCRMPropertiesInstances = "select ?prop sum(xsd:integer(?triples)) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE { ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples . ?prop a rdf:Property . filter(regex(?prop,\"http://www.cidoc-crm.org/cidoc-crm/\")) } } ?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples . ?prop a rdf:Property . filter(regex(?prop,\"http://www.cidoc-crm.org/cidoc-crm/\")) } order by desc (sum(xsd:integer(?triples))) limit <limit> offset <offset>"; //    String mostFrequentClasses
+    //select ?prop sum(xsd:integer(?triples)) where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop  .?part void:triples ?triples . ?prop a rdf:Property . filter(regex(?prop,"http://www.cidoc-crm.org/cidoc-crm/")) } order by desc (sum(xsd:integer(?triples))) 
+
+    String mostFrequentClasses = "select ?class count(?dat) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class} }\n"
+            + "?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class } order by desc (count(?dat)) limit <limit> offset <offset>";
+    //select ?class count(?dat) where {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class } order by desc (count(?dat))
+
+    String mostFrequentCIDOCCRMClasses = "select ?class count(?dat) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class . ?class a rdfs:Class . filter(regex(?class,\"http://www.cidoc-crm.org/cidoc-crm/\"))} }\n"
+            + "?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class . ?class a rdfs:Class . filter(regex(?class,\"http://www.cidoc-crm.org/cidoc-crm/\")) } order by desc (count(?dat)) limit <limit> offset <offset>";
+    //select ?class count(?dat) where {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class . ?class a rdfs:Class . filter(regex(?class,"http://www.cidoc-crm.org/cidoc-crm/")) } order by desc (count(?dat))
+
+    String mostFrequentClassesInstances = "select ?class sum(xsd:integer(?triples)) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples} }\n"
+            + "?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples } order by desc (sum(xsd:integer(?triples))) limit <limit> offset <offset>";
+    //select ?class sum(xsd:integer(?triples)) where {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples } order by desc (sum(xsd:integer(?triples))) 
+
+    String mostFrequentCIDOCCRMClassesInstances = "select ?class sum(xsd:integer(?triples)) ?count where  {  { SELECT (COUNT(*) AS ?count) WHERE {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples . ?prop a rdfs:Class . filter(regex(?class,\"http://www.cidoc-crm.org/cidoc-crm/\"))} }\n"
+            + "?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples . ?prop a rdfs:Class . filter(regex(?class,\"http://www.cidoc-crm.org/cidoc-crm/\")) } order by desc (sum(xsd:integer(?triples))) limit <limit> offset <offset>";
+    //select ?class sum(xsd:integer(?triples)) where {?dat a void:Dataset . ?dat void:classPartition ?part . ?part void:class ?class  .?part void:triples ?triples . ?prop a rdfs:Class . filter(regex(?class,"http://www.cidoc-crm.org/cidoc-crm/")) } order by desc (sum(xsd:integer(?triples))) 
     String endpoint = "http://83.212.97.78:8890/sparql";
 
     public List<Dataset> retrieveAllDatasetsAndTheirTitle() throws UnsupportedEncodingException, MalformedURLException, IOException {
@@ -567,6 +597,63 @@ public class QueriesForWebApp {
             e.printStackTrace();
             return false;
         }
+    }
+
+    //
+    public List<MostFrequentResponse> getMostFrequentWithTitle(String title, int limit, int page) throws UnsupportedEncodingException, MalformedURLException, IOException {
+        String query = "";
+        if (title.equals("mostFrequentProperties")) {
+            query = this.mostFrequentProperties;
+        } else if (title.equals("mostFrequentCIDOCCRMProperties")) {
+            query = this.mostFrequentCIDOCCRMProperties;
+        } else if (title.equals("mostFrequentPropertiesInstances")) {
+            query = this.mostFrequentPropertiesInstances;
+        } else if (title.equals("mostFrequentCIDOCCRMPropertiesInstances")) {
+            query = this.mostFrequentCIDOCCRMPropertiesInstances;
+        } else if (title.equals("mostFrequentClasses")) {
+            query = this.mostFrequentClasses;
+        } else if (title.equals("mostFrequentCIDOCCRMClasses")) {
+            query = this.mostFrequentCIDOCCRMClasses;
+        } else if (title.equals("mostFrequentClassesInstances")) {
+            query = this.mostFrequentClassesInstances;
+        } else if (title.equals("mostFrequentCIDOCCRMClassesInstances")) {
+            query = this.mostFrequentCIDOCCRMClassesInstances;
+        }
+        page = 10 * page;
+        query = query.replace("<limit>", Integer.toString(limit));
+        query = query.replace("<offset>", Integer.toString(page));
+        System.out.println(query);
+
+        String sparqlQueryURL = endpoint + "?query=" + URLEncoder.encode(query, "utf8");
+        URL url = new URL(sparqlQueryURL);
+        URLConnection con = url.openConnection();
+        String type = "text/tab-separated-values";
+        con.setRequestProperty("ACCEPT", type);
+
+        InputStream is = con.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "utf8");
+        BufferedReader in = new BufferedReader(isr);
+        String input;
+        List<MostFrequentResponse> mostFrequentList = new ArrayList<>();
+        int mostFrequentResponseCounter = 0;
+        String[] arrOfStrings = new String[2];
+        while ((input = in.readLine()) != null) {
+            if (mostFrequentResponseCounter == 0) {
+                mostFrequentResponseCounter++;
+                continue;
+            }
+            arrOfStrings = input.split("\t");
+            System.out.println(input);
+            arrOfStrings[0] = arrOfStrings[0].substring(1, arrOfStrings[0].length() - 1);
+
+            MostFrequentResponse mostFrequestResponse = new MostFrequentResponse(arrOfStrings[0], Integer.parseInt(arrOfStrings[1]), Integer.parseInt(arrOfStrings[2]));
+            mostFrequentList.add(mostFrequestResponse);
+            mostFrequentResponseCounter++;
+        }
+        in.close();
+        isr.close();
+        is.close();
+        return mostFrequentList;
     }
 
 }

@@ -103,6 +103,72 @@ const routes: Routes = [
             (m) => m.AboutPageComponent
           ),
       },
+      //mostFrequent
+      {
+        path: "mostFrequent",
+        loadComponent: () =>
+          import("./features/most-Frequent/most-frequent/most-frequent.component").then(
+            (m) => m.MostFrequentComponent
+          ),
+        children: [
+          {
+            path: "properties",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-property/most-frequent-property.component"
+              ).then((m) => m.MostFrequentPropertyComponent),
+          },
+          {
+            path: "properties/cidoc-crm",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-property/most-frequent-property.component"
+              ).then((m) => m.MostFrequentPropertyComponent),
+          },
+          {
+            path: "properties/instances",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-property/most-frequent-property.component"
+              ).then((m) => m.MostFrequentPropertyComponent),
+          },
+          {
+            path: "properties/cidoc-crm/instances",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-property/most-frequent-property.component"
+              ).then((m) => m.MostFrequentPropertyComponent),
+          },
+          {
+            path: "classes",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-class/most-frequent-class.component"
+              ).then((m) => m.MostFrequentClassComponent),
+          },
+          {
+            path: "classes/cidoc-crm",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-class/most-frequent-class.component"
+              ).then((m) => m.MostFrequentClassComponent),
+          },
+          {
+            path: "classes/instances",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-class/most-frequent-class.component"
+              ).then((m) => m.MostFrequentClassComponent),
+          },
+          {
+            path: "classes/cidoc-crm/instances",
+            loadComponent: () =>
+              import(
+                "./features/most-Frequent/most-frequent-class/most-frequent-class.component"
+              ).then((m) => m.MostFrequentClassComponent),
+          },
+        ],
+      },
     ],
   },
 ];

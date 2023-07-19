@@ -33,7 +33,6 @@ export class CommonElementsClassesComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   dataSource!: MatTableDataSource<any>;
   columnsToDisplay = ["rdfClass"];
-  onlyCidoc: boolean = false;
   databaseDetails$: BehaviorSubject<Dataset> = new BehaviorSubject(null);
   databaseDetails: Dataset;
   constructor(
@@ -42,9 +41,6 @@ export class CommonElementsClassesComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private commonElementsService: CommonElementsService
   ) {
-    if (this.router.url.includes("cidoc")) {
-      this.onlyCidoc = true;
-    }
   }
 
   ngOnInit() {

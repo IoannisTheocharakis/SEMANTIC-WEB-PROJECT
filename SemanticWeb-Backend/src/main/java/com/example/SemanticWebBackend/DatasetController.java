@@ -18,6 +18,7 @@ import models.BasicStatistics;
 import models.CommonClass;
 import models.CommonProperty;
 import models.GlobalSearchResponse;
+import models.MostFrequentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import requestClasses.RequestCommon;
 import requestClasses.RequestEmail;
 import requestClasses.RequestGlobal;
+import requestClasses.RequestWithTitle;
 
 /**
  *
@@ -128,6 +130,14 @@ public class DatasetController {
         List<GlobalSearchResponse> classGlobalSearchResponse = new ArrayList<>();
         classGlobalSearchResponse = queries.getClassGlobalSearch(req.searchValue, req.limit, req.page);
         return classGlobalSearchResponse;
+    }
+
+    @PostMapping("/mostFrequent")
+    public List<MostFrequentResponse> mostFrequent(@RequestBody RequestWithTitle req) throws IOException {
+        QueriesForWebApp queries = new QueriesForWebApp();
+        List<MostFrequentResponse> mostFrequestResponse = new ArrayList<>();
+        mostFrequestResponse = queries.getMostFrequentWithTitle(req.title, req.limit, req.page);
+        return mostFrequestResponse;
     }
     @Autowired
     private JavaMailSender javaMailSender;

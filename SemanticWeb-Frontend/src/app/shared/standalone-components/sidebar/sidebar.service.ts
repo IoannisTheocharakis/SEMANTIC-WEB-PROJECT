@@ -32,6 +32,11 @@ export class SidebarService {
       route: "common",
     },
     {
+      title: "Most Frequent",
+      icon: "trending_up",
+      route: "mostFrequent/properties",
+    },
+    {
       title: "Add Dataset",
       icon: "add_circle",
       route: "dataset/add",
