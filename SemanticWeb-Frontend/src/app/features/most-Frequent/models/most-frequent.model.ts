@@ -8,5 +8,9 @@ export interface MostFrequentRequest {
 export interface MostFrequentResponse {
   propORclass: string;
   triples: number;
-  requestSize: number;
+}
+
+export interface MostFrequentWithTotalSizeResponse {
+  mostFrequentList: MostFrequentResponse[];
+  totalSize: number;
 }

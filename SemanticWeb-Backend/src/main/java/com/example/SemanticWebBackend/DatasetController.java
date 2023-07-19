@@ -19,6 +19,7 @@ import models.CommonClass;
 import models.CommonProperty;
 import models.GlobalSearchResponse;
 import models.MostFrequentResponse;
+import models.MostFrequentWithSizeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -133,11 +134,13 @@ public class DatasetController {
     }
 
     @PostMapping("/mostFrequent")
-    public List<MostFrequentResponse> mostFrequent(@RequestBody RequestWithTitle req) throws IOException {
+    public MostFrequentWithSizeResponse mostFrequent(@RequestBody RequestWithTitle req) throws IOException {
         QueriesForWebApp queries = new QueriesForWebApp();
         List<MostFrequentResponse> mostFrequestResponse = new ArrayList<>();
         mostFrequestResponse = queries.getMostFrequentWithTitle(req.title, req.limit, req.page);
-        return mostFrequestResponse;
+        int totalSize = queries.getMostFrequentWithTitleTotalSize(req.title);
+        MostFrequentWithSizeResponse mostFrequentWithSizeResponse = new MostFrequentWithSizeResponse(mostFrequestResponse, totalSize);
+        return mostFrequentWithSizeResponse;
     }
     @Autowired
     private JavaMailSender javaMailSender;

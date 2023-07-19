@@ -12,11 +12,9 @@ public class MostFrequentResponse {
 
     public String propORclass;
     public int triples;
-    public int requestSize;
 
-    public MostFrequentResponse(String propORclass, int triples, int requestSize) {
+    public MostFrequentResponse(String propORclass, int triples) {
         this.propORclass = propORclass;
         this.triples = triples;
-        this.requestSize = requestSize;
     }
 }

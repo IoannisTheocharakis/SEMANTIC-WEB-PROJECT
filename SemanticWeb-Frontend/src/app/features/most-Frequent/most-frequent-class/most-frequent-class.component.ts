@@ -36,7 +36,7 @@ export class MostFrequentClassComponent implements OnInit {
   columnsToDisplay = ["class", "triples"];
   onlyCidoc: boolean = false;
   title: string = "";
-
+  titleOfTable = "Datasets";
   constructor(
     public loaderService: LoaderService,
     private router: Router,
@@ -45,11 +45,13 @@ export class MostFrequentClassComponent implements OnInit {
     if (this.router.url.includes("cidoc")) {
       this.title = "mostFrequentCIDOCCRMClasses";
       if (this.router.url.includes("instances")) {
+        this.titleOfTable = "Triples";
         this.title = "mostFrequentCIDOCCRMClassesInstances";
       }
     } else {
       this.title = "mostFrequentClasses";
       if (this.router.url.includes("instances")) {
+        this.titleOfTable = "Triples";
         this.title = "mostFrequentClassesInstances";
       }
     }
@@ -67,9 +69,9 @@ export class MostFrequentClassComponent implements OnInit {
 
     this.mostFrequentService.mostFrequentPropertiesORClass(propReq).subscribe((data) => {
       if (data) {
-        this.mostFrequentClasses$.next(data);
+        this.mostFrequentClasses$.next(data.mostFrequentList);
         if (propReq.totalEntries === 0) {
-          propReq.totalEntries = data[0].requestSize;
+          propReq.totalEntries = data.totalSize;
           this.mostFrequentClassesRequest$.next(propReq);
         }
       }
@@ -113,7 +115,7 @@ export class MostFrequentClassComponent implements OnInit {
             this.mostFrequentService
               .mostFrequentPropertiesORClass(this.mostFrequentClassesRequest)
               .subscribe((data) => {
-                this.mostFrequentClasses$.next(data);
+                this.mostFrequentClasses$.next(data.mostFrequentList);
               });
             this.mostFrequentClassesRequest$.next(this.mostFrequentClassesRequest);
           });

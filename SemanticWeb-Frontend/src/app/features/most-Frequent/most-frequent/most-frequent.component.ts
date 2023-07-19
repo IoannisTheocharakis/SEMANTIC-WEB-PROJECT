@@ -22,43 +22,43 @@ export class MostFrequentComponent implements OnInit {
   backgroundColorLight = AppColors.greenMainLight;
   tab = [
     {
-      label: "Properties",
-      title: "Properties",
+      label: "Properties (datasets)",
+      title: "Properties (datasets)",
       path: "./properties",
     },
     {
-      label: "CIDOC-CRM Properties",
-      title: "CIDOC-CRM Properties",
+      label: "CIDOC-CRM Properties (datasets)",
+      title: "CIDOC-CRM Properties (datasets)",
       path: "./properties/cidoc-crm",
     },
     {
-      label: "Properties Instances",
-      title: "Properties Instances",
+      label: "Properties (triples)",
+      title: "Properties (triples)",
       path: "./properties/instances",
     },
     {
-      label: "CIDOC-CRM Properties Instances",
-      title: "CIDOC-CRM Properties Instances",
+      label: "CIDOC-CRM Properties (triples)",
+      title: "CIDOC-CRM Properties (triples)",
       path: "./properties/cidoc-crm/instances",
     },
     {
-      label: "Classes",
-      title: "Classes",
+      label: "Classes (datasets)",
+      title: "Classes (datasets)",
       path: "./classes",
     },
     {
-      label: "CIDOC-CRM Classes",
-      title: "CIDOC-CRM Classes",
+      label: "CIDOC-CRM Classes (datasets)",
+      title: "CIDOC-CRM Classes (datasets)",
       path: "./classes/cidoc-crm",
     },
     {
-      label: "Classes Instances",
-      title: "Classes Instances",
+      label: "Classes (triples)",
+      title: "Classes (triples)",
       path: "./classes/instances",
     },
     {
-      label: "CIDOC-CRM Classes Instances",
-      title: "CIDOC-CRM Classes Instances",
+      label: "CIDOC-CRM Classes (triples)",
+      title: "CIDOC-CRM Classes (triples)",
       path: "./classes/cidoc-crm/instances",
     },
   ];
