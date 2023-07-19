@@ -97,7 +97,7 @@ public class QueriesForWebApp {
             + "} limit <limit> offset <offset>";
 
     //MostFrequent
-    String mostFrequentProperties = "select ?prop count(?dat) from <http://www.ics.forth.gr/isl/CIDOC_VoID> where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop } order by desc (count(?dat))";
+    String mostFrequentProperties = "select ?prop count(?dat) from <http://www.ics.forth.gr/isl/CIDOC_VoID> where {?dat a void:Dataset . ?dat void:propertyPartition ?part . ?part void:property ?prop } order by desc (count(?dat)) limit <limit> offset <offset>";
     String mostFrequentPropertiesTotalSize = "SELECT (COUNT(DISTINCT ?prop) AS ?count)\n"
             + "FROM <http://www.ics.forth.gr/isl/CIDOC_VoID>\n"
             + "WHERE {\n"

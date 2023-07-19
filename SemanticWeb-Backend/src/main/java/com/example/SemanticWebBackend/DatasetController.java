@@ -138,7 +138,12 @@ public class DatasetController {
         QueriesForWebApp queries = new QueriesForWebApp();
         List<MostFrequentResponse> mostFrequestResponse = new ArrayList<>();
         mostFrequestResponse = queries.getMostFrequentWithTitle(req.title, req.limit, req.page);
-        int totalSize = queries.getMostFrequentWithTitleTotalSize(req.title);
+        int totalSize = 0;
+        if (req.totalEntries != 0) {
+            totalSize = req.totalEntries;
+        } else {
+            totalSize = queries.getMostFrequentWithTitleTotalSize(req.title);
+        }
         MostFrequentWithSizeResponse mostFrequentWithSizeResponse = new MostFrequentWithSizeResponse(mostFrequestResponse, totalSize);
         return mostFrequentWithSizeResponse;
     }
