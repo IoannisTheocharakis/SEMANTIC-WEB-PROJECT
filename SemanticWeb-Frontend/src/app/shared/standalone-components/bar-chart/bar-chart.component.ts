@@ -130,7 +130,7 @@ export class BarChartComponent implements OnInit {
     this.createPrintSize(this.data);
   }
   prevArrow() {
-    if (this.printEnd === this.dataSize) {
+    if (this.printEnd === this.dataSize && this.printEnd % 10 !== 0) {
       this.printEnd -= this.printEnd % 10;
       this.printStart -= this.printStart % 10;
       this.createPrintSize(this.data);
