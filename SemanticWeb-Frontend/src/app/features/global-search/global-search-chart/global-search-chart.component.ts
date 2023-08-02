@@ -66,7 +66,6 @@ export class GlobalSearchChartComponent implements OnInit, OnDestroy {
               if (data) {
                 let dataWithTitle = this.transformDataWithTitle(data);
                 this.chartData = this.fixChartData(dataWithTitle);
-                console.log(this.chartData)
                 this.barChartModel$.next(this.chartData);
               }
             })

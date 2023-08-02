@@ -139,7 +139,7 @@ export class GlobalSearchListComponent implements OnInit, OnDestroy {
   }
   navigateToDataset(globalDataset: GlobalSearchResponse) {
     let dataset = this.datasets.find((data) => data.endpoint === globalDataset.dataset);
-    this.router.navigate([`dataset-details/${dataset.id}/properties`]);
+    this.router.navigate([`CIDOC-CRM_Portal/dataset-details/${dataset.id}/properties`]);
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

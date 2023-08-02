@@ -66,7 +66,7 @@ export class MainPageTableComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   seeDatabase(databaseTitle: number) {
-    this.router.navigate([`dataset-details/${databaseTitle}/properties`]);
+    this.router.navigate([`CIDOC-CRM_Portal/dataset-details/${databaseTitle}/properties`]);
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

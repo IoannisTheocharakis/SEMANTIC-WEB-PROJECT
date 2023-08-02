@@ -25,17 +25,18 @@ export class MainPageComponent implements OnInit {
     {
       label: "Dataset Chart",
       title: "Dataset Chart",
-      path: "/datasets/chart",
+      path: "chart",
       icon: "incomplete_circle",
     },
     {
       label: "Dataset Table",
       title: "Dataset Table",
-      path: "/datasets/table",
+      path: "table",
       icon: "table_chart",
     },
   ];
   ngOnInit() {
+    
     this.subscriptions.add(
       this.router.events
         .pipe(
@@ -43,8 +44,10 @@ export class MainPageComponent implements OnInit {
           startWith(this.router)
         )
         .subscribe((event: NavigationEnd) => {
-          if (this.router.url === "/datasets" || this.router.url === "/") {
-            this.router.navigate(["/datasets/chart"]);
+          if (
+            this.router.url === "/CIDOC-CRM_Portal/datasets"
+          ) {
+            this.router.navigate(["CIDOC-CRM_Portal/datasets/chart"]);
           }
         })
     );

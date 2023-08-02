@@ -27,7 +27,10 @@ export class DefaultComponent implements OnInit {
   constructor(private coreService: CoreService, private router: Router) {}
 
   ngOnInit() {
-    if (this.router.url === "/") this.router.navigateByUrl("/datasets/chart");
+    if (this.router.url === "/" || this.router.url === "/CIDOC-CRM_Portal") {
+      this.router.navigateByUrl("CIDOC-CRM_Portal/datasets/chart");
+    }
+
     this.subscriptions.add(
       this.coreService.datasets$.subscribe((data) => {
         if (data == null || data.length === 0) {

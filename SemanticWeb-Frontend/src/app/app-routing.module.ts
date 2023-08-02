@@ -6,6 +6,11 @@ import { HeaderComponent } from "./shared/standalone-components/header/header.co
 const routes: Routes = [
   {
     path: "",
+    redirectTo: "CIDOC-CRM_Portal",
+    pathMatch: "full",
+  },
+  {
+    path: "CIDOC-CRM_Portal",
     component: DefaultComponent,
     children: [
       {

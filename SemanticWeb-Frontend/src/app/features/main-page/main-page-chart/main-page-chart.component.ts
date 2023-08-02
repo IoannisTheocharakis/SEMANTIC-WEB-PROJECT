@@ -24,7 +24,7 @@ export class MainPageChartComponent implements OnInit {
 
   ngOnInit() {}
   seeDatabase(databaseTitle: number) {
-    this.router.navigate([`dataset-details/${databaseTitle}/properties`]);
+    this.router.navigate([`CIDOC-CRM_Portal/dataset-details/${databaseTitle}/properties`]);
   }
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();

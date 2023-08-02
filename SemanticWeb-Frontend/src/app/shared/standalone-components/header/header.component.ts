@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 300);
   }
   homePage() {
-    this.router.navigate(["/datasets/chart"]);
+    this.router.navigate(["CIDOC-CRM_Portal/datasets/chart"]);
   }
   reset() {
     localStorage.removeItem("Datasets");
