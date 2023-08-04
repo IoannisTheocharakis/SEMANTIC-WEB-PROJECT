@@ -36,7 +36,6 @@ export class MainPageComponent implements OnInit {
     },
   ];
   ngOnInit() {
-    
     this.subscriptions.add(
       this.router.events
         .pipe(
@@ -44,9 +43,7 @@ export class MainPageComponent implements OnInit {
           startWith(this.router)
         )
         .subscribe((event: NavigationEnd) => {
-          if (
-            this.router.url === "/CIDOC-CRM_Portal/datasets"
-          ) {
+          if (this.router.url === "/CIDOC-CRM_Portal/datasets") {
             this.router.navigate(["CIDOC-CRM_Portal/datasets/chart"]);
           }
         })
